@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "heroku-prebuild": "npm install --only=dev",
     "start": "npm run build && node ./build/server.js",
