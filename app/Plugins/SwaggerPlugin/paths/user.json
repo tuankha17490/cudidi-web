@@ -1,0 +1,37 @@
+{
+    "create": {
+        "post": {
+            "$ref": "../components/user.json#/post"
+        }
+       
+    },
+    "getInformation": {
+        "get": {
+            "$ref": "../components/user.json#/get"
+        }
+    },
+    "specifyUser": {
+        "name": {
+            "get": {
+                "$ref": "../components/user.json#/specifyUser/name/get"
+            },
+            "put": {
+                "$ref": "../components/user.json#/specifyUser/name/put"
+            },
+            "delete": {
+                "$ref": "../components/user.json#/specifyUser/name/delete"
+            }
+        },
+        "id": {
+            "get": {
+                "$ref": "../components/user.json#/specifyUser/id/get"
+            },
+            "put": {
+                "$ref": "../components/user.json#/specifyUser/id/put"
+            },
+            "delete": {
+                "$ref": "../components/user.json#/specifyUser/id/delete"
+            }
+        }
+    }
+}

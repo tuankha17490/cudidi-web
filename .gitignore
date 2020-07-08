@@ -1,0 +1,9 @@
+# dotenv environment variables file
+.env
+# Build
+/build
+# Dependency directories
+node_modules/
+*.log
+npm-debug.log*
+.reify-cache/
