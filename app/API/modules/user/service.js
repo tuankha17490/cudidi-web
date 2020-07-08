@@ -3,7 +3,7 @@ import BaseServices from '../../core/Service';
 import RoleRespository from "../roles/respository"
 import getSlug from "slugify"
 import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
+import jwtr from "../../../Config/Redis_JWT"
 import dotenv from "dotenv"
 import process from "process"
 dotenv.config({ silent: process.env.NODE_ENV === 'production' });
@@ -60,9 +60,9 @@ export default class UserService extends BaseServices {
         if(queryData) {
             const checkPassWordHashed = bcrypt.compareSync(param.Password, queryData.Password)
             if(checkPassWordHashed) {
-                const token = jwt.sign({
+                const token = await jwtr.sign({
                     Username: queryData.Username,
-                    Id: queryData.ID,
+                    ID: queryData.ID,
                 }, process.env.JWT_KEY, {
                     expiresIn: "2h"
                 })
@@ -82,6 +82,20 @@ export default class UserService extends BaseServices {
             return {
                 status: 400,
                 message: 'Login Failed !!! Account is not registered'
+            }
+        }
+    }
+    async logout(token) {
+        try {
+            await jwtr.destroy(token)
+            return {
+                status: 200,
+                message: 'Logout Success !!!'
+            }
+        } catch (error) {
+            return {
+                status: 400,
+                error
             }
         }
     }
