@@ -10,7 +10,4 @@ export default class UserController extends BaseController {
     login(param) {
         return this.service.login(param);
     }
-    logout(token) {
-        return this.service.logout(token)
-    }
 }

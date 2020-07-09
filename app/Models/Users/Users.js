@@ -2,8 +2,8 @@ import Model from '../Schema'
 import Roles from './Roles'
 import Followings from '../Articles/Followings'
 import Rate_Articles from '../Articles/Rate_Articles'
-import Comments from '../Articles/Comments' 
-import Articles from '../Articles/Articles' 
+import Comments from '../Articles/Comments'
+import Articles from '../Articles/Articles'
 export default class Users extends Model {
     static get tableName() {
         return 'Users'
@@ -21,7 +21,48 @@ export default class Users extends Model {
     }
     // To do validate 
     static get jsonSchema() {
-
+        return {
+            type: 'object',
+            required: ['Username', 'Password'],
+            properties: {
+                id: {
+                    type: 'integer'
+                },
+                Username: {
+                    type: "string",
+                    minLength: 5,
+                    maxLength: 30
+                },
+                Password: {
+                    type: "string",
+                    minLength: 6
+                },
+                FullName: {
+                    type: "string",
+                    minLength: 1,
+                    maxLength: 255
+                },
+                Email: {
+                    type: "string",
+                    format: "email"
+                },
+                BirthDay: {
+                    type: 'string',
+                    format: "date"
+                },
+                Address: {
+                    type: "string"
+                },
+                Avatar: {
+                    type: "string"
+                },
+                PhoneNumber: {
+                    type: "string",
+                    minLength: 5,
+                    maxLength: 15
+                },
+            },
+        }
     }
     static get relationMappings() {
 

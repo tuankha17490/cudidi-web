@@ -31,16 +31,9 @@ router.post('/register',(req, res) => {
         return res.json({error: error.toString()})
     }
 })
-router.get('/logout', (req, res) => {
-    try {
-        controller.logout(req.headers.authorization).then(result => {return res.json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_LOGOUT_USER')
-        return res.json({error: error.toString()})
-    }
-})
 
-router.get('/:id', (req, res) => {
+
+router.get('/:id',authorization, (req, res) => {
     try {
         controller.getInforById(req.params.id).then(result => {return res.json(result)});
     } catch (error) {
@@ -49,7 +42,7 @@ router.get('/:id', (req, res) => {
     }
 })
 
-router.put('/:id',  (req, res) => {
+router.put('/:id',authorization,  (req, res) => {
     try {
         const data = req.body;
         console.log(data)
@@ -63,7 +56,7 @@ router.put('/:id',  (req, res) => {
 })
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',authorization, (req, res) => {
     try {
         controller.deleteById(req.params.id).then(result => {return res.json({message: 'Delete success !!!', idIsDeleted: result})})
     } catch (error) {
