@@ -14,25 +14,6 @@ router.get('/',authorization,(req, res) => {
         return res.json({error: error.toString()})
     }
 })
-router.post('/login',(req, res) => {
-    try {
-        console.log(req.params)
-        controller.login(req.body).then(result => {return res.json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_GET_USER_LIST');
-        return res.json({error: error.toString()})
-    }
-})
-
-router.post('/register',validator.registerTask,(req, res) => {
-    try {
-        controller.create(req.body).then(result => {return res.json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_REGISTER_USER')
-        return res.json({error: error.toString()})
-    }
-})
-
 
 router.get('/:id',authorization, (req, res) => {
     try {
@@ -62,7 +43,7 @@ router.delete('/:id',authorization, (req, res) => {
         controller.deleteById(req.params.id).then(result => {return res.json({message: 'Delete success !!!', idIsDeleted: result})})
     } catch (error) {
         console.log('CONTROLLER_DELETE_USER')
-        return json(error)
+        return res.json(error)
     }
 })
 

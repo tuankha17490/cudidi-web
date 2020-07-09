@@ -3,8 +3,8 @@ const app = express();
 import morgan from 'morgan';
 import { urlencoded,json} from 'body-parser';
 import swaggerUi from "swagger-ui-express"
-import UserRoute from "./API/modules/user/routes.js"
 import swaggerDocs from "./Plugins/SwaggerPlugin/bundled.json"
+import initRoute from "./Config/routes"
 
 app.use('/documentations', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 app.use(morgan('dev'));
@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 })
 
 
-app.use('/user',UserRoute);
+initRoute(app)
 
 app.use((req,res,next) => {
     const error = new Error('Not Found');

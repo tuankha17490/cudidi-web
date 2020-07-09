@@ -1,7 +1,6 @@
 export default class BaseServices {
     constructor() {
         this.respository = this.getModule();
-        console.log('services constructor ------>', this.respository)
     }
     async getList() {
         try {

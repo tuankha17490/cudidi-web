@@ -26,7 +26,7 @@ export default class BaseValidator {
                 return res.status(400).json({
                     status: 400,
                     error: 'Username is invalid',
-                    message: 'Username is too long'
+                    message: 'Username is too long or too short'
                 })
             }
             return true

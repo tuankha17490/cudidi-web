@@ -86,5 +86,14 @@ export default class UserService extends BaseServices {
             }
         }
     }
-   
+    // async update(param) {
+    //     try {
+            
+    //     } catch (error) {
+    //         return {
+    //             status: 400,
+    //             error: error.toString()
+    //         }
+    //     }
+    // }
 }

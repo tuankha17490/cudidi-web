@@ -1,7 +1,6 @@
 export default class BaseConTroller {
     constructor() {
         this.service = this.getModule();
-        console.log('controller constructor ------>', this.service)
     }
     getList() {
         return this.service.getList();
