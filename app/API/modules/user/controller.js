@@ -10,4 +10,7 @@ export default class UserController extends BaseController {
     login(param) {
         return this.service.login(param);
     }
+    updateUserById(data, id) {
+        return this.service.updateUserById(data, id);
+    }
 }

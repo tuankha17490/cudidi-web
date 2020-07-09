@@ -8,7 +8,14 @@ export default class UserRespository extends BaseRespository {
         }
         return this._Instance;
     }
+    constructor() {
+        super()
+    }
     getTable() {
         return Users;
     }
+    getByMapping(condition, a,b,c) {
+        return super.getBy(condition).innerJoin(a,b,c)
+    }
+    
 }
