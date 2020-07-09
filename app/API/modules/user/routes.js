@@ -1,9 +1,10 @@
 import express from "express"
 const router = express.Router();
 import UserController from "./controller"
-import { json } from "body-parser";
 import authorization from "../../../Middleware/check_authorize"
+import UserValidator from "./validator"
 const controller = new UserController()
+const validator = new UserValidator()
 
 router.get('/',authorization,(req, res) => {
     try {
@@ -13,7 +14,7 @@ router.get('/',authorization,(req, res) => {
         return res.json({error: error.toString()})
     }
 })
-router.get('/login',(req, res) => {
+router.post('/login',(req, res) => {
     try {
         console.log(req.params)
         controller.login(req.body).then(result => {return res.json(result)})
@@ -23,7 +24,7 @@ router.get('/login',(req, res) => {
     }
 })
 
-router.post('/register',(req, res) => {
+router.post('/register',validator.registerTask,(req, res) => {
     try {
         controller.create(req.body).then(result => {return res.json(result)})
     } catch (error) {
@@ -42,7 +43,7 @@ router.get('/:id',authorization, (req, res) => {
     }
 })
 
-router.put('/:id',authorization,  (req, res) => {
+router.put('/:id',authorization,validator.updateTask,  (req, res) => {
     try {
         const data = req.body;
         console.log(data)

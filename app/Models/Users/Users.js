@@ -51,7 +51,9 @@ export default class Users extends Model {
                     format: "date"
                 },
                 Address: {
-                    type: "string"
+                    type: "string",
+                    minLength: 1,
+                    maxLength: 255
                 },
                 Avatar: {
                     type: "string"

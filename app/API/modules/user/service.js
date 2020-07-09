@@ -46,7 +46,7 @@ export default class UserService extends BaseServices {
             }
             const dataFetch = await this.respository.create(param);
             return {
-                status: 200,
+                status: 201,
                 message: 'Success !!!',
                 data: dataFetch
             };
@@ -67,6 +67,7 @@ export default class UserService extends BaseServices {
                     expiresIn: "2h"
                 })
                 return {
+                    status: 200,
                     message: 'Login Success',
                     token
                 }
