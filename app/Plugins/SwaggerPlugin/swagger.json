@@ -40,7 +40,7 @@
             "$ref":"./paths/user.json#/create"
          },
         "/user/login": {
-            "get": {
+            "post": {
                 "tags": [
                     "user"
                 ],

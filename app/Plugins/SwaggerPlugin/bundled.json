@@ -215,107 +215,14 @@
         "responses": {
           "default": {
             "description": "successful operation",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "Username": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 30
-                    },
-                    "Password": {
-                      "type": "string",
-                      "minLength": 6
-                    },
-                    "FullName": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 255
-                    },
-                    "Email": {
-                      "type": "string",
-                      "format": "email"
-                    },
-                    "BirthDay": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "Address": {
-                      "type": "string"
-                    },
-                    "Avatar": {
-                      "type": "string"
-                    },
-                    "PhoneNumber": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 15
-                    }
-                  },
-                  "xml": {
-                    "name": "User"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "Username": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 30
-                    },
-                    "Password": {
-                      "type": "string",
-                      "minLength": 6
-                    },
-                    "FullName": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 255
-                    },
-                    "Email": {
-                      "type": "string",
-                      "format": "email"
-                    },
-                    "BirthDay": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "Address": {
-                      "type": "string"
-                    },
-                    "Avatar": {
-                      "type": "string"
-                    },
-                    "PhoneNumber": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 15
-                    }
-                  },
-                  "xml": {
-                    "name": "User"
-                  }
-                }
-              }
-            }
+            "content": {}
           }
         },
         "x-codegen-request-body-name": "body"
       }
     },
     "/user/login": {
-      "get": {
+      "post": {
         "tags": [
           "user"
         ],
@@ -377,7 +284,8 @@
             "description": "Invalid username/password supplied",
             "content": {}
           }
-        }
+        },
+        "x-codegen-request-body-name": "body"
       }
     },
     "/user/logout": {
