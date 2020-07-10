@@ -144,14 +144,14 @@ export default class BaseValidator {
     }
     avatarValidate(req, res) {
         try {
-            if (req.file != undefined) {
-                if (!validator.isURL(req.file)) {
+            if (req.file == undefined) {
+                // if (!validator.isURL(req.file)) {
                     return res.status(400).json({
                         status: 400,
                         error: 'Avatar is invalid'
                     })
 
-                }
+                // }
             }
             return true
         } catch (error) {

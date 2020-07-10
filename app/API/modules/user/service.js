@@ -126,8 +126,9 @@ export default class UserService extends BaseServices {
         try {
             const image = await uploads(file.path, 'Images');
             const Avatar = image.url
+            await this.respository.updateById({Avatar}, id)
             await fs.unlinkSync(file.path)
-            await this.respository.updateById(Avatar, id)
+           
             return {
                 status: 200,
                 message: 'Avatar of user uploaded successfully',
@@ -137,19 +138,23 @@ export default class UserService extends BaseServices {
                 status: 400,
                 error: error.toString(),
                 message: 'Upload avatar failed'
-            }
+            }   
         }
     }
     async passwordConfirm(password, id) {
         try {
             const data = await this.respository.findAt(id)
-            console.log('password confirm service', data)
             const status = bcrypt.compareSync(password, data.Password)
-            console.log('status confirm password', status)
             if (status) {
                 return {
                     status: 200,
                     message: 'Password correct. Confirm password successful !!!'
+                }
+            }
+            else{
+                return {
+                    status: 400,
+                    message: 'Password is incorrect'
                 }
             }
         } catch (error) {
