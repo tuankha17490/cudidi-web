@@ -6,6 +6,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import process from "process"
+import fs from "fs"
 import {
     uploads
 } from "../../../Config/cloundinary"
@@ -109,6 +110,8 @@ export default class UserService extends BaseServices {
             const data = req.body
             const image = await uploads(req.file.path, 'Images');
             data.Avatar = image.url
+            await fs.unlinkSync(req.file.path)
+            data.Password = bcrypt.hashSync(data.Password, 10)
             const result = await this.respository.updateById(data, id)
             return {
                 status: 200,
