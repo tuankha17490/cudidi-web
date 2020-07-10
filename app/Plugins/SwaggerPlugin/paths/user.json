@@ -10,6 +10,16 @@
             "$ref": "../components/user.json#/get"
         }
     },
+    "check_password": {
+        "post": {
+            "$ref": "../components/user.json#/check_password"
+        }
+    },
+    "uploadAvatar": {
+        "put": {
+            "$ref":"../components/user.json#/uploadAvatar"
+        }
+    },
     "specifyUser": {
         "name": {
             "get": {

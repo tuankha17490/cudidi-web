@@ -152,7 +152,7 @@
         }
       }
     },
-    "/user/register": {
+    "/register": {
       "post": {
         "tags": [
           "user"
@@ -221,7 +221,7 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/user/login": {
+    "/login": {
       "post": {
         "tags": [
           "user"
@@ -284,11 +284,10 @@
             "description": "Invalid username/password supplied",
             "content": {}
           }
-        },
-        "x-codegen-request-body-name": "body"
+        }
       }
     },
-    "/user/logout": {
+    "/logout": {
       "get": {
         "tags": [
           "user"
@@ -778,6 +777,98 @@
           }
         }
       }
+    },
+    "/user/check_password/:id": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Confirm password",
+        "description": "Confirm passord to update the new password.",
+        "operationId": "check_password",
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID of user",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Password",
+            "in": "path",
+            "description": "Password need to confirm.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Check password of user",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "Username": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 30
+                  },
+                  "Password": {
+                    "type": "string",
+                    "minLength": 6
+                  },
+                  "FullName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "Email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "BirthDay": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "Address": {
+                    "type": "string"
+                  },
+                  "Avatar": {
+                    "type": "string"
+                  },
+                  "PhoneNumber": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 15
+                  }
+                },
+                "xml": {
+                  "name": "User"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "user/uploadAvatar/:id": {
+      "#ref": "./paths/user.json#/uploadAvatar"
     }
   }
 }

@@ -289,5 +289,103 @@
                 }
             }
         }
+    },
+    "check_password": {
+        "tags": [
+            "user"
+        ],
+        "summary": "Confirm password",
+        "description": "Confirm passord to update the new password.",
+        "operationId": "check_password",
+        "parameters": [
+            {
+                "name": "ID",
+                "in": "path",
+                "description": "ID of user",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "Password",
+                "in": "path",
+                "description": "Password need to confirm.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "requestBody": {
+            "description": "Check password of user",
+            "content": {
+                "*/*": {
+                    "schema": {
+                        "$ref": "../schemas/user.json#/User"
+                    }
+                }
+            },
+            "required": true
+        },
+        "responses": {
+            "default": {
+                "description": "successful operation",
+                "content": {}
+            }
+        },
+        "x-codegen-request-body-name": "body"
+    },
+    "uploadAvatar": {
+        "put": {
+            "tags": [
+                "user"
+            ],
+            "summary": "Upload avatar of user",
+            "description": "Upload avatar of user by id.",
+            "operationId": "updateUser",
+            "parameters": [
+                {
+                    "name": "ID",
+                    "in": "path",
+                    "description": "ID of user",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "name": "Avatar",
+                    "in": "path",
+                    "description": "Avatar of user",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "requestBody": {
+                "description": "Updated user object",
+                "content": {
+                    "*/*": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "responses": {
+                "400": {
+                    "description": "Invalid user supplied",
+                    "content": {}
+                },
+                "404": {
+                    "description": "User not found",
+                    "content": {}
+                }
+            },
+            "x-codegen-request-body-name": "body"
+        }
     }
 }

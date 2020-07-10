@@ -24,8 +24,15 @@ router.get('/:id',authorization, (req, res) => {
         return res.json({error: error.toString()})
     }
 })
+router.post('/check_password/:id', authorization, (req, res) => {
+    try {
+        controller.passwordConfirm(req.body.Password, req.params.id).then(result => {return res.json(result)})
+    } catch (error) {
+        return res.json({error: error.toString()})
+    }
+})
 
-router.put('/:id',multer.single('avatar'),authorization,validator.updateTask,  (req, res) => {
+router.put('/:id',authorization,validator.updateTask,  (req, res) => {
     try {
         controller.updateUserById(req, req.params.id).then(result => {return res.json(result)})
     } catch (error) {
@@ -34,6 +41,14 @@ router.put('/:id',multer.single('avatar'),authorization,validator.updateTask,  (
     }
    
 })
+router.put('/uploadAvatar/:id',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
+    try {
+        controller.uploadAvatar(req.file, req.params.id).then(result => {return res.json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_UPLOAD_AVATAR')
+        return res.json({error: error.toString()})
+    }
+})
 
 
 router.delete('/:id',authorization, (req, res) => {
@@ -41,7 +56,7 @@ router.delete('/:id',authorization, (req, res) => {
         controller.deleteById(req.params.id).then(result => {return res.json({message: 'Delete success !!!', idIsDeleted: result})})
     } catch (error) {
         console.log('CONTROLLER_DELETE_USER')
-        return res.json(error)
+        return res.json({error: error.toString()})
     }
 })
 

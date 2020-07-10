@@ -36,10 +36,10 @@
         "/user": {
            "$ref":"./paths/user.json#/getInformation"
         },
-        "/user/register": {
+        "/register": {
             "$ref":"./paths/user.json#/create"
          },
-        "/user/login": {
+        "/login": {
             "post": {
                 "tags": [
                     "user"
@@ -104,7 +104,7 @@
                 }
             }
         },
-        "/user/logout": {
+        "/logout": {
             "get": {
                 "tags": [
                     "user"
@@ -124,6 +124,12 @@
         },
         "/user/{id}": {
             "$ref": "./paths/user.json#/specifyUser/id"
+        },
+        "/user/check_password/:id": {
+            "$ref": "./paths/user.json#/check_password"
+        },
+        "user/uploadAvatar/:id": {
+            "#ref": "./paths/user.json#/uploadAvatar"
         }
     }
 }

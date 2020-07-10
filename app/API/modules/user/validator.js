@@ -37,6 +37,16 @@ export default class UserValidator extends BaseValidator {
             if(checkBirthday != true) return checkBirthday;
             const checkAddress = super.addressValidate(req, res)
             if(checkAddress != true) return checkAddress;
+            next()
+        } catch (error) {
+            return res.status(400).json({
+                status: 400,
+                error: error.toString(),
+            })
+        }
+    }
+    uploadImage(req, res, next) {
+        try {
             const checkAvatar = super.avatarValidate(req, res)
             if(checkAvatar != true) return checkAvatar;
             next()
@@ -47,5 +57,4 @@ export default class UserValidator extends BaseValidator {
             })
         }
     }
-
 }

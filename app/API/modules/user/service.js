@@ -108,11 +108,8 @@ export default class UserService extends BaseServices {
     async updateUserById(req, id) {
         try {
             const data = req.body
-            const image = await uploads(req.file.path, 'Images');
-            data.Avatar = image.url
-            await fs.unlinkSync(req.file.path)
             data.Password = bcrypt.hashSync(data.Password, 10)
-            const result = await this.respository.updateById(data, id)
+            await this.respository.updateById(data, id)
             return {
                 status: 200,
                 message: 'User uploaded successfully',
@@ -120,9 +117,47 @@ export default class UserService extends BaseServices {
         } catch (error) {
             return {
                 status: 400,
-                error: error.toString()
+                error: error.toString(),
+                message: 'Update information of user failed'
             }
         }
     }
-
+    async uploadAvatar(file, id) {
+        try {
+            const image = await uploads(file.path, 'Images');
+            const Avatar = image.url
+            await fs.unlinkSync(file.path)
+            await this.respository.updateById(Avatar, id)
+            return {
+                status: 200,
+                message: 'Avatar of user uploaded successfully',
+            }
+        } catch (error) {
+            return {
+                status: 400,
+                error: error.toString(),
+                message: 'Upload avatar failed'
+            }
+        }
+    }
+    async passwordConfirm(password, id) {
+        try {
+            const data = await this.respository.findAt(id)
+            console.log('password confirm service', data)
+            const status = bcrypt.compareSync(password, data.Password)
+            console.log('status confirm password', status)
+            if (status) {
+                return {
+                    status: 200,
+                    message: 'Password correct. Confirm password successful !!!'
+                }
+            }
+        } catch (error) {
+            return {
+                status: 400,
+                error: error.toString(),
+                message: 'Password confirm failed'
+            }
+        }
+    }
 }
