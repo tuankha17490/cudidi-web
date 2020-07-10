@@ -128,7 +128,6 @@ export default class UserService extends BaseServices {
             const Avatar = image.url
             await this.respository.updateById({Avatar}, id)
             await fs.unlinkSync(file.path)
-           
             return {
                 status: 200,
                 message: 'Avatar of user uploaded successfully',
