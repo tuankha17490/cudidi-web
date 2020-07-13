@@ -108,11 +108,23 @@ export default class UserService extends BaseServices {
     async updateUserById(req, id) {
         try {
             const data = req.body
+            console.log(data)
             data.Password = bcrypt.hashSync(data.Password, 10)
-            await this.respository.updateById(data, id)
+            const dataFetch = await this.respository.updateAndFetchById(data, id)
+            const result = {
+                Username : dataFetch.Username,
+                FullName: dataFetch.FullName,
+                Email: dataFetch.Email,
+                ID: dataFetch.ID,
+                PhoneNumber: dataFetch.PhoneNumber,
+                BirthDay: dataFetch.BirthDay,
+                Slug: dataFetch.Slug,
+                Address: dataFetch.Address
+            }
             return {
                 status: 200,
                 message: 'User uploaded successfully',
+                data: result
             }
         } catch (error) {
             return {
@@ -131,6 +143,9 @@ export default class UserService extends BaseServices {
             return {
                 status: 200,
                 message: 'Avatar of user uploaded successfully',
+                data: {
+                    Avatar
+                }
             }
         } catch (error) {
             return {
@@ -164,4 +179,5 @@ export default class UserService extends BaseServices {
             }
         }
     }
+
 }

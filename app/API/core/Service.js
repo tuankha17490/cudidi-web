@@ -4,10 +4,33 @@ export default class BaseServices {
     }
     async getList() {
         try {
-            const data = await this.respository.list();
+            const data = await this.respository.listBy();
             return data;
         } catch (error) {
-            return error
+            return error.toString()
+        }
+    }
+    async getListOffSet(offset, limit, column = ['*']) {
+        try {
+            const count = await this.respository.count();
+            if(offset > count) {
+                return {
+                    status: 400,
+                    message: 'Offset can not be greater than the number of data'
+                }
+            }
+            const data = await this.respository.graphFetched(offset, limit, column, 'roles')
+            return {
+                status: 200,
+                message: 'Success !!!',
+                data
+            }
+        } catch (error) {
+            return {
+                status: 400,
+                message: 'Get list failed',
+                error: error.toString()
+            }
         }
     }
     async create(param) {

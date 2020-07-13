@@ -10,6 +10,11 @@
             "$ref": "../components/user.json#/get"
         }
     },
+    "pagination": {
+        "get": {
+            "$ref": "../components/user.json#/pagination"
+        }
+    },
     "check_password": {
         "post": {
             "$ref": "../components/user.json#/check_password"

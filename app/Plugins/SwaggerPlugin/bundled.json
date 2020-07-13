@@ -41,8 +41,145 @@
           "user"
         ],
         "summary": "Get list user",
-        "description": "Get information of 15 users.",
+        "description": "Get information all user.",
         "operationId": "getListUser",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/user/listPagination/{offset}&{limit}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get list user",
+        "description": "Get information with offset and limit to paginate.",
+        "operationId": "Pagination",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "path",
+            "description": "The offset that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "The limit that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -160,57 +297,54 @@
         "summary": "Create user",
         "description": "This can only be done by the logged in user.",
         "operationId": "createUser",
-        "requestBody": {
-          "description": "Created user object",
-          "content": {
-            "*/*": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "integer"
-                  },
-                  "Username": {
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 30
-                  },
-                  "Password": {
-                    "type": "string",
-                    "minLength": 6
-                  },
-                  "FullName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 255
-                  },
-                  "Email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "BirthDay": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "Address": {
-                    "type": "string"
-                  },
-                  "Avatar": {
-                    "type": "string"
-                  },
-                  "PhoneNumber": {
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 15
-                  }
-                },
-                "xml": {
-                  "name": "User"
-                }
+        "parameters": {
+          "name": "user",
+          "in": "body",
+          "description": "The user to create.",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "Username": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 30
+              },
+              "Password": {
+                "type": "string",
+                "minLength": 6
+              },
+              "FullName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "Email": {
+                "type": "string",
+                "format": "email"
+              },
+              "BirthDay": {
+                "type": "string",
+                "format": "date"
+              },
+              "Address": {
+                "type": "string"
+              },
+              "Avatar": {
+                "type": "string"
+              },
+              "PhoneNumber": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 15
               }
+            },
+            "xml": {
+              "name": "User"
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "default": {
@@ -778,7 +912,7 @@
         }
       }
     },
-    "/user/check_password/:id": {
+    "/user/check_password/{id}": {
       "post": {
         "tags": [
           "user"
@@ -788,7 +922,7 @@
         "operationId": "check_password",
         "parameters": [
           {
-            "name": "ID",
+            "name": "id",
             "in": "path",
             "description": "ID of user",
             "required": true,
@@ -798,7 +932,7 @@
           },
           {
             "name": "Password",
-            "in": "path",
+            "in": "query",
             "description": "Password need to confirm.",
             "required": true,
             "schema": {
@@ -808,6 +942,48 @@
         ],
         "requestBody": {
           "description": "Check password of user",
+          "required": true,
+          "content": {}
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/uploadAvatar/{id}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Upload avatar of user",
+        "description": "Upload avatar of user by id.",
+        "operationId": "uploadAvatar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Avatar",
+            "in": "formData",
+            "description": "Avatar of user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated user object",
           "content": {
             "*/*": {
               "schema": {
@@ -859,16 +1035,17 @@
           "required": true
         },
         "responses": {
-          "default": {
-            "description": "successful operation",
+          "400": {
+            "description": "Invalid user supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
             "content": {}
           }
         },
         "x-codegen-request-body-name": "body"
       }
-    },
-    "user/uploadAvatar/:id": {
-      "#ref": "./paths/user.json#/uploadAvatar"
     }
   }
 }

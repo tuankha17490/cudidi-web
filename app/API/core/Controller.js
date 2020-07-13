@@ -5,6 +5,9 @@ export default class BaseConTroller {
     getList() {
         return this.service.getList();
     }
+    getListOffSet(offset, limit) {
+        return this.service.getListOffSet(offset, limit)
+    }
     create(param) {
         return this.service.create(param);
     }

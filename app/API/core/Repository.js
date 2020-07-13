@@ -5,8 +5,11 @@ export default class BaseRespository {
     tableQuery() {
         return this.tableName.query();
     }
-    list(column = ['*']) {
-        return this.tableQuery().select(column).limit(15);
+    listBy(column = ['*'], condition = {}) {
+        return this.tableQuery().select(column).where(condition);
+    }
+    listOffSet(offsetValue,limitValue,column = ['*']) {
+        return this.listBy(column).limit(limitValue).offset(offsetValue)
     }
     findAt(id) {
         return this.tableQuery().findById(id);
@@ -34,5 +37,14 @@ export default class BaseRespository {
     }
     updateById(data, id) {
         return this.tableQuery().patch(data).findById(id);
+    }
+    updateAndFetchById(data, id) {
+        return this.tableQuery().patchAndFetchById(id, data)
+    }
+    relatedQuery(table, id) {
+        return  this.tableName.relatedQuery(table).for(id)
+    }
+    graphFetched(offsetValue,limitValue,column = ['*'],table) {
+        return this.listOffSet(offsetValue,limitValue,column).withGraphFetched(table);
     }
 }

@@ -19,4 +19,7 @@ export default class UserController extends BaseController {
     passwordConfirm(password, id) {
         return this.service.passwordConfirm(password, id)
     }
+    getListOffSet(offset, limit) {
+        return this.service.getListOffSet(offset, limit,['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay'])
+    }
 }

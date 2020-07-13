@@ -15,7 +15,14 @@ router.get('/',authorization,(req, res) => {
         return res.json({error: error.toString()})
     }
 })
-
+router.get('/listPagination/:offset&:limit', async (req, res) => {
+    try {
+        controller.getListOffSet(req.params.offset,req.params.limit).then(result => {return res.json({result})})
+    } catch (error) {
+        console.log('CONTROLLER_GET_USER_LIST_PAGINATION');
+        return res.json({error: error.toString()})
+    }
+})
 router.get('/:id',authorization, (req, res) => {
     try {
         controller.getInforById(req.params.id).then(result => {return res.json(result)});
@@ -41,9 +48,9 @@ router.put('/:id',authorization,validator.updateTask,  (req, res) => {
     }
    
 })
-router.put('/uploadAvatar/:id',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
+router.put('/uploadAvatar',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
     try {
-        controller.uploadAvatar(req.file, req.params.id).then(result => {return res.json(result)})
+        controller.uploadAvatar(req.file, req.body.id).then(result => {return res.json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPLOAD_AVATAR')
         return res.json({error: error.toString()})

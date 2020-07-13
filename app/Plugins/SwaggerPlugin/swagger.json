@@ -36,6 +36,9 @@
         "/user": {
            "$ref":"./paths/user.json#/getInformation"
         },
+        "/user/listPagination/{offset}&{limit}": {
+            "$ref":"./paths/user.json#/pagination"
+        },
         "/register": {
             "$ref":"./paths/user.json#/create"
          },
@@ -125,11 +128,11 @@
         "/user/{id}": {
             "$ref": "./paths/user.json#/specifyUser/id"
         },
-        "/user/check_password/:id": {
+        "/user/check_password/{id}": {
             "$ref": "./paths/user.json#/check_password"
         },
-        "user/uploadAvatar/:id": {
-            "#ref": "./paths/user.json#/uploadAvatar"
+        "/user/uploadAvatar": {
+            "$ref": "./paths/user.json#/uploadAvatar"
         }
     }
 }

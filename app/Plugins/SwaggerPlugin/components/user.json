@@ -30,8 +30,61 @@
             "user"
         ],
         "summary": "Get list user",
-        "description": "Get information of 15 users.",
+        "description": "Get information all user.",
         "operationId": "getListUser",
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid username supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "User not found",
+                "content": {}
+            }
+        }
+    },
+    "pagination": {
+        "tags": [
+            "user"
+        ],
+        "summary": "Get list user",
+        "description": "Get information with offset and limit to paginate.",
+        "operationId": "Pagination",
+        "parameters": [
+            {
+                "name": "offset",
+                "in": "path",
+                "description": "The offset that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
         "responses": {
             "200": {
                 "description": "successful operation",
@@ -299,7 +352,7 @@
         "operationId": "check_password",
         "parameters": [
             {
-                "name": "ID",
+                "name": "id",
                 "in": "path",
                 "description": "ID of user",
                 "required": true,
@@ -309,7 +362,7 @@
             },
             {
                 "name": "Password",
-                "in": "path",
+                "in": "query",
                 "description": "Password need to confirm.",
                 "required": true,
                 "schema": {
@@ -319,14 +372,8 @@
         ],
         "requestBody": {
             "description": "Check password of user",
-            "content": {
-                "*/*": {
-                    "schema": {
-                        "$ref": "../schemas/user.json#/User"
-                    }
-                }
-            },
-            "required": true
+            "required": true,
+            "content": {}
         },
         "responses": {
             "default": {
@@ -337,55 +384,40 @@
         "x-codegen-request-body-name": "body"
     },
     "uploadAvatar": {
-        "put": {
-            "tags": [
-                "user"
-            ],
-            "summary": "Upload avatar of user",
-            "description": "Upload avatar of user by id.",
-            "operationId": "updateUser",
-            "parameters": [
-                {
-                    "name": "ID",
-                    "in": "path",
-                    "description": "ID of user",
-                    "required": true,
+        "tags": [
+            "user"
+        ],
+        "summary": "Upload avatar of user",
+        "description": "Upload avatar of user by id.",
+        "operationId": "uploadAvatar",
+        "requestBody": {
+            "description": "Upload user object",
+            "content": {
+                "multipart/form-data": {
                     "schema": {
-                        "type": "integer"
-                    }
-                },
-                {
-                    "name": "Avatar",
-                    "in": "path",
-                    "description": "Avatar of user",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
-                    }
-                }
-            ],
-            "requestBody": {
-                "description": "Updated user object",
-                "content": {
-                    "*/*": {
-                        "schema": {
-                            "$ref": "../schemas/user.json#/User"
+                        "type": "object",
+                        "properties": {
+                            "userId": {
+                                "type": "integer"
+                            },
+                            "fileName": {
+                                "type": "string",
+                                "format": "binary"
+                            }
                         }
                     }
                 },
-                "required": true
-            },
-            "responses": {
-                "400": {
-                    "description": "Invalid user supplied",
-                    "content": {}
-                },
-                "404": {
-                    "description": "User not found",
-                    "content": {}
+                "responses": {
+                    "400": {
+                        "description": "Invalid user supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    }
                 }
-            },
-            "x-codegen-request-body-name": "body"
+            }
         }
     }
 }
