@@ -67,6 +67,15 @@
         "operationId": "Pagination",
         "parameters": [
             {
+                "name": "token",
+                "in": "header",
+                "description": "Format: Bearer token",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
                 "name": "offset",
                 "in": "path",
                 "description": "The offset that needs to be fetched.",
@@ -112,121 +121,6 @@
         }
     },
     "specifyUser": {
-        "name": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Get user by user name",
-                "operationId": "getUserByName",
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "path",
-                        "description": "The name that needs to be fetched.",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "../schemas/user.json#/User"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "../schemas/user.json#/User"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid username supplied",
-                        "content": {}
-                    },
-                    "404": {
-                        "description": "User not found",
-                        "content": {}
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Updated user",
-                "description": "Update information of user by name.",
-                "operationId": "updateUser",
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "path",
-                        "description": "name that need to be updated",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Updated user object",
-                    "content": {
-                        "*/*": {
-                            "schema": {
-                                "$ref": "../schemas/user.json#/User"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "400": {
-                        "description": "Invalid user supplied",
-                        "content": {}
-                    },
-                    "404": {
-                        "description": "User not found",
-                        "content": {}
-                    }
-                },
-                "x-codegen-request-body-name": "body"
-            },
-            "delete": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Delete user",
-                "description": "Delete specify user by name.",
-                "operationId": "deleteUser",
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "path",
-                        "description": "The name that needs to be deleted",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "Invalid username supplied",
-                        "content": {}
-                    },
-                    "404": {
-                        "description": "User not found",
-                        "content": {}
-                    }
-                }
-            }
-        },
         "id": {
             "get": {
                 "tags": [
@@ -235,6 +129,15 @@
                 "summary": "Get user by user id",
                 "operationId": "getUserById",
                 "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Format: Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "id",
                         "in": "path",
@@ -280,6 +183,15 @@
                 "operationId": "updateUserById",
                 "parameters": [
                     {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Format: Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "id",
                         "in": "path",
                         "description": "the id that need to be updated",
@@ -321,6 +233,15 @@
                 "operationId": "deleleUserById",
                 "parameters": [
                     {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Format: Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "id",
                         "in": "path",
                         "description": "The id that needs to be deleted",
@@ -343,14 +264,23 @@
             }
         }
     },
-    "check_password": {
+    "checkPassword": {
         "tags": [
             "user"
         ],
         "summary": "Confirm password",
         "description": "Confirm passord to update the new password.",
-        "operationId": "check_password",
+        "operationId": "checkPassword",
         "parameters": [
+            {
+                "name": "token",
+                "in": "header",
+                "description": "Format: Bearer token",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
             {
                 "name": "id",
                 "in": "path",
@@ -390,6 +320,15 @@
         "summary": "Upload avatar of user",
         "description": "Upload avatar of user by id.",
         "operationId": "uploadAvatar",
+        "parameters": {
+            "name": "token",
+            "in": "header",
+            "description": "Format: Bearer token",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+        },
         "requestBody": {
             "description": "Upload user object",
             "content": {
@@ -427,6 +366,15 @@
         "summary": "Get me",
         "description": "Get information my user.",
         "operationId": "getMyUser",
+        "parameters": {
+            "name": "token",
+            "in": "header",
+            "description": "Format: Bearer token",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+        },
         "responses": {
             "200": {
                 "description": "successful operation",

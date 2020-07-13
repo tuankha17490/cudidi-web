@@ -162,6 +162,15 @@
         "operationId": "Pagination",
         "parameters": [
           {
+            "name": "token",
+            "in": "header",
+            "description": "Format: Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "offset",
             "in": "path",
             "description": "The offset that needs to be fetched.",
@@ -447,249 +456,20 @@
         "summary": "Get me",
         "description": "Get information my user.",
         "operationId": "getMyUser",
+        "parameters": {
+          "name": "token",
+          "in": "header",
+          "description": "Format: Bearer token",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
         "responses": {
           "200": {
             "description": "successful operation",
             "content": {}
           },
-          "400": {
-            "description": "Invalid username supplied",
-            "content": {}
-          },
-          "404": {
-            "description": "User not found",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/user/{username}": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Get user by user name",
-        "operationId": "getUserByName",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be fetched.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "Username": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 30
-                    },
-                    "Password": {
-                      "type": "string",
-                      "minLength": 6
-                    },
-                    "FullName": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 255
-                    },
-                    "Email": {
-                      "type": "string",
-                      "format": "email"
-                    },
-                    "BirthDay": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "Address": {
-                      "type": "string"
-                    },
-                    "Avatar": {
-                      "type": "string"
-                    },
-                    "PhoneNumber": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 15
-                    }
-                  },
-                  "xml": {
-                    "name": "User"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "Username": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 30
-                    },
-                    "Password": {
-                      "type": "string",
-                      "minLength": 6
-                    },
-                    "FullName": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 255
-                    },
-                    "Email": {
-                      "type": "string",
-                      "format": "email"
-                    },
-                    "BirthDay": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "Address": {
-                      "type": "string"
-                    },
-                    "Avatar": {
-                      "type": "string"
-                    },
-                    "PhoneNumber": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 15
-                    }
-                  },
-                  "xml": {
-                    "name": "User"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid username supplied",
-            "content": {}
-          },
-          "404": {
-            "description": "User not found",
-            "content": {}
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Updated user",
-        "description": "Update information of user by name.",
-        "operationId": "updateUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "name that need to be updated",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Updated user object",
-          "content": {
-            "*/*": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "integer"
-                  },
-                  "Username": {
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 30
-                  },
-                  "Password": {
-                    "type": "string",
-                    "minLength": 6
-                  },
-                  "FullName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 255
-                  },
-                  "Email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "BirthDay": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "Address": {
-                    "type": "string"
-                  },
-                  "Avatar": {
-                    "type": "string"
-                  },
-                  "PhoneNumber": {
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 15
-                  }
-                },
-                "xml": {
-                  "name": "User"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "400": {
-            "description": "Invalid user supplied",
-            "content": {}
-          },
-          "404": {
-            "description": "User not found",
-            "content": {}
-          }
-        },
-        "x-codegen-request-body-name": "body"
-      },
-      "delete": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Delete user",
-        "description": "Delete specify user by name.",
-        "operationId": "deleteUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
           "400": {
             "description": "Invalid username supplied",
             "content": {}
@@ -709,6 +489,15 @@
         "summary": "Get user by user id",
         "operationId": "getUserById",
         "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Format: Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "id",
             "in": "path",
@@ -836,6 +625,15 @@
         "operationId": "updateUserById",
         "parameters": [
           {
+            "name": "token",
+            "in": "header",
+            "description": "Format: Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "id",
             "in": "path",
             "description": "the id that need to be updated",
@@ -918,6 +716,15 @@
         "operationId": "deleleUserById",
         "parameters": [
           {
+            "name": "token",
+            "in": "header",
+            "description": "Format: Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "id",
             "in": "path",
             "description": "The id that needs to be deleted",
@@ -946,8 +753,17 @@
         ],
         "summary": "Confirm password",
         "description": "Confirm passord to update the new password.",
-        "operationId": "check_password",
+        "operationId": "checkPassword",
         "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Format: Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "id",
             "in": "path",
@@ -989,6 +805,15 @@
         "summary": "Upload avatar of user",
         "description": "Upload avatar of user by id.",
         "operationId": "uploadAvatar",
+        "parameters": {
+          "name": "token",
+          "in": "header",
+          "description": "Format: Bearer token",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
         "requestBody": {
           "description": "Upload user object",
           "content": {

@@ -22,7 +22,7 @@
     },
     "check_password": {
         "post": {
-            "$ref": "../components/user.json#/check_password"
+            "$ref": "../components/user.json#/checkPassword"
         }
     },
     "uploadAvatar": {
@@ -31,17 +31,7 @@
         }
     },
     "specifyUser": {
-        "name": {
-            "get": {
-                "$ref": "../components/user.json#/specifyUser/name/get"
-            },
-            "put": {
-                "$ref": "../components/user.json#/specifyUser/name/put"
-            },
-            "delete": {
-                "$ref": "../components/user.json#/specifyUser/name/delete"
-            }
-        },
+        
         "id": {
             "get": {
                 "$ref": "../components/user.json#/specifyUser/id/get"

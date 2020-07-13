@@ -125,9 +125,7 @@
         "/user/me" : {
             "$ref":"./paths/user.json#/getMe"
         },
-        "/user/{username}": {
-            "$ref": "./paths/user.json#/specifyUser/name"
-        },
+       
         "/user/{id}": {
             "$ref": "./paths/user.json#/specifyUser/id"
         },
