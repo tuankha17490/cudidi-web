@@ -22,4 +22,7 @@ export default class UserController extends BaseController {
     getListOffSet(offset, limit) {
         return this.service.getListOffSet(offset, limit,['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay'])
     }
+    getMe(decode) {
+        return this.service.getMe(decode)
+    }
 }

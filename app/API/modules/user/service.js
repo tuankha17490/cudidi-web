@@ -83,6 +83,11 @@ export default class UserService extends BaseServices {
                     status: 200,
                     message: 'Login Success',
                     token,
+                    data: {
+                        Email: queryData.Email,
+                        Slug: queryData.Slug,
+                        FullName: queryData.FullName
+                    }
                 }
             } else {
                 return {
@@ -105,7 +110,7 @@ export default class UserService extends BaseServices {
             data.Password = bcrypt.hashSync(data.Password, 10)
             const dataFetch = await this.respository.updateAndFetchById(data, id)
             const result = {
-                Username : dataFetch.Username,
+                Username: dataFetch.Username,
                 FullName: dataFetch.FullName,
                 Email: dataFetch.Email,
                 ID: dataFetch.ID,
@@ -131,7 +136,9 @@ export default class UserService extends BaseServices {
         try {
             const image = await uploads(file.path, 'Images');
             const Avatar = image.url
-            await this.respository.updateById({Avatar}, id)
+            await this.respository.updateById({
+                Avatar
+            }, id)
             await fs.unlinkSync(file.path)
             return {
                 status: 200,
@@ -145,7 +152,7 @@ export default class UserService extends BaseServices {
                 status: 400,
                 error: error.toString(),
                 message: 'Upload avatar failed'
-            }   
+            }
         }
     }
     async passwordConfirm(password, id) {
@@ -157,8 +164,7 @@ export default class UserService extends BaseServices {
                     status: 200,
                     message: 'Password correct. Confirm password successful !!!'
                 }
-            }
-            else{
+            } else {
                 return {
                     status: 400,
                     message: 'Password is incorrect'
@@ -172,5 +178,22 @@ export default class UserService extends BaseServices {
             }
         }
     }
-
+    async getMe(decode) {
+        try {
+            const data = await this.respository
+                .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
+                .withGraphFetched('roles')
+            return {
+                status: 200,
+                message: 'Success !!!',
+                data
+            }
+        } catch (error) {
+            return {
+                status: 400,
+                message: 'Fail to get profile user',
+                error: error.toString()
+            }
+        }
+    }
 }

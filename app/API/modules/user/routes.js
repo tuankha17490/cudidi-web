@@ -17,12 +17,7 @@ router.get('/',authorization,(req, res) => {
 })
 router.get('/me',authorization,(req, res) => {
     try {
-        console.log(req.userData)
-        return res.json({
-            status: 200,
-            message:'Success',
-            data: req.userData
-        })
+        controller.getMe(req.userData).then(result => {return res.json({result})})
     } catch (error) {
         console.log('CONTROLLER_GET_MY_USER');
         return res.json({error: error.toString()})

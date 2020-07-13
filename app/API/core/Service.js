@@ -19,7 +19,7 @@ export default class BaseServices {
                     message: 'Offset can not be greater than the number of data'
                 }
             }
-            const data = await this.respository.graphFetched(offset, limit, column, 'roles')
+            const data = await this.respository.graphFetchedWithOffSet(offset, limit, column, 'roles')
             return {
                 status: 200,
                 message: 'Success !!!',

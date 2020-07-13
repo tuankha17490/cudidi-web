@@ -11,8 +11,8 @@ export default class BaseRespository {
     listOffSet(offsetValue,limitValue,column = ['*']) {
         return this.listBy(column).limit(limitValue).offset(offsetValue)
     }
-    findAt(id) {
-        return this.tableQuery().findById(id);
+    findAt(id, column = ['*']) {
+        return this.tableQuery().select(column).findById(id);
     }
     count() {
         return this.tableQuery().count();
@@ -20,8 +20,8 @@ export default class BaseRespository {
     countBy(condition = {}) {
         return this.tableQuery().where(condition).count();
     }
-    getBy(condition) {
-        return this.tableQuery().findOne(condition);
+    getBy(condition, column = ['*']) {
+        return this.tableQuery().select(column).findOne(condition);
     }
     create(data) {
         return this.tableQuery().insert(data);
@@ -44,7 +44,7 @@ export default class BaseRespository {
     relatedQuery(table, id) {
         return  this.tableName.relatedQuery(table).for(id)
     }
-    graphFetched(offsetValue,limitValue,column = ['*'],table) {
+    graphFetchedWithOffSet(offsetValue,limitValue,column = ['*'],table) {
         return this.listOffSet(offsetValue,limitValue,column).withGraphFetched(table);
     }
 }
