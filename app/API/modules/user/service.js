@@ -83,13 +83,6 @@ export default class UserService extends BaseServices {
                     status: 200,
                     message: 'Login Success',
                     token,
-                    data: {
-                        Username: queryData.Username,
-                        Email: queryData.Email,
-                        Slug: queryData.Slug,
-                        ID: queryData.ID,
-                        FullName: queryData.FullName
-                    }
                 }
             } else {
                 return {

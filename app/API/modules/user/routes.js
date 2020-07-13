@@ -15,7 +15,20 @@ router.get('/',authorization,(req, res) => {
         return res.json({error: error.toString()})
     }
 })
-router.get('/listPagination/:offset&:limit', async (req, res) => {
+router.get('/me',authorization,(req, res) => {
+    try {
+        console.log(req.userData)
+        return res.json({
+            status: 200,
+            message:'Success',
+            data: req.userData
+        })
+    } catch (error) {
+        console.log('CONTROLLER_GET_MY_USER');
+        return res.json({error: error.toString()})
+    }
+})
+router.get('/list-pagination/:offset&:limit',authorization, (req, res) => {
     try {
         controller.getListOffSet(req.params.offset,req.params.limit).then(result => {return res.json({result})})
     } catch (error) {
@@ -31,7 +44,7 @@ router.get('/:id',authorization, (req, res) => {
         return res.json({error: error.toString()})
     }
 })
-router.post('/check_password/:id', authorization, (req, res) => {
+router.post('/check-password/:id', authorization, (req, res) => {
     try {
         controller.passwordConfirm(req.body.Password, req.params.id).then(result => {return res.json(result)})
     } catch (error) {
@@ -48,7 +61,7 @@ router.put('/:id',authorization,validator.updateTask,  (req, res) => {
     }
    
 })
-router.put('/uploadAvatar',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
+router.put('/upload-avatar',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
     try {
         controller.uploadAvatar(req.file, req.body.id).then(result => {return res.json(result)})
     } catch (error) {

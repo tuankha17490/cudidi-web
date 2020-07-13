@@ -10,6 +10,11 @@
             "$ref": "../components/user.json#/get"
         }
     },
+    "getMe": {
+        "get": {
+            "$ref": "../components/user.json#/getMe"
+        }
+    },
     "pagination": {
         "get": {
             "$ref": "../components/user.json#/pagination"

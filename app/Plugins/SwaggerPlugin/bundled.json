@@ -152,7 +152,7 @@
         }
       }
     },
-    "/user/listPagination/{offset}&{limit}": {
+    "/user/list-pagination/{offset}&{limit}": {
       "get": {
         "tags": [
           "user"
@@ -297,54 +297,57 @@
         "summary": "Create user",
         "description": "This can only be done by the logged in user.",
         "operationId": "createUser",
-        "parameters": {
-          "name": "user",
-          "in": "body",
-          "description": "The user to create.",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "integer"
-              },
-              "Username": {
-                "type": "string",
-                "minLength": 5,
-                "maxLength": 30
-              },
-              "Password": {
-                "type": "string",
-                "minLength": 6
-              },
-              "FullName": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 255
-              },
-              "Email": {
-                "type": "string",
-                "format": "email"
-              },
-              "BirthDay": {
-                "type": "string",
-                "format": "date"
-              },
-              "Address": {
-                "type": "string"
-              },
-              "Avatar": {
-                "type": "string"
-              },
-              "PhoneNumber": {
-                "type": "string",
-                "minLength": 5,
-                "maxLength": 15
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "Username": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 30
+                  },
+                  "Password": {
+                    "type": "string",
+                    "minLength": 6
+                  },
+                  "FullName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "Email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "BirthDay": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "Address": {
+                    "type": "string"
+                  },
+                  "Avatar": {
+                    "type": "string"
+                  },
+                  "PhoneNumber": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 15
+                  }
+                },
+                "xml": {
+                  "name": "User"
+                }
               }
-            },
-            "xml": {
-              "name": "User"
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "default": {
@@ -431,6 +434,30 @@
         "responses": {
           "default": {
             "description": "successful operation",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get me",
+        "description": "Get information my user.",
+        "operationId": "getMyUser",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {}
+          },
+          "400": {
+            "description": "Invalid username supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
             "content": {}
           }
         }
@@ -912,7 +939,7 @@
         }
       }
     },
-    "/user/check_password/{id}": {
+    "/user/check-password/{id}": {
       "post": {
         "tags": [
           "user"
@@ -954,7 +981,7 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/user/uploadAvatar/{id}": {
+    "/user/upload-avatar": {
       "put": {
         "tags": [
           "user"
@@ -962,77 +989,24 @@
         "summary": "Upload avatar of user",
         "description": "Upload avatar of user by id.",
         "operationId": "uploadAvatar",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of user",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "Avatar",
-            "in": "formData",
-            "description": "Avatar of user",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
-          "description": "Updated user object",
+          "description": "Upload user object",
           "content": {
-            "*/*": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
+                  "userId": {
                     "type": "integer"
                   },
-                  "Username": {
+                  "fileName": {
                     "type": "string",
-                    "minLength": 5,
-                    "maxLength": 30
-                  },
-                  "Password": {
-                    "type": "string",
-                    "minLength": 6
-                  },
-                  "FullName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 255
-                  },
-                  "Email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "BirthDay": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "Address": {
-                    "type": "string"
-                  },
-                  "Avatar": {
-                    "type": "string"
-                  },
-                  "PhoneNumber": {
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 15
+                    "format": "binary"
                   }
-                },
-                "xml": {
-                  "name": "User"
                 }
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "400": {
@@ -1043,8 +1017,7 @@
             "description": "User not found",
             "content": {}
           }
-        },
-        "x-codegen-request-body-name": "body"
+        }
       }
     }
   }
