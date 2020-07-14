@@ -20,6 +20,11 @@
             "$ref": "../components/user.json#/pagination"
         }
     },
+    "lazyLoad": {
+        "get": {
+            "$ref": "../components/user.json#/lazyLoad"
+        }
+    },
     "check_password": {
         "post": {
             "$ref": "../components/user.json#/checkPassword"

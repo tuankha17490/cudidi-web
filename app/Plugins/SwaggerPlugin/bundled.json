@@ -16,6 +16,15 @@
     "description": "Find out more about Cudidi",
     "url": "http://localhost:3000"
   },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
   "servers": [
     {
       "url": "http://localhost:3000"
@@ -152,7 +161,7 @@
         }
       }
     },
-    "/user/list-pagination/{offset}&{limit}": {
+    "/user/{page}&{limit}": {
       "get": {
         "tags": [
           "user"
@@ -162,18 +171,146 @@
         "operationId": "Pagination",
         "parameters": [
           {
-            "name": "token",
-            "in": "header",
-            "description": "Format: Bearer token",
+            "name": "page",
+            "in": "path",
+            "description": "The offset that needs to be fetched.",
             "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "offset",
+            "name": "limit",
             "in": "path",
-            "description": "The offset that needs to be fetched.",
+            "description": "The limit that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/user/lazy-load-list/{lastId}&{limit}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get list user",
+        "description": "Get information with lazy load to paginate.",
+        "operationId": "lazyLoad",
+        "parameters": [
+          {
+            "name": "lastId",
+            "in": "path",
+            "description": "The lastId that needs to be fetched.",
             "required": true,
             "schema": {
               "type": "string"
@@ -456,15 +593,11 @@
         "summary": "Get me",
         "description": "Get information my user.",
         "operationId": "getMyUser",
-        "parameters": {
-          "name": "token",
-          "in": "header",
-          "description": "Format: Bearer token",
-          "required": true,
-          "schema": {
-            "type": "string"
+        "security": [
+          {
+            "bearerAuth": []
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -472,6 +605,10 @@
           },
           "400": {
             "description": "Invalid username supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Access token is missing or invalid",
             "content": {}
           },
           "404": {
@@ -488,6 +625,11 @@
         ],
         "summary": "Get user by user id",
         "operationId": "getUserById",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "token",
@@ -623,6 +765,11 @@
         "summary": "Updated user",
         "description": "Update information of user by id.",
         "operationId": "updateUserById",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "token",
@@ -714,6 +861,11 @@
         "summary": "Delete user",
         "description": "Delete specify user by id.",
         "operationId": "deleleUserById",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "token",
@@ -754,16 +906,12 @@
         "summary": "Confirm password",
         "description": "Confirm passord to update the new password.",
         "operationId": "checkPassword",
-        "parameters": [
+        "security": [
           {
-            "name": "token",
-            "in": "header",
-            "description": "Format: Bearer token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
           {
             "name": "id",
             "in": "path",
@@ -805,15 +953,11 @@
         "summary": "Upload avatar of user",
         "description": "Upload avatar of user by id.",
         "operationId": "uploadAvatar",
-        "parameters": {
-          "name": "token",
-          "in": "header",
-          "description": "Format: Bearer token",
-          "required": true,
-          "schema": {
-            "type": "string"
+        "security": [
+          {
+            "bearerAuth": []
           }
-        },
+        ],
         "requestBody": {
           "description": "Upload user object",
           "content": {
@@ -836,6 +980,10 @@
         "responses": {
           "400": {
             "description": "Invalid user supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Access token is missing or invalid",
             "content": {}
           },
           "404": {

@@ -7,9 +7,9 @@ import multer from "../../../Config/multer"
 const controller = new UserController()
 const validator = new UserValidator()
 
-router.get('/',authorization,(req, res) => {
+router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
     try {
-        controller.getList().then(result => {return res.json(result)})
+        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST');
         return res.json({error: error.toString()})
@@ -23,9 +23,9 @@ router.get('/me',authorization,(req, res) => {
         return res.json({error: error.toString()})
     }
 })
-router.get('/list-pagination/:offset&:limit',authorization, (req, res) => {
+router.get('/:page&:limit',authorization, (req, res) => {
     try {
-        controller.getListOffSet(req.params.offset,req.params.limit).then(result => {return res.json({result})})
+        controller.getList(req.params.page,req.params.limit).then(result => {return res.json({result})})
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST_PAGINATION');
         return res.json({error: error.toString()})

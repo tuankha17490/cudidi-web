@@ -42,9 +42,9 @@ export default class BaseRespository {
         return this.tableQuery().patchAndFetchById(id, data)
     }
     relatedQuery(table, id) {
-        return  this.tableName.relatedQuery(table).for(id)
+        return this.tableName.relatedQuery(table).for(id)
     }
-    graphFetchedWithOffSet(offsetValue,limitValue,column = ['*'],table) {
+    graphFetched(offsetValue,limitValue,table,column = ['*']) {
         return this.listOffSet(offsetValue,limitValue,column).withGraphFetched(table);
     }
 }

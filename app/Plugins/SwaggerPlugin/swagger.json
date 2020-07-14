@@ -16,32 +16,46 @@
         "description": "Find out more about Cudidi",
         "url": "http://localhost:3000"
     },
-    "servers": [{
-        "url": "http://localhost:3000"
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
     },
-    {
-        "url": "https://localhost:3000"
-    }
+    "servers": [
+        {
+            "url": "http://localhost:3000"
+        },
+        {
+            "url": "https://localhost:3000"
+        }
     ],
-    "tags": [{
-        "name": "article",
-        "description": "Everything about your Articles"
-    },
-    {
-        "name": "user",
-        "description": "Operations about user"
-    }
+    "tags": [
+        {
+            "name": "article",
+            "description": "Everything about your Articles"
+        },
+        {
+            "name": "user",
+            "description": "Operations about user"
+        }
     ],
     "paths": {
         "/user": {
-           "$ref":"./paths/user.json#/getInformation"
+            "$ref": "./paths/user.json#/getInformation"
         },
-        "/user/list-pagination/{offset}&{limit}": {
-            "$ref":"./paths/user.json#/pagination"
+        "/user/{page}&{limit}": {
+            "$ref": "./paths/user.json#/pagination"
+        },
+        "/user/lazy-load-list/{lastId}&{limit}": {
+            "$ref": "./paths/user.json#/lazyLoad"
         },
         "/register": {
-            "$ref":"./paths/user.json#/create"
-         },
+            "$ref": "./paths/user.json#/create"
+        },
         "/login": {
             "post": {
                 "tags": [
@@ -49,24 +63,25 @@
                 ],
                 "summary": "Logs user into the system",
                 "operationId": "loginUser",
-                "parameters": [{
-                    "name": "username",
-                    "in": "query",
-                    "description": "The user name for login",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "The user name for login",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "The password for login in clear text",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
-                },
-                {
-                    "name": "password",
-                    "in": "query",
-                    "description": "The password for login in clear text",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
-                    }
-                }
                 ],
                 "responses": {
                     "200": {
@@ -122,10 +137,9 @@
                 }
             }
         },
-        "/user/me" : {
-            "$ref":"./paths/user.json#/getMe"
+        "/user/me": {
+            "$ref": "./paths/user.json#/getMe"
         },
-       
         "/user/{id}": {
             "$ref": "./paths/user.json#/specifyUser/id"
         },

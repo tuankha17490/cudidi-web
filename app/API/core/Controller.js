@@ -2,11 +2,11 @@ export default class BaseConTroller {
     constructor() {
         this.service = this.getModule();
     }
-    getList() {
-        return this.service.getList();
+    getListLazyLoad(lastId, limit) {
+        return this.service.getListLazyLoad(lastId, limit);
     }
-    getListOffSet(offset, limit) {
-        return this.service.getListOffSet(offset, limit)
+    getList(page, limit) {
+        return this.service.getList(page, limit)
     }
     create(param) {
         return this.service.create(param);

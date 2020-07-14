@@ -9,7 +9,7 @@ export default class Users extends Model {
         return 'Users'
     }
     static get idColumn() {
-        return 'id'
+        return 'ID'
     }
     // Modifiers are reusable query snippets that can be used in various places.
     static get Modifier() {

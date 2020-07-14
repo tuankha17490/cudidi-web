@@ -2,24 +2,33 @@ export default class BaseServices {
     constructor() {
         this.respository = this.getModule();
     }
-    async getList() {
+    async getListLazyLoad(lastId, limitvalue, column = ['*']) {
         try {
-            const data = await this.respository.listBy();
-            return data;
+            const data = await this.respository.graphFetched(0, limitvalue, 'roles', column).where('ID', '>', lastId)
+            return {
+                status: 200,
+                message: 'Success to load data !!!',
+                data
+            }
         } catch (error) {
-            return error.toString()
+            return {
+                status: 400,
+                message: 'Error to load list user',
+                error: error.toString()
+            }
         }
     }
-    async getListOffSet(offset, limit, column = ['*']) {
+    async getList(page, limit, column = ['*']) {
         try {
             const count = await this.respository.count();
+            const offset = (page -1) * limit
             if(offset > count) {
                 return {
                     status: 400,
                     message: 'Offset can not be greater than the number of data'
                 }
             }
-            const data = await this.respository.graphFetchedWithOffSet(offset, limit, column, 'roles')
+            const data = await this.respository.graphFetched(offset, limit, 'roles',column)
             return {
                 status: 200,
                 message: 'Success !!!',
@@ -38,7 +47,11 @@ export default class BaseServices {
             const dataFetch = await this.respository.create(param);
             return dataFetch;
         } catch (error) {
-           return error
+            return {
+                status: 400,
+                message: 'Create failed',
+                error: error.toString()
+            }
         }
     }
     async getInforById(id) {
@@ -46,7 +59,11 @@ export default class BaseServices {
             const data = await this.respository.findAt(id);
             return data;
         } catch (error) {
-            return error
+            return {
+                status: 400,
+                message: 'Get information by id failed',
+                error: error.toString()
+            }
         }
     }
     async getInformation(condition) {
@@ -54,7 +71,11 @@ export default class BaseServices {
             const data = await this.respository.getBy(condition);
             return data;
         } catch (error) {
-            return error
+            return {
+                status: 400,
+                message: 'Get information by condition failed',
+                error: error.toString()
+            }
         }
     }
     async updateById(data, id) {
@@ -62,7 +83,11 @@ export default class BaseServices {
             const result = await this.respository.updateById(data, id)
             return result
         } catch (error) {
-            return error;
+            return {
+                status: 400,
+                message: 'Update failed',
+                error: error.toString()
+            }
         }
     }
     async deleteById(id) {
@@ -70,7 +95,11 @@ export default class BaseServices {
             const result = await this.respository.deleteById(id);
             return result;
         } catch (error) {
-            return error
+            return {
+                status: 400,
+                message: 'Delete failed',
+                error: error.toString()
+            }
         }
     }
 }

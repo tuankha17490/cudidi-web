@@ -67,18 +67,62 @@
         "operationId": "Pagination",
         "parameters": [
             {
-                "name": "token",
-                "in": "header",
-                "description": "Format: Bearer token",
+                "name": "page",
+                "in": "path",
+                "description": "The offset that needs to be fetched.",
                 "required": true,
                 "schema": {
                     "type": "string"
                 }
             },
             {
-                "name": "offset",
+                "name": "limit",
                 "in": "path",
-                "description": "The offset that needs to be fetched.",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid username supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "User not found",
+                "content": {}
+            }
+        }
+    },
+    "lazyLoad": {
+        "tags": [
+            "user"
+        ],
+        "summary": "Get list user",
+        "description": "Get information with lazy load to paginate.",
+        "operationId": "lazyLoad",
+        "parameters": [
+            {
+                "name": "lastId",
+                "in": "path",
+                "description": "The lastId that needs to be fetched.",
                 "required": true,
                 "schema": {
                     "type": "string"
@@ -128,6 +172,11 @@
                 ],
                 "summary": "Get user by user id",
                 "operationId": "getUserById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "token",
@@ -181,6 +230,11 @@
                 "summary": "Updated user",
                 "description": "Update information of user by id.",
                 "operationId": "updateUserById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "token",
@@ -231,6 +285,11 @@
                 "summary": "Delete user",
                 "description": "Delete specify user by id.",
                 "operationId": "deleleUserById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "token",
@@ -271,16 +330,12 @@
         "summary": "Confirm password",
         "description": "Confirm passord to update the new password.",
         "operationId": "checkPassword",
-        "parameters": [
+        "security": [
             {
-                "name": "token",
-                "in": "header",
-                "description": "Format: Bearer token",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            },
+                "bearerAuth": []
+            }
+        ],
+        "parameters": [
             {
                 "name": "id",
                 "in": "path",
@@ -320,15 +375,11 @@
         "summary": "Upload avatar of user",
         "description": "Upload avatar of user by id.",
         "operationId": "uploadAvatar",
-        "parameters": {
-            "name": "token",
-            "in": "header",
-            "description": "Format: Bearer token",
-            "required": true,
-            "schema": {
-                "type": "string"
+        "security": [
+            {
+                "bearerAuth": []
             }
-        },
+        ],
         "requestBody": {
             "description": "Upload user object",
             "content": {
@@ -356,6 +407,10 @@
             "404": {
                 "description": "User not found",
                 "content": {}
+            },
+            "401":{
+                "description": "Access token is missing or invalid",
+                "content":{}
             }
         }
     },
@@ -366,15 +421,11 @@
         "summary": "Get me",
         "description": "Get information my user.",
         "operationId": "getMyUser",
-        "parameters": {
-            "name": "token",
-            "in": "header",
-            "description": "Format: Bearer token",
-            "required": true,
-            "schema": {
-                "type": "string"
+        "security": [
+            {
+                "bearerAuth": []
             }
-        },
+        ],
         "responses": {
             "200": {
                 "description": "successful operation",
@@ -387,6 +438,10 @@
             "404": {
                 "description": "User not found",
                 "content": {}
+            },
+            "401":{
+                "description": "Access token is missing or invalid",
+                "content":{}
             }
         }
     }

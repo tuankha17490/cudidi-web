@@ -14,8 +14,5 @@ export default class UserRespository extends BaseRespository {
     getTable() {
         return Users;
     }
-    getByMapping(condition, a,b,c) {
-        return super.getBy(condition).innerJoin(a,b,c)
-    }
     
 }

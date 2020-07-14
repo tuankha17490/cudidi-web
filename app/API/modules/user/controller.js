@@ -20,9 +20,12 @@ export default class UserController extends BaseController {
         return this.service.passwordConfirm(password, id)
     }
     getListOffSet(offset, limit) {
-        return this.service.getListOffSet(offset, limit,['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay'])
+        return this.service.getListOffSet(offset, limit, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay'])
     }
     getMe(decode) {
         return this.service.getMe(decode)
+    }
+    getListLazyLoad(lastId, limit) {
+        return this.service.getListLazyLoad(lastId, limit, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay']);
     }
 }
