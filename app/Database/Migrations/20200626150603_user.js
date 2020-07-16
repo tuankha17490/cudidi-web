@@ -13,7 +13,7 @@ export function up(knex) {
         t.timestamp('Updated_At').defaultTo(knex.fn.now());
         t.timestamp('Created_At').defaultTo(knex.fn.now());
         t.integer('Role_Id').unsigned()
-        t.foreign('Role_Id').references('Roles.ID')
+        t.foreign('Role_Id').references('Roles.ID').onDelete('CASCADE').onUpdate('CASCADE')
     })
 }
 

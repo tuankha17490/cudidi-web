@@ -3,6 +3,7 @@ import Users from "../Users/Users";
 import Followings from "./Followings";
 import Rates_Articles from "./Rate_Articles";
 import Comments from "./Comments";
+import Description_Articles from "./Description_Articles"
 export default class Articles extends Model {
     static get tableName() {
         return 'Articles'
@@ -44,6 +45,14 @@ export default class Articles extends Model {
                     to: 'Comments.Article_Id'
                 }
             },
+            description_articles: {
+                relation: Model.HasManyRelation,
+                modelClass: Description_Articles,
+                join: {
+                    from: 'Articles.ID',
+                    to: 'Description_Articles.Article_Id'
+                }
+            }
         }
     }
 }

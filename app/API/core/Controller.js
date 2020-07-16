@@ -23,4 +23,7 @@ export default class BaseConTroller {
     deleteById(id){
         return this.service.deleteById(id);
     }
+    deleteSlug(Slug) {
+        return this.service.deleteBySlug(Slug)
+    }
 }

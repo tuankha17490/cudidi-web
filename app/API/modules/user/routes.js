@@ -7,14 +7,6 @@ import multer from "../../../Config/multer"
 const controller = new UserController()
 const validator = new UserValidator()
 
-router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
-    try {
-        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_GET_USER_LIST');
-        return res.json({error: error.toString()})
-    }
-})
 router.get('/me',authorization,(req, res) => {
     try {
         controller.getMe(req.userData).then(result => {return res.json({result})})
@@ -23,6 +15,15 @@ router.get('/me',authorization,(req, res) => {
         return res.json({error: error.toString()})
     }
 })
+router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
+    try {
+        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_USER_LIST');
+        return res.json({error: error.toString()})
+    }
+})
+
 router.get('/:page&:limit',authorization, (req, res) => {
     try {
         controller.getList(req.params.page,req.params.limit).then(result => {return res.json({result})})
@@ -39,9 +40,9 @@ router.get('/:id',authorization, (req, res) => {
         return res.json({error: error.toString()})
     }
 })
-router.post('/check-password/:id', authorization, (req, res) => {
+router.post('/check-password', authorization, (req, res) => {
     try {
-        controller.passwordConfirm(req.body.Password, req.params.id).then(result => {return res.json(result)})
+        controller.passwordConfirm(req).then(result => {return res.json(result)})
     } catch (error) {
         return res.json({error: error.toString()})
     }
@@ -58,17 +59,16 @@ router.put('/:id',authorization,validator.updateTask,  (req, res) => {
 })
 router.put('/upload-avatar',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
     try {
-        controller.uploadAvatar(req.file, req.body.id).then(result => {return res.json(result)})
+        controller.uploadAvatar(req).then(result => {return res.json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPLOAD_AVATAR')
         return res.json({error: error.toString()})
     }
 })
 
-
 router.delete('/:id',authorization, (req, res) => {
     try {
-        controller.deleteById(req.params.id).then(result => {return res.json({message: 'Delete success !!!', idIsDeleted: result})})
+        controller.deleteById(req.params.id).then(result => {return res.json(result)})
     } catch (error) {
         console.log('CONTROLLER_DELETE_USER')
         return res.json({error: error.toString()})

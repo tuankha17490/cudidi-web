@@ -3,7 +3,7 @@ export function up(knex) {
         t.increments('ID');
         t.integer('Day')
         t.integer('Tour_Id').unsigned()
-        t.foreign('Tour_Id').references('Tours.ID')
+        t.foreign('Tour_Id').references('Tours.ID').onDelete('CASCADE').onUpdate('CASCADE')
         t.string('Place')
         t.string('Description')
         t.timestamp('Updated_At').defaultTo(knex.fn.now());

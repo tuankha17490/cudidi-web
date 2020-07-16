@@ -2,7 +2,8 @@
 export function up(knex) {
     return knex.schema.createTable('Tours', t=> {
         t.increments('ID');
-        t.string('NameTour')
+        t.string('Name')
+        t.string('Slug')
         t.float('AdultPrice')
         t.float('ChildrenPrice')
         t.string('Duration')

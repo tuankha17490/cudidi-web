@@ -109,9 +109,7 @@ export default class Users extends Model {
                     to: 'Articles.User_Id'
                 }
             },
-            bookings: {
-
-            }
+           
         }
     }
 }

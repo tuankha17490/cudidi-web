@@ -4,7 +4,7 @@ export function up(knex) {
         t.increments('ID');
         t.string('ContentRule')
         t.integer('Tour_Id').unsigned()
-        t.foreign('Tour_Id').references('Tours.ID')
+        t.foreign('Tour_Id').references('Tours.ID').onDelete('CASCADE').onUpdate('CASCADE')
         t.string('Note')
         t.float('PriceInclude')
         t.float('PriceNotInclude')

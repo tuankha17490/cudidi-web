@@ -59,17 +59,19 @@ export default class UserService extends BaseServices {
             return {
                 status: 201,
                 message: 'Success !!!',
-                data: dataFetch
+                data: {
+                    Username:dataFetch.Username,
+                    Password:dataFetch.Password
+                }
             };
         } catch (error) {
             return error
         }
     }
-
     async login(param) {
         const queryData = await this.respository.getBy({
             Username: param.Username
-        });
+        }).withGraphFetched('roles')
         if (queryData) {
             const checkPassWordHashed = bcrypt.compareSync(param.Password, queryData.Password)
             if (checkPassWordHashed) {
@@ -86,7 +88,8 @@ export default class UserService extends BaseServices {
                     data: {
                         Email: queryData.Email,
                         Slug: queryData.Slug,
-                        FullName: queryData.FullName
+                        FullName: queryData.FullName,
+                        Role: queryData.roles.Name
                     }
                 }
             } else {
@@ -102,11 +105,18 @@ export default class UserService extends BaseServices {
             }
         }
     }
-
     async updateUserById(req, id) {
         try {
             const data = req.body
-            console.log(data)
+            const checkUsername = await this.respository.getBy({
+                Username: data.Username
+            })
+            if(checkUsername) {
+                return {
+                    status:400,
+                    message: 'Email is registered by another people !!!'
+                }
+            }
             data.Password = bcrypt.hashSync(data.Password, 10)
             const dataFetch = await this.respository.updateAndFetchById(data, id)
             const result = {
@@ -132,8 +142,10 @@ export default class UserService extends BaseServices {
             }
         }
     }
-    async uploadAvatar(file, id) {
+    async uploadAvatar(req) {
         try {
+            const {file} = req
+            const id = req.userData.ID
             const image = await uploads(file.path, 'Images');
             const Avatar = image.url
             await this.respository.updateById({
@@ -155,8 +167,10 @@ export default class UserService extends BaseServices {
             }
         }
     }
-    async passwordConfirm(password, id) {
+    async passwordConfirm(req) {
         try {
+            const password = req.body.Password
+            const id = req.userData.ID
             const data = await this.respository.findAt(id)
             const status = bcrypt.compareSync(password, data.Password)
             if (status) {
@@ -196,4 +210,6 @@ export default class UserService extends BaseServices {
             }
         }
     }
+
+   
 }

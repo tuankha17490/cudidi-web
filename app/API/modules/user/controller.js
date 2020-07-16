@@ -13,19 +13,19 @@ export default class UserController extends BaseController {
     updateUserById(data, id) {
         return this.service.updateUserById(data, id);
     }
-    uploadAvatar(file, id) {
-        return this.service.uploadAvatar(file, id)
+    uploadAvatar(req) {
+        return this.service.uploadAvatar(req)
     }
-    passwordConfirm(password, id) {
-        return this.service.passwordConfirm(password, id)
+    passwordConfirm(req) {
+        return this.service.passwordConfirm(req)
     }
-    getListOffSet(offset, limit) {
-        return this.service.getListOffSet(offset, limit, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay'])
+    getList(page, limit) {
+        return this.service.getList(page, limit, 'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
     }
     getMe(decode) {
         return this.service.getMe(decode)
     }
     getListLazyLoad(lastId, limit) {
-        return this.service.getListLazyLoad(lastId, limit, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay']);
+        return this.service.getListLazyLoad(lastId, limit,'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug']);
     }
 }
