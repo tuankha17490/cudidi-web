@@ -48,61 +48,54 @@ export default class UserService extends BaseServices {
                 param.Role_Id = checkRole.ID
             }
             if (checkUser) {
-                return {
-                    status: 400,
-                    error: {
-                        message: 'Username is registered by another people !!!'
-                    }
-                }
+                throw 'Username is registered by another people !!!'
             }
             const dataFetch = await this.respository.create(param);
             return {
                 status: 201,
                 message: 'Success !!!',
                 data: {
-                    Username:dataFetch.Username,
-                    Password:dataFetch.Password
+                    Username: dataFetch.Username,
+                    Password: dataFetch.Password
                 }
             };
         } catch (error) {
-            return error
+            throw error.toString()
         }
     }
     async login(param) {
-        const queryData = await this.respository.getBy({
-            Username: param.Username
-        }).withGraphFetched('roles')
-        if (queryData) {
-            const checkPassWordHashed = bcrypt.compareSync(param.Password, queryData.Password)
-            if (checkPassWordHashed) {
-                const token = await jwt.sign({
-                    Username: queryData.Username,
-                    ID: queryData.ID,
-                }, process.env.JWT_KEY, {
-                    expiresIn: "2h"
-                })
-                return {
-                    status: 200,
-                    message: 'Login Success',
-                    token,
-                    data: {
-                        Email: queryData.Email,
-                        Slug: queryData.Slug,
-                        FullName: queryData.FullName,
-                        Role: queryData.roles.Name
+        try {
+            const queryData = await this.respository.getBy({
+                Username: param.Username
+            }).withGraphFetched('roles')
+            if (queryData) {
+                const checkPassWordHashed = bcrypt.compareSync(param.Password, queryData.Password)
+                if (checkPassWordHashed) {
+                    const token = await jwt.sign({
+                        Username: queryData.Username,
+                        ID: queryData.ID,
+                    }, process.env.JWT_KEY, {
+                        expiresIn: "2h"
+                    })
+                    return {
+                        status: 200,
+                        message: 'Login Success',
+                        token,
+                        data: {
+                            Email: queryData.Email,
+                            Slug: queryData.Slug,
+                            FullName: queryData.FullName,
+                            Role: queryData.roles.Name
+                        }
                     }
+                } else {
+                    throw 'Login Failed !!! Password is wrong'
                 }
             } else {
-                return {
-                    status: 400,
-                    message: 'Login Failed !!! Password is wrong'
-                }
+                throw 'Login Failed !!! Account is not registered'
             }
-        } else {
-            return {
-                status: 400,
-                message: 'Login Failed !!! Account is not registered'
-            }
+        } catch (error) {
+            throw error.toString()
         }
     }
     async updateUserById(req, id) {
@@ -111,11 +104,8 @@ export default class UserService extends BaseServices {
             const checkUsername = await this.respository.getBy({
                 Username: data.Username
             })
-            if(checkUsername) {
-                return {
-                    status:400,
-                    message: 'Email is registered by another people !!!'
-                }
+            if (checkUsername && checkUsername.ID != id) {
+                throw 'Username is registered by another people !!!'
             }
             data.Password = bcrypt.hashSync(data.Password, 10)
             const dataFetch = await this.respository.updateAndFetchById(data, id)
@@ -135,19 +125,18 @@ export default class UserService extends BaseServices {
                 data: result
             }
         } catch (error) {
-            return {
-                status: 400,
-                error: error.toString(),
-                message: 'Update information of user failed'
-            }
+            console.log('Update information of user failed');
+            throw error.toString()
         }
     }
     async uploadAvatar(req) {
         try {
-            const {file} = req
+            const {
+                file
+            } = req
             const id = req.userData.ID
             const image = await uploads(file.path, 'Images');
-            console.log('image',image);
+            console.log('image', image);
             const Avatar = image.url
             await this.respository.updateById({
                 Avatar
@@ -156,16 +145,11 @@ export default class UserService extends BaseServices {
             return {
                 status: 200,
                 message: 'Avatar of user uploaded successfully',
-                data: {
-                    Avatar
-                }
+                Avatar
             }
         } catch (error) {
-            return {
-                status: 400,
-                error: error.toString(),
-                message: 'Upload avatar failed'
-            }
+            console.log( 'Upload avatar failed')
+            throw error.toString()
         }
     }
     async passwordConfirm(req) {
@@ -180,17 +164,11 @@ export default class UserService extends BaseServices {
                     message: 'Password correct. Confirm password successful !!!'
                 }
             } else {
-                return {
-                    status: 400,
-                    message: 'Password is incorrect'
-                }
+                throw 'Password is incorrect'
             }
         } catch (error) {
-            return {
-                status: 400,
-                error: error.toString(),
-                message: 'Password confirm failed'
-            }
+            console.log( 'Password confirm failed');
+            throw error.toString()
         }
     }
     async getMe(decode) {
@@ -204,13 +182,9 @@ export default class UserService extends BaseServices {
                 data
             }
         } catch (error) {
-            return {
-                status: 400,
-                message: 'Fail to get profile user',
-                error: error.toString()
-            }
+            throw error.toString()
         }
     }
 
-   
+
 }
