@@ -8,8 +8,7 @@ export function up(knex) {
         t.float('ChildrenPrice')
         t.string('Duration')
         t.integer('NumberOfPeople')
-        t.timestamp('Updated_At').defaultTo(knex.fn.now());
-        t.timestamp('Created_At').defaultTo(knex.fn.now());
+        t.timestamps()
     })
 }
 

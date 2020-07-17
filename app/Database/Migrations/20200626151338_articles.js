@@ -12,8 +12,7 @@ export function up(knex) {
     t.integer('NumberOfPeople')
     t.float('AvgRate')
     t.integer('NumberOfVote')
-    t.timestamp('Updated_At').defaultTo(knex.fn.now());
-    t.timestamp('Created_At').defaultTo(knex.fn.now());
+    t.timestamps()
   })
 }
 

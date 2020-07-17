@@ -8,8 +8,7 @@ export function up(knex) {
         t.string('Note')
         t.float('PriceInclude')
         t.float('PriceNotInclude')
-        t.timestamp('Updated_At').defaultTo(knex.fn.now());
-        t.timestamp('Created_At').defaultTo(knex.fn.now());
+        t.timestamps()
     })
 }
 
