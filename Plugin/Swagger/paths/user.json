@@ -25,9 +25,14 @@
             "$ref": "../components/user.json#/lazyLoad"
         }
     },
-    "check_password": {
+    "checkPassword": {
         "post": {
             "$ref": "../components/user.json#/checkPassword"
+        }
+    },
+    "updatePassword": {
+        "post": {
+            "$ref": "../components/user.json#/updatePassword"
         }
     },
     "uploadAvatar": {

@@ -898,7 +898,7 @@
         }
       }
     },
-    "/user/check-password/{id}": {
+    "/user/check-password": {
       "post": {
         "tags": [
           "user"
@@ -913,14 +913,43 @@
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "ID of user",
+            "name": "Password",
+            "in": "query",
+            "description": "Password need to confirm.",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
-          },
+          }
+        ],
+        "requestBody": {
+          "description": "Check password of user",
+          "required": true,
+          "content": {}
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/update-password": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update password",
+        "description": "Update the new password.",
+        "operationId": "updatePassword",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
           {
             "name": "Password",
             "in": "query",

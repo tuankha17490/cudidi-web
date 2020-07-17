@@ -143,8 +143,11 @@
         "/user/{id}": {
             "$ref": "./paths/user.json#/specifyUser/id"
         },
-        "/user/check-password/{id}": {
-            "$ref": "./paths/user.json#/check_password"
+        "/user/check-password": {
+            "$ref": "./paths/user.json#/checkPassword"
+        },
+        "/user/update-password": {
+            "$ref": "./paths/user.json#/updatePassword"
         },
         "/user/upload-avatar": {
             "$ref": "./paths/user.json#/uploadAvatar"

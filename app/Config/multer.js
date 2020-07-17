@@ -1,5 +1,4 @@
 import multer, { diskStorage } from 'multer';
-
 const storage = diskStorage({
     destination: function (req, file, cb) {
         cb(null, './app/public/Image/')
