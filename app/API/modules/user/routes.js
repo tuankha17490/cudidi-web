@@ -47,6 +47,15 @@ router.post('/check-password', authorization, (req, res) => {
         return res.json({error: error.toString()})
     }
 })
+router.put('/upload-avatar',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
+    try {
+        controller.uploadAvatar(req).then(result => {return res.json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_UPLOAD_AVATAR')
+        return res.json({error: error.toString()})
+    }
+})
+
 
 router.put('/:id',authorization,validator.updateTask,  (req, res) => {
     try {
@@ -56,14 +65,6 @@ router.put('/:id',authorization,validator.updateTask,  (req, res) => {
         return res.json({error: error.toString()})
     }
    
-})
-router.put('/upload-avatar',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
-    try {
-        controller.uploadAvatar(req).then(result => {return res.json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_UPLOAD_AVATAR')
-        return res.json({error: error.toString()})
-    }
 })
 
 router.delete('/:id',authorization, (req, res) => {

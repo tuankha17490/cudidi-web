@@ -147,6 +147,7 @@ export default class UserService extends BaseServices {
             const {file} = req
             const id = req.userData.ID
             const image = await uploads(file.path, 'Images');
+            console.log('image',image);
             const Avatar = image.url
             await this.respository.updateById({
                 Avatar
