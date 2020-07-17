@@ -20,9 +20,9 @@ export default async (req, res, next) => {
                 message: 'Format token is wrong !!!',
             })
         }
-        
     } catch (error) {
         return res.status(401).json({
+            status: 401,
             message: 'Authorize failed !!!',
             error
         })

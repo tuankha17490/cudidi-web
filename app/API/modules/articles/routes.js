@@ -1,12 +1,12 @@
 import express from "express"
 const router = express.Router();
-import authorization from "../../../Middleware/check_authorize"
+import authorization from "../../../Middleware/Authorization"
 import ArticleController from "./controller"
 const controller = new ArticleController()
 
 router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
     try {
-        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.json(result)})
+        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST');
         return res.json({error: error.toString()})
@@ -15,7 +15,7 @@ router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
 
 router.get('/:page&:limit',authorization, (req, res) => {
     try {
-        controller.getList(req.params.page,req.params.limit).then(result => {return res.json(result)})
+        controller.getList(req.params.page,req.params.limit).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST_PAGINATION');
         return res.json({error: error.toString()})
@@ -24,7 +24,7 @@ router.get('/:page&:limit',authorization, (req, res) => {
 
 router.post('/create',authorization, (req, res) => {
     try {
-        controller.create(req).then(result => {return res.json(result)})
+        controller.create(req).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         console.log('CONTROLLER_CREATE_ARTICLE');
         return res.json({error: error.toString()})
@@ -33,7 +33,7 @@ router.post('/create',authorization, (req, res) => {
 
 router.delete('/:id',authorization, (req, res) => {
     try {
-        controller.deleteBySlug(req.params.id).then(result => {return res.json(result)})
+        controller.deleteBySlug(req.params.id).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         console.log('CONTROLLER_DELETE_USER')
         return res.json({error: error.toString()})

@@ -1,7 +1,7 @@
 import express from "express"
 const router = express.Router();
 import UserController from "./controller"
-import authorization from "../../../Middleware/check_authorize"
+import authorization from "../../../Middleware/Authorization"
 import UserValidator from "./validator"
 import multer from "../../../Config/multer"
 const controller = new UserController()
@@ -9,7 +9,7 @@ const validator = new UserValidator()
 
 router.get('/me',authorization,(req, res) => {
     try {
-        controller.getMe(req.userData).then(result => {return res.status(200).json(result)})
+        controller.getMe(req.userData).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_MY_USER');
         return res.status(400).json({error})
@@ -17,7 +17,7 @@ router.get('/me',authorization,(req, res) => {
 })
 router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
     try {
-        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(200).json(result)})
+        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST');
         return res.status(400).json({error})
@@ -26,7 +26,7 @@ router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
 
 router.get('/:page&:limit',authorization, (req, res) => {
     try {
-        controller.getList(req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
+        controller.getList(req.params.page,req.params.limit).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST_PAGINATION');
         return res.status(400).json({error})
@@ -34,7 +34,7 @@ router.get('/:page&:limit',authorization, (req, res) => {
 })
 router.get('/:id',authorization, (req, res) => {
     try {
-        controller.getInforById(req.params.id).then(result => {return res.status(200).json(result)});
+        controller.getInforById(req.params.id).then(result => {return res.status(result.status).json(result)});
     } catch (error) {
         console.log('CONTROLLER_GET_INFORMATION_OF_USER')
         return res.status(400).json({error})
@@ -42,14 +42,21 @@ router.get('/:id',authorization, (req, res) => {
 })
 router.post('/check-password', authorization, (req, res) => {
     try {
-        controller.passwordConfirm(req).then(result => {return res.status(201).json(result)})
+        controller.passwordConfirm(req).then(result => {return res.status(result.status).json(result)})
+    } catch (error) {
+        return res.status(400).json({error})
+    }
+})
+router.put('/update-password', authorization, (req, res) => {
+    try {
+        controller.updatePassword(req).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         return res.status(400).json({error})
     }
 })
 router.put('/upload-avatar',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
     try {
-        controller.uploadAvatar(req).then(result => {return res.status(201).json(result)})
+        controller.uploadAvatar(req).then(result => {return res.status(result.status).json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPLOAD_AVATAR')
         return res.status(400).json({error})

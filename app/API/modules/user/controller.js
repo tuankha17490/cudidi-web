@@ -28,4 +28,7 @@ export default class UserController extends BaseController {
     getListLazyLoad(lastId, limit) {
         return this.service.getListLazyLoad(lastId, limit,'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug']);
     }
+    updatePassword(req) {
+        return this.service.updatePassword(req)
+    }
 }

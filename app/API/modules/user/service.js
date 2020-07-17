@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import process from "process"
 import fs from "fs"
+import response from "../../../Util/Response"
 import {
     uploads
 } from "../../../Config/cloundinary"
@@ -50,17 +51,10 @@ export default class UserService extends BaseServices {
             if (checkUser) {
                 throw 'Username is registered by another people !!!'
             }
-            const dataFetch = await this.respository.create(param);
-            return {
-                status: 201,
-                message: 'Success !!!',
-                data: {
-                    Username: dataFetch.Username,
-                    Password: dataFetch.Password
-                }
-            };
+            await this.respository.create(param);
+            return response(201, 'Success !!!');
         } catch (error) {
-            throw error.toString()
+            return response(400,error.toString())
         }
     }
     async login(param) {
@@ -81,12 +75,10 @@ export default class UserService extends BaseServices {
                         status: 200,
                         message: 'Login Success',
                         token,
-                        data: {
-                            Email: queryData.Email,
-                            Slug: queryData.Slug,
-                            FullName: queryData.FullName,
-                            Role: queryData.roles.Name
-                        }
+                        Email: queryData.Email,
+                        Slug: queryData.Slug,
+                        FullName: queryData.FullName,
+                        Role: queryData.roles.Name
                     }
                 } else {
                     throw 'Login Failed !!! Password is wrong'
@@ -95,7 +87,7 @@ export default class UserService extends BaseServices {
                 throw 'Login Failed !!! Account is not registered'
             }
         } catch (error) {
-            throw error.toString()
+            return response(400,error.toString())
         }
     }
     async updateUserById(req, id) {
@@ -104,8 +96,8 @@ export default class UserService extends BaseServices {
             const checkUsername = await this.respository.getBy({
                 Username: data.Username
             })
-            if (checkUsername && checkUsername.ID != id) {
-                throw 'Username is registered by another people !!!'
+            if (checkUsername) {
+                throw 'Email is registered by another people !!!'
             }
             data.Password = bcrypt.hashSync(data.Password, 10)
             const dataFetch = await this.respository.updateAndFetchById(data, id)
@@ -119,14 +111,9 @@ export default class UserService extends BaseServices {
                 Slug: dataFetch.Slug,
                 Address: dataFetch.Address
             }
-            return {
-                status: 200,
-                message: 'User uploaded successfully',
-                data: result
-            }
+            return response(200,'User uploaded successfully',result)
         } catch (error) {
-            console.log('Update information of user failed');
-            throw error.toString()
+            return response(400,error.toString())
         }
     }
     async uploadAvatar(req) {
@@ -142,14 +129,10 @@ export default class UserService extends BaseServices {
                 Avatar
             }, id)
             await fs.unlinkSync(file.path)
-            return {
-                status: 200,
-                message: 'Avatar of user uploaded successfully',
-                Avatar
-            }
+            return response(200,'Avatar of user uploaded successfully',Avatar)
+           
         } catch (error) {
-            console.log( 'Upload avatar failed')
-            throw error.toString()
+            return response(400, error.toString())
         }
     }
     async passwordConfirm(req) {
@@ -159,16 +142,12 @@ export default class UserService extends BaseServices {
             const data = await this.respository.findAt(id)
             const status = bcrypt.compareSync(password, data.Password)
             if (status) {
-                return {
-                    status: 200,
-                    message: 'Password correct. Confirm password successful !!!'
-                }
+                return response(200,'Password correct. Confirm password successful !!!')
             } else {
                 throw 'Password is incorrect'
             }
         } catch (error) {
-            console.log( 'Password confirm failed');
-            throw error.toString()
+            return response(400, error.toString())
         }
     }
     async getMe(decode) {
@@ -176,15 +155,26 @@ export default class UserService extends BaseServices {
             const data = await this.respository
                 .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
                 .withGraphFetched('roles')
-            return {
-                status: 200,
-                message: 'Success !!!',
-                data
-            }
+                return response(200, 'Success !!!',data)
         } catch (error) {
-            throw error.toString()
+            return response(400, error.toString())
         }
     }
-
+    async updatePassword(req) {
+        try {
+            const id = req.userData.ID
+            const {oldPassword} = req.body
+            const {newPassword} = req.body
+            const data = await this.respository.findAt(id)
+            if(bcrypt.compareSync(oldPassword, data.Password)) {
+                const Password = bcrypt.hashSync(newPassword, 10)
+                const updateFetched = await this.respository.updateAndFetchById({Password}, id)
+                return response(200, 'Update Success !!!', updateFetched)
+            }
+            throw 'Old password incorrect !!! '
+        } catch (error) {
+            return response(400, error.toString())
+        }
+    }
 
 }
