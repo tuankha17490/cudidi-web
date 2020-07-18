@@ -31,4 +31,7 @@ export default class UserController extends BaseController {
     updatePassword(req) {
         return this.service.updatePassword(req)
     }
+    search(data) {
+        return this.service.search(data, 'Username',['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
+    }
 }

@@ -15,6 +15,14 @@ router.get('/me',authorization,(req, res) => {
         return res.status(400).json({error})
     }
 })
+router.get('/search', (req, res) => {
+    try {
+        controller.search(req.query.data).then(result => {return res.status(result.status).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_SEARCH_USER');
+        return res.status(400).json({error})
+    }
+})
 router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
     try {
         controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(result.status).json(result)})

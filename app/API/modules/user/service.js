@@ -96,8 +96,8 @@ export default class UserService extends BaseServices {
             const checkUsername = await this.respository.getBy({
                 Username: data.Username
             })
-            if (checkUsername) {
-                throw 'Email is registered by another people !!!'
+            if (checkUsername && id != checkUsername.ID) {
+                throw 'Username is registered by another people !!!'
             }
             data.Password = bcrypt.hashSync(data.Password, 10)
             const dataFetch = await this.respository.updateAndFetchById(data, id)

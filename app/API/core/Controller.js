@@ -26,4 +26,7 @@ export default class BaseConTroller {
     deleteSlug(Slug) {
         return this.service.deleteBySlug(Slug)
     }
+    search(data) {
+        return this.service.search(data)
+    }
 }

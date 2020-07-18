@@ -29,6 +29,14 @@ export default class BaseServices {
             return response(400, error.toString())
         }
     }
+    async search(query,searchBy, column = ['*']) {
+        try {
+            const data = await this.respository.listBy(column).where(searchBy, 'like', `%${query}%`)
+            return response(200,'Success !!!',data)
+        } catch (error) {
+            return response(400, error.toString())
+        }
+    }
     async create(param) {
         try {
             const dataFetch = await this.respository.create(param);
