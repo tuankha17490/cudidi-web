@@ -29,10 +29,16 @@ export default class BaseServices {
             return response(400, error.toString())
         }
     }
-    async search(query,searchBy, column = ['*']) {
+    async search(query,searchBy = [], column = ['*']) {
         try {
-            const data = await this.respository.listBy(column).where(searchBy, 'like', `%${query}%`)
-            return response(200,'Success !!!',data)
+            for(let i = 0; i < searchBy.length; i ++) {
+                const data = await this.respository.listBy(column).where(searchBy[i], 'like', `%${query}%`)
+                if(data != []) {
+                    console.log(data);
+                    return response(200,'Success !!!',data)
+                }
+            }
+            return response(200,'Success !!!')
         } catch (error) {
             return response(400, error.toString())
         }
