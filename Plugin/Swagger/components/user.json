@@ -373,7 +373,16 @@
         ],
         "parameters": [
             {
-                "name": "Password",
+                "name": "oldPassword",
+                "in": "query",
+                "description": "Password need to confirm.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "newPassword",
                 "in": "query",
                 "description": "Password need to confirm.",
                 "required": true,
@@ -414,10 +423,7 @@
                     "schema": {
                         "type": "object",
                         "properties": {
-                            "userId": {
-                                "type": "integer"
-                            },
-                            "fileName": {
+                            "avatar": {
                                 "type": "string",
                                 "format": "binary"
                             }
