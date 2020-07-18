@@ -128,7 +128,7 @@ export default class UserService extends BaseServices {
                 file
             } = req
             const id = req.userData.ID
-            const image = await uploads(file.path, 'Images');
+            const image = await uploads(file.path, req.userData.Username);
             console.log('image', image);
             const Avatar = image.url
             await this.respository.updateById({
@@ -136,7 +136,6 @@ export default class UserService extends BaseServices {
             }, id)
             await fs.unlinkSync(file.path)
             return response(200,'Avatar of user uploaded successfully',Avatar)
-           
         } catch (error) {
             return response(400, error.toString())
         }
