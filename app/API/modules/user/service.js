@@ -63,8 +63,9 @@ export default class UserService extends BaseServices {
                 Username: param.Username
             }).withGraphFetched('roles')
             if (queryData) {
-                const checkPassWordHashed = bcrypt.compareSync(param.Password, queryData.Password)
-                if (checkPassWordHashed) {
+                const checkPasswordHashed = bcrypt.compareSync(param.Password, queryData.Password)
+                console.log(checkPasswordHashed);
+                if (checkPasswordHashed) {
                     const token = await jwt.sign({
                         Username: queryData.Username,
                         ID: queryData.ID,
@@ -114,7 +115,9 @@ export default class UserService extends BaseServices {
                 }
                 return response(200,'User uploaded successfully',result)
             }
-            throw 'Password confirm incorrect'
+            else {
+                throw 'Password confirm is wrong'
+            }
         } catch (error) {
             return response(400,error.toString())
         }
