@@ -68,6 +68,7 @@ export default class UserService extends BaseServices {
                     const token = await jwt.sign({
                         Username: queryData.Username,
                         ID: queryData.ID,
+                        Password: queryData.Password
                     }, process.env.JWT_KEY, {
                         expiresIn: "2h"
                     })
@@ -99,19 +100,21 @@ export default class UserService extends BaseServices {
             if (checkUsername && id != checkUsername.ID) {
                 throw 'Username is registered by another people !!!'
             }
-            data.Password = bcrypt.hashSync(data.Password, 10)
-            const dataFetch = await this.respository.updateAndFetchById(data, id)
-            const result = {
-                Username: dataFetch.Username,
-                FullName: dataFetch.FullName,
-                Email: dataFetch.Email,
-                ID: dataFetch.ID,
-                PhoneNumber: dataFetch.PhoneNumber,
-                BirthDay: dataFetch.BirthDay,
-                Slug: dataFetch.Slug,
-                Address: dataFetch.Address
+            if(bcrypt.compareSync(data.passwordConfirm, req.userData.Password)){
+                const dataFetch = await this.respository.updateAndFetchById(data, id)
+                const result = {
+                    Username: dataFetch.Username,
+                    FullName: dataFetch.FullName,
+                    Email: dataFetch.Email,
+                    ID: dataFetch.ID,
+                    PhoneNumber: dataFetch.PhoneNumber,
+                    BirthDay: dataFetch.BirthDay,
+                    Slug: dataFetch.Slug,
+                    Address: dataFetch.Address
+                }
+                return response(200,'User uploaded successfully',result)
             }
-            return response(200,'User uploaded successfully',result)
+            throw 'Password confirm incorrect'
         } catch (error) {
             return response(400,error.toString())
         }
