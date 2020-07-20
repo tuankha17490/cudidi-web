@@ -7,7 +7,8 @@ module.exports = {
         host: process.env.HOST,
         user: process.env.User,
         password: process.env.PASSWORD,
-        database: process.env.DATABASE
+        database: process.env.DATABASE,
+        charset  : 'utf8'
       },
       pool: { min: 0, max: 7 },
       debug: true,

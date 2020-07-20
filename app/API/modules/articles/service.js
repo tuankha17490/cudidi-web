@@ -6,7 +6,7 @@ import process from "process"
 import fs from "fs"
 import {
     uploads
-} from "../../../Config/cloundinary"
+} from "../../../Services/cloundinary"
 dotenv.config({
     silent: process.env.NODE_ENV === 'production'
 });

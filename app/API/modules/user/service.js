@@ -8,9 +8,10 @@ import dotenv from "dotenv"
 import process from "process"
 import fs from "fs"
 import response from "../../../Util/Response"
+import convertString from "../../../Util/ExcuteString"
 import {
     uploads
-} from "../../../Config/cloundinary"
+} from "../../../Services/cloundinary"
 dotenv.config({
     silent: process.env.NODE_ENV === 'production'
 });
@@ -31,6 +32,9 @@ export default class UserService extends BaseServices {
             const checkUser = await this.respository.getBy({
                 Username: param.Username
             })
+            if (checkUser) {
+                return response(403,'Username is registered by another people !!!')
+            }
             const Slug = getSlug(param.FullName + ' ' + Date.now(), {
                 replacement: '.',
                 lower: true
@@ -48,9 +52,7 @@ export default class UserService extends BaseServices {
             } else {
                 param.Role_Id = checkRole.ID
             }
-            if (checkUser) {
-                throw 'Username is registered by another people !!!'
-            }
+           
             await this.respository.create(param);
             return response(201, 'Success !!!');
         } catch (error) {
@@ -59,6 +61,7 @@ export default class UserService extends BaseServices {
     }
     async login(param) {
         try {
+           
             const queryData = await this.respository.getBy({
                 Username: param.Username
             }).withGraphFetched('roles')
@@ -99,7 +102,7 @@ export default class UserService extends BaseServices {
                 Username: data.Username
             })
             if (checkUsername && id != checkUsername.ID) {
-                throw 'Username is registered by another people !!!'
+                return response(403, 'Username is registered by another people !!!')
             }
             if(bcrypt.compareSync(data.passwordConfirm, req.userData.Password)){
                 const dataFetch = await this.respository.updateAndFetchById(data, id)
@@ -179,6 +182,43 @@ export default class UserService extends BaseServices {
             throw 'Old password incorrect !!! '
         } catch (error) {
             return response(400, error.toString())
+        }
+    }
+    async loginByGoogle(accessToken, refreshToken ,profile, done)  {
+        try {
+            if(profile) {
+                const checkGoogleID = await UserRespository.Instance().getBy({GoogleID: profile.id})
+                let result = 0
+                if(!checkGoogleID) {
+                    const data = {}
+                    data.GoogleID = profile.id
+                    data.Email = profile.emails[0].value
+                    data.Avatar = profile.photos[0].value
+                    data.FullName = profile.name.familyName + ' '+ profile.name.givenName
+                    const roleID = await RoleRespository.Instance().getBy({Name:'Client'}, ['ID'])
+                    console.log('role id ------>', roleID);
+                    data.Role_Id = roleID.ID
+                    const Slug = getSlug(data.FullName + ' ' + Date.now(), {
+                        replacement: '.',
+                        lower: true,
+                        locale: 'vi'    
+                    })
+                    data.Slug = Slug
+                    data.FullName = convertString(data.FullName)
+                    console.log('full name', data.FullName);
+                    result = await UserRespository.Instance().create(data)
+                }
+                const token = await jwt.sign({
+                    Email: result.Email,
+                    ID: result.ID,
+                }, process.env.JWT_KEY, {
+                    expiresIn: "2h"
+                })
+                return done(null,response(200, 'Login by google success !!!', token))
+            }
+        } catch (error) {
+            console.log('error --->', error);
+            return done(response(error.status,error.message))
         }
     }
 

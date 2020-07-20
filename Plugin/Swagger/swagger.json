@@ -137,14 +137,57 @@
                 }
             }
         },
+        "/login/google": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Logs user into the system",
+                "operationId": "loginByGoogle",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "headers": {
+                            "X-Rate-Limit": {
+                                "description": "calls per hour allowed by the user",
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            },
+                            "X-Expires-After": {
+                                "description": "date in UTC when token expires",
+                                "schema": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid username/password supplied",
+                        "content": {}
+                    }
+                }
+            }
+        },
         "/user/me": {
             "$ref": "./paths/user.json#/getMe"
         },
         "/user/{id}": {
             "$ref": "./paths/user.json#/specifyUser/id"
-        },
-        "/user/check-password": {
-            "$ref": "./paths/user.json#/checkPassword"
         },
         "/user/update-password": {
             "$ref": "./paths/user.json#/updatePassword"

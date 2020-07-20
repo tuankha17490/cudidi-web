@@ -5,13 +5,14 @@ import { urlencoded,json} from 'body-parser';
 import swaggerUi from "swagger-ui-express"
 import swaggerDocs from "../Plugin/Swagger/bundled.json"
 import initRoute from "./Config/routes"
+import passport from "./Services/passport"
 import mkdirp from "mkdirp"
 mkdirp('./app/public/Image');
 app.use('/documentations', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 app.use(morgan('dev'));
 app.use(urlencoded({extended: false}));
 app.use(json());
-
+app.use(passport.initialize())
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');

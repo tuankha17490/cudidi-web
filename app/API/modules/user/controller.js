@@ -34,4 +34,5 @@ export default class UserController extends BaseController {
     search(data) {
         return this.service.search(data, ['Username', 'FullName', 'Email', 'PhoneNumber'],['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
     }
+   
 }

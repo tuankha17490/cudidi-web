@@ -9,6 +9,7 @@ export function up(knex) {
     t.string('Slug')
     t.string('Duration')
     t.float('Price')
+    t.string('Description')
     t.integer('NumberOfPeople')
     t.float('AvgRate')
     t.integer('NumberOfVote')

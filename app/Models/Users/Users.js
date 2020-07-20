@@ -23,7 +23,7 @@ export default class Users extends Model {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['Username', 'Password'],
+            // required: ['Username', 'Password'],
             properties: {
                 id: {
                     type: 'integer'
