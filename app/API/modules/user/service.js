@@ -217,8 +217,9 @@ export default class UserService extends BaseServices {
                 return done(null,response(200, 'Login by google success !!!', token))
             }
         } catch (error) {
+            console.log('error status', error.status);
             console.log('error --->', error);
-            return done(response(error.status,error.message))
+            return done(response(error.errno,error.message))
         }
     }
 
