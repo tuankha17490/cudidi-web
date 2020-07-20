@@ -31,7 +31,7 @@
         }
     },
     "updatePassword": {
-        "post": {
+        "put": {
             "$ref": "../components/user.json#/updatePassword"
         }
     },
