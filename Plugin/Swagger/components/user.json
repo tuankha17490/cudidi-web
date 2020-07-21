@@ -25,13 +25,82 @@
         },
         "x-codegen-request-body-name": "body"
     },
-    "get": {
+    "updateInformation": {
         "tags": [
             "user"
         ],
-        "summary": "Get list user",
-        "description": "Get information all user.",
-        "operationId": "getListUser",
+        "summary": "Updated user",
+        "description": "Update information of your user.",
+        "operationId": "updateUser",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "requestBody": {
+            "description": "Updated user object",
+            "content": {
+                "*/*": {
+                    "schema": {
+                        "$ref": "../schemas/user.json#/User"
+                    }
+                }
+            },
+            "required": true
+        },
+        "responses": {
+            "400": {
+                "description": "Invalid user supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "User not found",
+                "content": {}
+            }
+        },
+        "x-codegen-request-body-name": "body"
+    },
+    "search": {
+        "tags": [
+            "user"
+        ],
+        "summary": "Search user",
+        "description": "Search user follow name and email.",
+        "operationId": "searchUser",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "parameters": [
+            {
+                "name": "search field",
+                "in": "query",
+                "description": "Filter name and email",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "data",
+                "in": "query",
+                "description": "The data that needs to be searched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
         "responses": {
             "200": {
                 "description": "successful operation",
@@ -47,10 +116,6 @@
                         }
                     }
                 }
-            },
-            "400": {
-                "description": "Invalid username supplied",
-                "content": {}
             },
             "404": {
                 "description": "User not found",

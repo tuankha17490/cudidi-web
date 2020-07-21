@@ -1035,6 +1035,231 @@
           }
         }
       }
+    },
+    "/user/update-information": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updated user",
+        "description": "Update information of your user.",
+        "operationId": "updateUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Updated user object",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "Username": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 30
+                  },
+                  "Password": {
+                    "type": "string",
+                    "minLength": 6
+                  },
+                  "FullName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "Email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "BirthDay": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "Address": {
+                    "type": "string"
+                  },
+                  "Avatar": {
+                    "type": "string"
+                  },
+                  "PhoneNumber": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 15
+                  }
+                },
+                "xml": {
+                  "name": "User"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/search/{limit}?data={}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Search user",
+        "description": "Search user follow name and email.",
+        "operationId": "searchUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search field",
+            "in": "query",
+            "description": "Filter name and email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "The limit that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data",
+            "in": "query",
+            "description": "The data that needs to be searched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
     }
   }
 }

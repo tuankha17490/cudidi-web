@@ -5,11 +5,6 @@
         }
        
     },
-    "getInformation": {
-        "get": {
-            "$ref": "../components/user.json#/get"
-        }
-    },
     "getMe": {
         "get": {
             "$ref": "../components/user.json#/getMe"
@@ -52,6 +47,16 @@
             "delete": {
                 "$ref": "../components/user.json#/specifyUser/id/delete"
             }
+        }
+    },
+    "search": {
+        "get": {
+            "$ref":"../components/user.json#/search"
+        }
+    },
+    "updateInformation": {
+        "put": {
+            "$ref": "../components/user.json#/updateInformation"
         }
     }
 }
