@@ -15,7 +15,7 @@ export default class UserValidator extends BaseValidator {
             if(checkPassword != true) return checkPassword;
             next()
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 error: error.toString()
             })
@@ -39,7 +39,7 @@ export default class UserValidator extends BaseValidator {
             if(checkAddress != true) return checkAddress;
             next()
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 error: error.toString(),
             })
@@ -51,7 +51,19 @@ export default class UserValidator extends BaseValidator {
             if(checkAvatar != true) return checkAvatar;
             next()
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
+                status: 400,
+                error: error.toString()
+            })
+        }
+    }
+    login(req, res, next) {
+        try {
+            const checkUsername = super.usernameValidate(req, res)
+            if(checkUsername != true) return checkUsername;
+            next()
+        } catch (error) {
+            return res.status(200).json({
                 status: 400,
                 error: error.toString()
             })

@@ -29,12 +29,11 @@ export default class BaseServices {
             return response(400, error.toString())
         }
     }
-    async search(query,searchBy = [], column = ['*']) {
+    async search(query, limit, searchBy = [], column = ['*']) {
         try {
             for(let i = 0; i < searchBy.length; i ++) {
-                const data = await this.respository.listBy(column).where(searchBy[i], 'like', `%${query}%`)
+                const data = await this.respository.graphFetched(0,limit,'roles',column).where(searchBy[i], 'like', `%${query}%`)
                 if(data.length != 0) {
-                    console.log(data);
                     return response(200,'Success !!!',data)
                 }
             }

@@ -3,14 +3,14 @@ export default class BaseValidator {
     emailValidate(req, res) {
         try {
             if (!validator.isEmail(req.body.Email)) {
-                return res.status(400).json({
+                return res.status(200).json({
                     status: 400,
                     error: 'Email is invalid'
                 })
             }
             return true
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 message: 'Email error',
                 error: error.toString()
@@ -23,7 +23,7 @@ export default class BaseValidator {
                     min: 5,
                     max: 30
                 })) {
-                return res.status(400).json({
+                return res.status(200).json({
                     status: 400,
                     error: 'Username is invalid',
                     message: 'Username is too long or too short'
@@ -31,7 +31,7 @@ export default class BaseValidator {
             }
             return true
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 message: 'Username error',
                 error: error.toString()
@@ -44,7 +44,7 @@ export default class BaseValidator {
                     min: 1,
                     max: 255
                 })) {
-                return res.status(400).json({
+                return res.status(200).json({
                     status: 400,
                     error: 'Fullname is invalid',
                     message: 'Fullname is too long or null'
@@ -52,7 +52,7 @@ export default class BaseValidator {
             }
             return true
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 message: 'Fullname error',
                 error: error.toString()
@@ -65,7 +65,7 @@ export default class BaseValidator {
             if (!validator.isLength(req.body.Password, {
                     min: 6
                 }) || !validator.isAlphanumeric(req.body.Password)) {
-                return res.status(400).json({
+                return res.status(200).json({
                     status: 400,
                     error: 'Paswword is invalid',
                     message: 'Password is greater than 6 character and only number,alphabet'
@@ -73,7 +73,7 @@ export default class BaseValidator {
             }
             return true
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 message: 'Password error',
                 error: error.toString()
@@ -84,7 +84,7 @@ export default class BaseValidator {
         try {
             if (req.body.PhoneNumber != undefined) {
                 if (!validator.isMobilePhone(req.body.PhoneNumber, ['vi-VN', 'en-US'])) {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: 400,
                         error: 'Phone number is invalid'
                     })
@@ -92,7 +92,7 @@ export default class BaseValidator {
             }
             return true
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 message: 'Phone number error',
                 error: error.toString()
@@ -103,7 +103,7 @@ export default class BaseValidator {
         try {
             if (req.body.BirthDday != undefined) {
                 if (!validator.isDate(req.body.BirthDday)) {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: 400,
                         error: 'Bitrhday is invalid'
                     })
@@ -111,7 +111,7 @@ export default class BaseValidator {
             }
             return true
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 message: 'Birthday error',
                 error: error.toString()
@@ -126,7 +126,7 @@ export default class BaseValidator {
                         max: 255
                     })) {
 
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: 400,
                         error: 'Address is invalid'
                     })
@@ -135,7 +135,7 @@ export default class BaseValidator {
             }
             return true
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 message: 'Address error',
                 error: error.toString()
@@ -146,7 +146,7 @@ export default class BaseValidator {
         try {
             if (req.file == undefined) {
                 // if (!validator.isURL(req.file)) {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: 400,
                         error: 'Avatar is invalid'
                     })
@@ -155,7 +155,7 @@ export default class BaseValidator {
             }
             return true
         } catch (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: 400,
                 message: 'Avatar error',
                 error: error.toString()

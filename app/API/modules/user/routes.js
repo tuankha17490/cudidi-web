@@ -12,15 +12,15 @@ router.get('/me',authorization,(req, res) => {
         controller.getMe(req.userData).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_MY_USER');
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
-router.get('/search', (req, res) => {
+router.get('/search/:limit',authorization, (req, res) => {
     try {
-        controller.search(req.query.data).then(result => {return res.status(200).json(result)})
+        controller.search(req.query.data,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_SEARCH_USER');
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
@@ -28,7 +28,7 @@ router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
         controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST');
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 
@@ -37,7 +37,7 @@ router.get('/:page&:limit',authorization, (req, res) => {
         controller.getList(req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST_PAGINATION');
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 router.get('/:id',authorization, (req, res) => {
@@ -45,21 +45,21 @@ router.get('/:id',authorization, (req, res) => {
         controller.getInforById(req.params.id).then(result => {return res.status(200).json(result)});
     } catch (error) {
         console.log('CONTROLLER_GET_INFORMATION_OF_USER')
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 router.post('/check-password', authorization, (req, res) => {
     try {
         controller.passwordConfirm(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 router.put('/update-password', authorization, (req, res) => {
     try {
         controller.updatePassword(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 router.put('/upload-avatar',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
@@ -67,27 +67,33 @@ router.put('/upload-avatar',authorization,multer.single('avatar'),validator.uplo
         controller.uploadAvatar(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPLOAD_AVATAR')
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 
-
+router.put('/update-information',authorization,validator.updateTask, (req, res) => {
+    try {
+        controller.updateInformation(req).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_UPDATE_USER')
+        return res.status(200).json(error)
+    }
+})
 router.put('/:id',authorization,validator.updateTask,  (req, res) => {
     try {
         controller.updateUserById(req, req.params.id).then(result => {return res.status(201).json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPDATE_USER')
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
    
 })
-
 router.delete('/:id',authorization, (req, res) => {
     try {
         controller.deleteById(req.params.id).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_DELETE_USER')
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 

@@ -33,7 +33,7 @@ export default class UserService extends BaseServices {
                 Username: param.Username
             })
             if (checkUser) {
-                return response(403,'Username is registered by another people !!!')
+                return response(403, 'Username is registered by another people !!!')
             }
             const Slug = getSlug(param.FullName + ' ' + Date.now(), {
                 replacement: '.',
@@ -52,16 +52,15 @@ export default class UserService extends BaseServices {
             } else {
                 param.Role_Id = checkRole.ID
             }
-           
+
             await this.respository.create(param);
             return response(201, 'Success !!!');
         } catch (error) {
-            return response(400,error.toString())
+            return response(400, error.toString())
         }
     }
     async login(param) {
         try {
-           
             const queryData = await this.respository.getBy({
                 Username: param.Username
             }).withGraphFetched('roles')
@@ -92,7 +91,7 @@ export default class UserService extends BaseServices {
                 throw 'Login Failed !!! Account is not registered'
             }
         } catch (error) {
-            return response(400,error.toString())
+            return response(400, error.toString())
         }
     }
     async updateUserById(req, id) {
@@ -104,25 +103,20 @@ export default class UserService extends BaseServices {
             if (checkUsername && id != checkUsername.ID) {
                 return response(403, 'Username is registered by another people !!!')
             }
-            if(bcrypt.compareSync(data.passwordConfirm, req.userData.Password)){
-                const dataFetch = await this.respository.updateAndFetchById(data, id)
-                const result = {
-                    Username: dataFetch.Username,
-                    FullName: dataFetch.FullName,
-                    Email: dataFetch.Email,
-                    ID: dataFetch.ID,
-                    PhoneNumber: dataFetch.PhoneNumber,
-                    BirthDay: dataFetch.BirthDay,
-                    Slug: dataFetch.Slug,
-                    Address: dataFetch.Address
-                }
-                return response(200,'User uploaded successfully',result)
+            const dataFetch = await this.respository.updateAndFetchById(data, id)
+            const result = {
+                Username: dataFetch.Username,
+                FullName: dataFetch.FullName,
+                Email: dataFetch.Email,
+                ID: dataFetch.ID,
+                PhoneNumber: dataFetch.PhoneNumber,
+                BirthDay: dataFetch.BirthDay,
+                Slug: dataFetch.Slug,
+                Address: dataFetch.Address
             }
-            else {
-                throw 'Password confirm is wrong'
-            }
+            return response(200, 'User uploaded successfully', result)
         } catch (error) {
-            return response(400,error.toString())
+            return response(400, error.toString())
         }
     }
     async uploadAvatar(req) {
@@ -138,7 +132,7 @@ export default class UserService extends BaseServices {
                 Avatar
             }, id)
             await fs.unlinkSync(file.path)
-            return response(200,'Avatar of user uploaded successfully',Avatar)
+            return response(200, 'Avatar of user uploaded successfully', Avatar)
         } catch (error) {
             return response(400, error.toString())
         }
@@ -150,7 +144,7 @@ export default class UserService extends BaseServices {
             const data = await this.respository.findAt(id)
             const status = bcrypt.compareSync(password, data.Password)
             if (status) {
-                return response(200,'Password correct. Confirm password successful !!!')
+                return response(200, 'Password correct. Confirm password successful !!!')
             } else {
                 throw 'Password is incorrect'
             }
@@ -163,7 +157,7 @@ export default class UserService extends BaseServices {
             const data = await this.respository
                 .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
                 .withGraphFetched('roles')
-                return response(200, 'Success !!!',data)
+            return response(200, 'Success !!!', data)
         } catch (error) {
             return response(400, error.toString())
         }
@@ -171,12 +165,18 @@ export default class UserService extends BaseServices {
     async updatePassword(req) {
         try {
             const id = req.userData.ID
-            const {oldPassword} = req.body
-            const {newPassword} = req.body
+            const {
+                oldPassword
+            } = req.body
+            const {
+                newPassword
+            } = req.body
             const data = await this.respository.findAt(id)
-            if(bcrypt.compareSync(oldPassword, data.Password)) {
+            if (bcrypt.compareSync(oldPassword, data.Password)) {
                 const Password = bcrypt.hashSync(newPassword, 10)
-                const updateFetched = await this.respository.updateAndFetchById({Password}, id)
+                const updateFetched = await this.respository.updateAndFetchById({
+                    Password
+                }, id)
                 return response(200, 'Update Success !!!', updateFetched)
             }
             throw 'Old password incorrect !!! '
@@ -184,24 +184,59 @@ export default class UserService extends BaseServices {
             return response(400, error.toString())
         }
     }
-    async loginByGoogle(accessToken, refreshToken ,profile, done)  {
+    async updateInformation(req) {
         try {
-            if(profile) {
-                const checkGoogleID = await UserRespository.Instance().getBy({GoogleID: profile.id})
+            const id = req.userData.ID
+            const data = req.body
+            const checkUsername = await this.respository.getBy({
+                Username: data.Username
+            })
+            if (checkUsername && id != checkUsername.ID) {
+                return response(403, 'Username is registered by another people !!!')
+            }
+            if (bcrypt.compareSync(data.passwordConfirm, req.userData.Password)) {
+                data.passwordConfirm = undefined
+                const dataFetch = await this.respository.updateAndFetchById(data, id)
+                const result = {
+                    Username: dataFetch.Username,
+                    FullName: dataFetch.FullName,
+                    Email: dataFetch.Email,
+                    ID: dataFetch.ID,
+                    PhoneNumber: dataFetch.PhoneNumber,
+                    BirthDay: dataFetch.BirthDay,
+                    Slug: dataFetch.Slug,
+                    Address: dataFetch.Address
+                }
+                return response(200, 'User uploaded successfully', result)
+            } else {
+                throw 'Password confirm is wrong'
+            }
+        } catch (error) {
+            return response(400, error.toString())
+        }
+    }
+    async loginByGoogle(accessToken, refreshToken, profile, done) {
+        try {
+            if (profile) {
+                const checkGoogleID = await UserRespository.Instance().getBy({
+                    GoogleID: profile.id
+                })
                 let result = 0
-                if(!checkGoogleID) {
+                if (!checkGoogleID) {
                     const data = {}
                     data.GoogleID = profile.id
                     data.Email = profile.emails[0].value
                     data.Avatar = profile.photos[0].value
-                    data.FullName = profile.name.familyName + ' '+ profile.name.givenName
-                    const roleID = await RoleRespository.Instance().getBy({Name:'Client'}, ['ID'])
+                    data.FullName = profile.name.familyName + ' ' + profile.name.givenName
+                    const roleID = await RoleRespository.Instance().getBy({
+                        Name: 'Client'
+                    }, ['ID'])
                     console.log('role id ------>', roleID);
                     data.Role_Id = roleID.ID
                     const Slug = getSlug(data.FullName + ' ' + Date.now(), {
                         replacement: '.',
                         lower: true,
-                        locale: 'vi'    
+                        locale: 'vi'
                     })
                     data.Slug = Slug
                     data.FullName = convertString(data.FullName)
@@ -214,12 +249,53 @@ export default class UserService extends BaseServices {
                 }, process.env.JWT_KEY, {
                     expiresIn: "2h"
                 })
-                return done(null,response(200, 'Login by google success !!!', token))
+                return done(null, response(200, 'Login by google success !!!', token))
             }
         } catch (error) {
             console.log('error status', error.status);
             console.log('error --->', error);
-            return done(response(error.errno,error.message))
+            return done(response(error.errno, error.message))
+        }
+    }
+
+
+    async loginByFacebook(accessToken, refreshToken, profile, done) {
+        try {
+            if (profile) {
+                console.log('profile ---->', profile);
+                // const checkGoogleID = await UserRespository.Instance().getBy({GoogleID: profile.id})
+                // let result = 0
+                // if(!checkGoogleID) {
+                //     const data = {}
+                //     data.GoogleID = profile.id
+                //     data.Email = profile.emails[0].value
+                //     data.Avatar = profile.photos[0].value
+                //     data.FullName = profile.name.familyName + ' '+ profile.name.givenName
+                //     const roleID = await RoleRespository.Instance().getBy({Name:'Client'}, ['ID'])
+                //     console.log('role id ------>', roleID);
+                //     data.Role_Id = roleID.ID
+                //     const Slug = getSlug(data.FullName + ' ' + Date.now(), {
+                //         replacement: '.',
+                //         lower: true,
+                //         locale: 'vi'    
+                //     })
+                //     data.Slug = Slug
+                //     data.FullName = convertString(data.FullName)
+                //     console.log('full name', data.FullName);
+                //     result = await UserRespository.Instance().create(data)
+                // }
+                // const token = await jwt.sign({
+                //     Email: result.Email,
+                //     ID: result.ID,
+                // }, process.env.JWT_KEY, {
+                //     expiresIn: "2h"
+                // })
+                // return done(null,response(200, 'Login by google success !!!', token))
+            }
+        } catch (error) {
+            console.log('error status', error.status);
+            console.log('error --->', error);
+            return done(response(error.errno, error.message))
         }
     }
 

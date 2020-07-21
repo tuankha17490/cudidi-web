@@ -6,14 +6,14 @@ import passport from "../../Services/passport"
 const controller = new UserController()
 const validator = new UserValidator()
 
-router.post('/login', (req, res) => {
+router.post('/login',validator.login, (req, res) => {
     try {
         controller.login(req.body).then(result => {
             return res.status(200).json(result)
         })
     } catch (error) {
         console.log('CONTROLLER_GET_USER_LIST');
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 
@@ -24,16 +24,24 @@ router.post('/register', validator.registerTask, (req, res) => {
         })
     } catch (error) {
         console.log('CONTROLLER_REGISTER_USER')
-        return res.status(400).json(error)
+        return res.status(200).json(error)
     }
 })
 
-router.get('/login/google', passport.authenticate('google', {
-    scope: ['profile', 'email' ]
-}))
+// router.get('/login/google', passport.authenticate('google', {
+//     scope: ['profile', 'email' ]
+// }))
 
-router.get('/login/google/callback',passport.authenticate('google', {session: false}), async (req, res) => {
-    return res.status(200).json(req.user)
-})
+// router.get('/login/google/callback',passport.authenticate('google', {session: false, successRedirect: '/'}), async (req, res) => {
+//     return res.status(200).json(req.user)
+// })
+
+// router.get('/login/facebook', passport.authenticate('facebook', {
+//     scope: ['profile', 'email' ]
+// }))
+
+// router.get('/login/facebook/callback',passport.authenticate('facebook', {session: false}), async (req, res) => {
+//     return res.status(200).json(req.user)
+// })
 
 export default router
