@@ -1,0 +1,44 @@
+{
+    "Article": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "integer"
+            },
+            "MainLocation": {
+                "type": "string",
+                "minLength":5,
+                "maxLength":255
+            },
+            "Url": {
+                "type": "string"
+            },
+            "Title": {
+                "type": "string",
+                "minLength":1,
+                "maxLength":255
+            },
+            "Duration": {
+                "type": "string"
+            },
+            "Price": {
+                "type": "number",
+                "minimum": 0,
+                "exclusiveMinimum": true
+            },
+            "NumberOfPeople": {
+                "type": "integer"
+            },
+            "isWare": {
+                "type": "boolean"
+            },
+            "Writer": {
+                "$ref": "./user.json#/User"
+            }
+           
+        },
+        "xml": {
+            "name": "Article"
+        }
+    }
+}

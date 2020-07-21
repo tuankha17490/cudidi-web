@@ -1,0 +1,18 @@
+{
+    "pagination": {
+        "get": {
+            "$ref": "../components/article.json#/pagination"
+        }
+    },
+    "lazyLoad": {
+        "get": {
+            "$ref": "../components/article.json#/lazyLoad"
+        }
+    },
+    "create": {
+        "post": {
+            "$ref": "../components/article.json#/create"
+        }
+       
+    }
+}

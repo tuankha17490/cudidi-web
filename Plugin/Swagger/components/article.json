@@ -1,0 +1,134 @@
+{
+    "pagination": {
+        "tags": [
+            "article"
+        ],
+        "summary": "Get list article",
+        "description": "Get information with offset and limit to paginate.",
+        "operationId": "PaginationArticle",
+        "parameters": [
+            {
+                "name": "page",
+                "in": "path",
+                "description": "The offset that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/article.json#/Article"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/article.json#/Article"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid article supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "Article not found",
+                "content": {}
+            }
+        }
+    },
+    "lazyLoad": {
+        "tags": [
+            "article"
+        ],
+        "summary": "Get list article",
+        "description": "Get information with lazy load to paginate.",
+        "operationId": "lazyLoadArticle",
+        "parameters": [
+            {
+                "name": "lastId",
+                "in": "path",
+                "description": "The lastId that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid username supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "User not found",
+                "content": {}
+            }
+        }
+    },
+    "create": {
+        "tags": [
+            "article"
+        ],
+        "summary": "Create article",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createArticle",
+        "requestBody": {
+            "description": "Created user object",
+            "content": {
+                "*/*": {
+                    "schema": {
+                        "$ref": "../schemas/article.json#/Article"
+                    }
+                }
+            },
+            "required": true
+        },
+        "responses": {
+            "default": {
+                "description": "successful operation",
+                "content": {}
+            }
+        },
+        "x-codegen-request-body-name": "body"
+    }
+}

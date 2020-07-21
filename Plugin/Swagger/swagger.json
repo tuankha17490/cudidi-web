@@ -197,6 +197,16 @@
         },
         "/user/search/{limit}?data={}": {
             "$ref": "./paths/user.json#/search"
+        },
+        "/article/{page}&{limit}": {
+            "$ref": "./paths/article.json#/pagination"
+        },
+        "/article/lazy-load-list/{lastId}&{limit}": {
+            "$ref": "./paths/article.json#/lazyLoad"
+        },
+        "/article/create": {
+            "$ref": "./paths/article.json#/create"
         }
+
     }
 }
