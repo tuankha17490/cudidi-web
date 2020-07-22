@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router();
 import UserController from "../modules/user/controller"
 import UserValidator from "../modules/user/validator"
-import passport from "../../Services/passport"
+// import passport from "../../Services/passport"
 const controller = new UserController()
 const validator = new UserValidator()
 
