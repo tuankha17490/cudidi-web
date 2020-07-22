@@ -42,7 +42,7 @@ router.delete('/:id',authorization, (req, res) => {
     }
 })
 
-router.put('/upload-image',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
+router.put('/upload-image',authorization,multer.single('avatar'), (req, res) => {
     try {
         controller.uploadImage(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
