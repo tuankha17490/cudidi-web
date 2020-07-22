@@ -7,5 +7,7 @@ export default class ArticleController extends BaseController {
     getModule() {
         return ArticleService.Instance();  
     }
-    
+    uploadImager(req) {
+        return this.service.uploadAvatar(req)
+    }
 }

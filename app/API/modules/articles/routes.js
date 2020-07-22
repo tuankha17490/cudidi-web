@@ -2,6 +2,8 @@ import express from "express"
 const router = express.Router();
 import authorization from "../../../Middleware/Authorization"
 import ArticleController from "./controller"
+import multer from "../../../Config/multer"
+import validator from "./validator"
 const controller = new ArticleController()
 
 router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
@@ -40,5 +42,13 @@ router.delete('/:id',authorization, (req, res) => {
     }
 })
 
+router.put('/upload-image',authorization,multer.single('avatar'),validator.uploadImage, (req, res) => {
+    try {
+        controller.uploadImage(req).then(result => {return res.status(201).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_UPLOAD_AVATAR')
+        return res.status(200).json(error)
+    }
+})
 
 export default router;
