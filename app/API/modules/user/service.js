@@ -100,6 +100,9 @@ export default class UserService extends BaseServices {
             const checkUsername = await this.respository.getBy({
                 Username: data.Username
             })
+            if(data.Password != undefined) {
+                data.Password = bcrypt.hashSync(data.Password, 10)
+            }
             if (checkUsername && id != checkUsername.ID) {
                 return response(403, 'Username is registered by another people !!!')
             }

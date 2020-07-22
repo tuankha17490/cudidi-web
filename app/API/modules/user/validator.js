@@ -4,15 +4,15 @@ export default class UserValidator extends BaseValidator {
         super()
     }
     registerTask(req, res, next) {
-        try { 
+        try {
             const checkEmail = super.emailValidate(req, res)
-            if(checkEmail != true) return checkEmail;
+            if (checkEmail != true) return checkEmail;
             const checkUsername = super.usernameValidate(req, res)
-            if(checkUsername != true) return checkUsername;
+            if (checkUsername != true) return checkUsername;
             const checkFullname = super.fullnameValidate(req, res)
-            if(checkFullname != true) return checkFullname;
+            if (checkFullname != true) return checkFullname;
             const checkPassword = super.passwordValidate(req, res)
-            if(checkPassword != true) return checkPassword;
+            if (checkPassword != true) return checkPassword;
             next()
         } catch (error) {
             return res.status(200).json({
@@ -24,19 +24,21 @@ export default class UserValidator extends BaseValidator {
     updateTask(req, res, next) {
         try {
             const checkEmail = super.emailValidate(req, res)
-            if(checkEmail != true) return checkEmail;
+            if (checkEmail != true) return checkEmail;
             const checkUsername = super.usernameValidate(req, res)
-            if(checkUsername != true) return checkUsername;
+            if (checkUsername != true) return checkUsername;
             const checkFullname = super.fullnameValidate(req, res)
-            if(checkFullname != true) return checkFullname;
-            const checkPassword = super.passwordValidate(req, res)
-            if(checkPassword != true) return checkPassword;
+            if (checkFullname != true) return checkFullname;
+            if (req.body.Password != undefined) {
+                const checkPassword = super.passwordValidate(req, res)
+                if (checkPassword != true) return checkPassword;
+            }
             const checkPhone = super.phoneValidate(req, res)
-            if(checkPhone != true) return checkPhone;
+            if (checkPhone != true) return checkPhone;
             const checkBirthday = super.birthdayValidate(req, res)
-            if(checkBirthday != true) return checkBirthday;
+            if (checkBirthday != true) return checkBirthday;
             const checkAddress = super.addressValidate(req, res)
-            if(checkAddress != true) return checkAddress;
+            if (checkAddress != true) return checkAddress;
             next()
         } catch (error) {
             return res.status(200).json({
@@ -48,7 +50,7 @@ export default class UserValidator extends BaseValidator {
     uploadImage(req, res, next) {
         try {
             const checkAvatar = super.avatarValidate(req, res)
-            if(checkAvatar != true) return checkAvatar;
+            if (checkAvatar != true) return checkAvatar;
             next()
         } catch (error) {
             return res.status(200).json({
@@ -60,7 +62,7 @@ export default class UserValidator extends BaseValidator {
     login(req, res, next) {
         try {
             const checkUsername = super.usernameValidate(req, res)
-            if(checkUsername != true) return checkUsername;
+            if (checkUsername != true) return checkUsername;
             next()
         } catch (error) {
             return res.status(200).json({
