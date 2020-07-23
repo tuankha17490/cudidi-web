@@ -261,6 +261,19 @@ export default class UserService extends BaseServices {
         }
     }
 
+    async deleteById(req) {
+        try {
+            const id = req.params.id
+            if (id == req.userData.ID) {
+                return response(403, 'Cant delete account of you');
+            }
+            const result = await this.respository.deleteById(id);
+            return response(200, 'Success !!!', result);
+        } catch (error) {
+            return response(400, error.toString())
+        }
+    }
+
 
     async loginByFacebook(accessToken, refreshToken, profile, done) {
         try {

@@ -2,14 +2,14 @@ import Model from "../Schema";
 import Descriptions_Articles from "./Description_Articles";
 export default class Image_Articles extends Model {
     static get tableName() {
-        return 'Images_Articles'
+        return 'Image_Articles'
     }
     static get idColumn() {
         return 'ID'
     }
     static get relationMappings() {
         return {
-            descriptions_articles: {
+            descriptionArticles: {
                 relation: Model.ManyToManyRelation,
                 modelClass: Descriptions_Articles,
                 join: {

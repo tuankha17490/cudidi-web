@@ -45,18 +45,14 @@ export default class UserService extends BaseServices {
             }
         }
     }
-    async uploadAvatar(req) {
+    async uploadImage(req) {
         try {
             const {
                 file
             } = req
-            const id = req.userData.ID
-            const image = await uploads(file.path, req.userData.Username);
-            console.log('image', image);
+            console.log(file);
+            const image = await uploads(file.path, 'Article');
             const Avatar = image.url
-            await this.respository.updateById({
-                Avatar
-            }, id)
             await fs.unlinkSync(file.path)
             return response(200, 'Avatar of user uploaded successfully', Avatar)
         } catch (error) {

@@ -16,7 +16,7 @@
        
     },
     "uploadImage": {
-        "put": {
+        "post": {
             "$ref":"../components/article.json#/uploadImage"
         }
     }

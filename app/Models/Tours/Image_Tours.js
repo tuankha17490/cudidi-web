@@ -9,7 +9,7 @@ export default class Image_Tours extends Model {
     }
     static get relationMappings() {
         return {
-            description_tours: {
+            descriptionTours: {
                 relation: Model.ManyToManyRelation,
                 modelClass: Description_Tours,
                 join: {

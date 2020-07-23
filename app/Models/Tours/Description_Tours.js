@@ -18,7 +18,7 @@ export default class Description_Tours extends Model {
                     to: 'Tours.ID'
                 }
             },
-            image_tours: {
+            imageTours: {
                 relation: Model.ManyToManyRelation,
                 modelClass: Image_Tours,
                 join: {

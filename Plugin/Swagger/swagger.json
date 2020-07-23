@@ -61,7 +61,8 @@
                 "summary": "Logs user into the system",
                 "operationId": "loginUser",
                 "requestBody": {
-                    "description": "Upload image",
+                    "description": "Login",
+                    "required": true,
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
@@ -194,7 +195,7 @@
         "/user/update-information": {
             "$ref": "./paths/user.json#/updateInformation"
         },
-        "/user/search/{limit}?data={}": {
+        "/user/search/{page}&{limit}": {
             "$ref": "./paths/user.json#/search"
         },
         "/article/{page}&{limit}": {

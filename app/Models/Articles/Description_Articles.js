@@ -10,7 +10,7 @@ export default class Description_Articles extends Model {
     }
     static get relationMappings() {
         return {
-            images_articles: {
+            imageArticles: {
                 relation: Model.ManyToManyRelation,
                 modelClass: Image_Articles,
                 join: {

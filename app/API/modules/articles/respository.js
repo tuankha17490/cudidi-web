@@ -1,6 +1,6 @@
 import BaseRespository from '../../core/Repository'
 import Article from "../../../Models/Articles/Articles"
-export default class UserRespository extends BaseRespository {
+export default class ArticleRespository extends BaseRespository {
     static _Instance;
     static Instance() {
         if (!this._Instance) {

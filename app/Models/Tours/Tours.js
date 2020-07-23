@@ -49,7 +49,7 @@ export default class Tours extends Model {
                     to: 'Schedules.ID'
                 }
             },
-            description_tours: {
+            descriptionTours: {
                 relation: Model.HasManyRelation,
                 modelClass: Description_Tours,
                 join: {

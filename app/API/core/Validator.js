@@ -67,7 +67,7 @@ export default class BaseValidator {
                 }) || !validator.isAlphanumeric(req.body.Password)) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Paswword is invalid',
+                    error: 'Password is invalid',
                     message: 'Password is greater than 6 character and only number,alphabet'
                 })
             }
@@ -155,6 +155,105 @@ export default class BaseValidator {
             return res.status(200).json({
                 status: 400,
                 message: 'Avatar error',
+                error: error.toString()
+            })
+        }
+    }
+    imageValidate(image, res) {
+        try {
+            if (!validator.isURL(image)) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Image is invalid'
+                })
+            }
+            return true
+        } catch (error) {
+             return res.status(200).json({
+                status: 400,
+                message: 'Image error',
+                error: error.toString()
+            })
+        }
+    }
+    priceValidate(req, res) {
+        try {
+            if (req.body.Price == undefined) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Price can not empty'
+                })
+            }
+            if(!(Number(req.body.Price) === req.body.Price)) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Price must be numberic'
+                })
+            }
+            return true
+        } catch (error) {
+            return res.status(200).json({
+                status: 400,
+                message: 'Price error',
+                error: error.toString()
+            })
+        }
+    }
+
+    amountPeopleValidate(req, res) {
+        try {
+            if (req.body.NumberOfPeople == undefined) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Price can not empty'
+                })
+            }
+            
+            if(Number.isInteger(req.body.NumberOfPeople) == false) {
+                return res.status(200).json({
+                    status: 400,
+                    message: 'Price must be numberic'
+                })
+            }
+            return true
+        } catch (error) {
+            return res.status(200).json({
+                status: 400,
+                message: 'Price error',
+                error: error.toString()
+            })
+        }
+    }
+    locationValidate(req, res) {
+        try {
+            if (req.body.Location == undefined || validator.isEmpty(req.body.Location) == true) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Location can not empty'
+                })
+            }
+            return true
+        } catch (error) {
+            return res.status(200).json({
+                status: 400,
+                message: 'Main Location error',
+                error: error.toString()
+            })
+        }
+    }
+    titleValidate(req, res) {
+        try {
+            if (req.body.Title == undefined || validator.isEmpty(req.body.Title) == true) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Title can not empty'
+                })
+            }
+            return true
+        } catch (error) {
+            return res.status(200).json({
+                status: 400,
+                message: 'Title error',
                 error: error.toString()
             })
         }

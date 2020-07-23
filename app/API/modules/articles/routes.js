@@ -3,8 +3,9 @@ const router = express.Router();
 import authorization from "../../../Middleware/Authorization"
 import ArticleController from "./controller"
 import multer from "../../../Config/multer"
-import validator from "./validator"
+import ArticleValidator from "./validator"
 const controller = new ArticleController()
+const validator = new ArticleValidator()
 
 router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
     try {
@@ -24,7 +25,7 @@ router.get('/:page&:limit',authorization, (req, res) => {
     }
 })
 
-router.post('/create',authorization, (req, res) => {
+router.post('/create',authorization,validator.createTask, (req, res) => {
     try {
         controller.create(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
@@ -42,11 +43,11 @@ router.delete('/:id',authorization, (req, res) => {
     }
 })
 
-router.put('/upload-image',authorization,multer.single('avatar'), (req, res) => {
+router.post('/upload-image',authorization, multer.single('image'), (req, res) => {
     try {
         controller.uploadImage(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
-        console.log('CONTROLLER_UPLOAD_AVATAR')
+        console.log('CONTROLLER_ARTICLE_UPLOAD_IMAGE')
         return res.status(200).json(error)
     }
 })

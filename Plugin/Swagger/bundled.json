@@ -1527,12 +1527,12 @@
       }
     },
     "/article/upload-image": {
-      "put": {
+      "post": {
         "tags": [
           "article"
         ],
-        "summary": "Upload avatar of user",
-        "description": "Upload Image of user by id.",
+        "summary": "Upload image of user",
+        "description": "Upload image.",
         "operationId": "uploadImage",
         "security": [
           {
@@ -1542,13 +1542,13 @@
         "requestBody": {
           "description": "Upload image",
           "content": {
-            "application/x-www-form-urlencoded": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "image": {
+                  "avatar": {
                     "type": "string",
-                    "format": "url"
+                    "format": "binary"
                   }
                 }
               }
@@ -1557,7 +1557,7 @@
         },
         "responses": {
           "400": {
-            "description": "Invalid format supplied",
+            "description": "Invalid user supplied",
             "content": {}
           },
           "401": {

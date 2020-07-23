@@ -90,7 +90,7 @@ router.put('/:id',authorization,validator.updateTask,  (req, res) => {
 })
 router.delete('/:id',authorization, (req, res) => {
     try {
-        controller.deleteById(req.params.id).then(result => {return res.status(200).json(result)})
+        controller.deleteById(req).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_DELETE_USER')
         return res.status(200).json(error)
