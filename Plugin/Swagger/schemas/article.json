@@ -5,12 +5,12 @@
             "id": {
                 "type": "integer"
             },
-            "MainLocation": {
+            "Location": {
                 "type": "string",
                 "minLength":5,
                 "maxLength":255
             },
-            "Url": {
+            "Image": {
                 "type": "string"
             },
             "Title": {
@@ -19,7 +19,7 @@
                 "maxLength":255
             },
             "Duration": {
-                "type": "string"
+                "type": "integer"
             },
             "Price": {
                 "type": "number",
@@ -29,12 +29,15 @@
             "NumberOfPeople": {
                 "type": "integer"
             },
-            "isWare": {
-                "type": "boolean"
+            "Introduce": {
+                "type": "string",
+                "minLength":5,
+                "maxLength":255
             },
-            "Writer": {
-                "$ref": "./user.json#/User"
+            "descriptionArticles": {
+              "$ref": "./description-article.json#/Description-Article"
             }
+            
            
         },
         "xml": {

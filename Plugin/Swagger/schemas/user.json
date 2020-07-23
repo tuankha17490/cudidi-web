@@ -37,7 +37,7 @@
                 "type": "string",
                 "minLength":5,
                 "maxLength":15
-            },
+            }
         },
         "xml": {
             "name": "User"

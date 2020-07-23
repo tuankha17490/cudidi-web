@@ -44,123 +44,6 @@
     }
   ],
   "paths": {
-    "/user": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Get list user",
-        "description": "Get information all user.",
-        "operationId": "getListUser",
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "Username": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 30
-                    },
-                    "Password": {
-                      "type": "string",
-                      "minLength": 6
-                    },
-                    "FullName": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 255
-                    },
-                    "Email": {
-                      "type": "string",
-                      "format": "email"
-                    },
-                    "BirthDay": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "Address": {
-                      "type": "string"
-                    },
-                    "Avatar": {
-                      "type": "string"
-                    },
-                    "PhoneNumber": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 15
-                    }
-                  },
-                  "xml": {
-                    "name": "User"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "Username": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 30
-                    },
-                    "Password": {
-                      "type": "string",
-                      "minLength": 6
-                    },
-                    "FullName": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 255
-                    },
-                    "Email": {
-                      "type": "string",
-                      "format": "email"
-                    },
-                    "BirthDay": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "Address": {
-                      "type": "string"
-                    },
-                    "Avatar": {
-                      "type": "string"
-                    },
-                    "PhoneNumber": {
-                      "type": "string",
-                      "minLength": 5,
-                      "maxLength": 15
-                    }
-                  },
-                  "xml": {
-                    "name": "User"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid username supplied",
-            "content": {}
-          },
-          "404": {
-            "description": "User not found",
-            "content": {}
-          }
-        }
-      }
-    },
     "/user/{page}&{limit}": {
       "get": {
         "tags": [
@@ -511,26 +394,24 @@
         ],
         "summary": "Logs user into the system",
         "operationId": "loginUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "query",
-            "description": "The user name for login",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "description": "The password for login in clear text",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "description": "Upload image",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Username": {
+                    "type": "string"
+                  },
+                  "Password": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "successful operation",
@@ -1253,6 +1134,435 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/article/{page}&{limit}": {
+      "get": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Get list article",
+        "description": "Get information with offset and limit to paginate.",
+        "operationId": "PaginationArticle",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "description": "The offset that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "The limit that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Location": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    },
+                    "Image": {
+                      "type": "string"
+                    },
+                    "Title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Duration": {
+                      "type": "integer"
+                    },
+                    "Price": {
+                      "type": "number",
+                      "minimum": 0,
+                      "exclusiveMinimum": true
+                    },
+                    "NumberOfPeople": {
+                      "type": "integer"
+                    },
+                    "isWare": {
+                      "type": "boolean"
+                    },
+                    "Introduce": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    }
+                  },
+                  "xml": {
+                    "name": "Article"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Location": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    },
+                    "Image": {
+                      "type": "string"
+                    },
+                    "Title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Duration": {
+                      "type": "integer"
+                    },
+                    "Price": {
+                      "type": "number",
+                      "minimum": 0,
+                      "exclusiveMinimum": true
+                    },
+                    "NumberOfPeople": {
+                      "type": "integer"
+                    },
+                    "isWare": {
+                      "type": "boolean"
+                    },
+                    "Introduce": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    }
+                  },
+                  "xml": {
+                    "name": "Article"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid article supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Article not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/article/lazy-load-list/{lastId}&{limit}": {
+      "get": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Get list article",
+        "description": "Get information with lazy load to paginate.",
+        "operationId": "lazyLoadArticle",
+        "parameters": [
+          {
+            "name": "lastId",
+            "in": "path",
+            "description": "The lastId that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "The limit that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Location": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    },
+                    "Image": {
+                      "type": "string"
+                    },
+                    "Title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Duration": {
+                      "type": "integer"
+                    },
+                    "Price": {
+                      "type": "number",
+                      "minimum": 0,
+                      "exclusiveMinimum": true
+                    },
+                    "NumberOfPeople": {
+                      "type": "integer"
+                    },
+                    "isWare": {
+                      "type": "boolean"
+                    },
+                    "Introduce": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    }
+                  },
+                  "xml": {
+                    "name": "Article"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Location": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    },
+                    "Image": {
+                      "type": "string"
+                    },
+                    "Title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Duration": {
+                      "type": "integer"
+                    },
+                    "Price": {
+                      "type": "number",
+                      "minimum": 0,
+                      "exclusiveMinimum": true
+                    },
+                    "NumberOfPeople": {
+                      "type": "integer"
+                    },
+                    "isWare": {
+                      "type": "boolean"
+                    },
+                    "Introduce": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    }
+                  },
+                  "xml": {
+                    "name": "Article"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/article/create": {
+      "post": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Create article",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createArticle",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "Location": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 255
+                  },
+                  "Image": {
+                    "type": "string"
+                  },
+                  "Title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "Duration": {
+                    "type": "integer"
+                  },
+                  "Price": {
+                    "type": "number",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                  },
+                  "NumberOfPeople": {
+                    "type": "integer"
+                  },
+                  "Introduce": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 255
+                  },
+                  "descriptionArticles": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "Place": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                      },
+                      "Day": {
+                        "type": "integer"
+                      },
+                      "Description": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                      },
+                      "imageArticles": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "Location": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 255
+                          }
+                        },
+                        "xml": {
+                          "name": "Image-Article"
+                        }
+                      }
+                    },
+                    "xml": {
+                      "name": "Description-Article"
+                    }
+                  }
+                },
+                "xml": {
+                  "name": "Article"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/article/upload-image": {
+      "put": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Upload avatar of user",
+        "description": "Upload Image of user by id.",
+        "operationId": "uploadImage",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Upload image",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "url"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid format supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Access token is missing or invalid",
+            "content": {}
           },
           "404": {
             "description": "User not found",

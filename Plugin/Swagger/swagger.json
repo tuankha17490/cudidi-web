@@ -60,26 +60,25 @@
                 ],
                 "summary": "Logs user into the system",
                 "operationId": "loginUser",
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "query",
-                        "description": "The user name for login",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "The password for login in clear text",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "description": "Upload image",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "Username": {
+                                      "type": "string"
+                                    },
+                                    "Password": {
+                                      "type": "string"
+                                    }
+                                  }
+                            }
                         }
                     }
-                ],
+                },
+              
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -206,6 +205,9 @@
         },
         "/article/create": {
             "$ref": "./paths/article.json#/create"
+        },
+        "/article/upload-image": {
+            "$ref": "./paths/article.json#/uploadImage"
         }
 
     }

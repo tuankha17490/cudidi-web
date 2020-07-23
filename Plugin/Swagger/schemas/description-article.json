@@ -1,0 +1,29 @@
+{
+    "Description-Article": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "integer"
+            },
+            "Place": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "Day": {
+                "type": "integer"
+            },
+            "Description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "imageArticles": {
+                "$ref": "./image-article.json#/Image-Article"
+            }
+        },
+        "xml": {
+            "name": "Description-Article"
+        }
+    }
+}

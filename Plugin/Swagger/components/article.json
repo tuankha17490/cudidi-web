@@ -32,12 +32,92 @@
                 "content": {
                     "application/xml": {
                         "schema": {
-                            "$ref": "../schemas/article.json#/Article"
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Location": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                },
+                                "Image": {
+                                    "type": "string"
+                                },
+                                "Title": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                },
+                                "Duration": {
+                                    "type": "integer"
+                                },
+                                "Price": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "exclusiveMinimum": true
+                                },
+                                "NumberOfPeople": {
+                                    "type": "integer"
+                                },
+                                "isWare": {
+                                    "type": "boolean"
+                                },
+                                "Introduce": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                }
+                            },
+                            "xml": {
+                                "name": "Article"
+                            }
                         }
                     },
                     "application/json": {
                         "schema": {
-                            "$ref": "../schemas/article.json#/Article"
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Location": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                },
+                                "Image": {
+                                    "type": "string"
+                                },
+                                "Title": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                },
+                                "Duration": {
+                                    "type": "integer"
+                                },
+                                "Price": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "exclusiveMinimum": true
+                                },
+                                "NumberOfPeople": {
+                                    "type": "integer"
+                                },
+                                "isWare": {
+                                    "type": "boolean"
+                                },
+                                "Introduce": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                }
+                            },
+                            "xml": {
+                                "name": "Article"
+                            }
                         }
                     }
                 }
@@ -85,12 +165,92 @@
                 "content": {
                     "application/xml": {
                         "schema": {
-                            "$ref": "../schemas/user.json#/User"
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Location": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                },
+                                "Image": {
+                                    "type": "string"
+                                },
+                                "Title": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                },
+                                "Duration": {
+                                    "type": "integer"
+                                },
+                                "Price": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "exclusiveMinimum": true
+                                },
+                                "NumberOfPeople": {
+                                    "type": "integer"
+                                },
+                                "isWare": {
+                                    "type": "boolean"
+                                },
+                                "Introduce": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                }
+                            },
+                            "xml": {
+                                "name": "Article"
+                            }
                         }
                     },
                     "application/json": {
                         "schema": {
-                            "$ref": "../schemas/user.json#/User"
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Location": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                },
+                                "Image": {
+                                    "type": "string"
+                                },
+                                "Title": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                },
+                                "Duration": {
+                                    "type": "integer"
+                                },
+                                "Price": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "exclusiveMinimum": true
+                                },
+                                "NumberOfPeople": {
+                                    "type": "integer"
+                                },
+                                "isWare": {
+                                    "type": "boolean"
+                                },
+                                "Introduce": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                }
+                            },
+                            "xml": {
+                                "name": "Article"
+                            }
                         }
                     }
                 }
@@ -112,6 +272,11 @@
         "summary": "Create article",
         "description": "This can only be done by the logged in user.",
         "operationId": "createArticle",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
         "requestBody": {
             "description": "Created user object",
             "content": {
@@ -130,5 +295,48 @@
             }
         },
         "x-codegen-request-body-name": "body"
+    },
+    "uploadImage": {
+        "tags": [
+            "article"
+        ],
+        "summary": "Upload avatar of user",
+        "description": "Upload Image of user by id.",
+        "operationId": "uploadImage",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "requestBody": {
+            "description": "Upload image",
+            "content": {
+                "application/x-www-form-urlencoded": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "image": {
+                                "type": "string",
+                                "format": "url"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "400": {
+                "description": "Invalid format supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "User not found",
+                "content": {}
+            },
+            "401": {
+                "description": "Access token is missing or invalid",
+                "content": {}
+            }
+        }
     }
 }

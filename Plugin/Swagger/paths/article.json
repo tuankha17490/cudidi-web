@@ -14,5 +14,10 @@
             "$ref": "../components/article.json#/create"
         }
        
+    },
+    "uploadImage": {
+        "put": {
+            "$ref":"../components/article.json#/uploadImage"
+        }
     }
 }
