@@ -214,6 +214,38 @@ export default class BaseValidator {
             })
         }
     }
+    durationValidate(param, res) {
+        try {
+            if (param == undefined) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'can not empty'
+                })
+            }
+            if(!(Number(param) === param)) {
+                if(!validator.isNumeric(param)) {
+                    return res.status(200).json({
+                        status: 400,
+                        error: 'must be numberic'
+                    })
+                }
+                param = Number(param)
+            }
+            if(param <= 0) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'must be greater than 0'
+                })
+            }
+            return true
+        } catch (error) {
+            return res.status(200).json({
+                status: 400,
+                message: 'error vaidate',
+                error: error.toString()
+            })
+        }
+    }
 
     amountPeopleValidate(req, res) {
         try {
@@ -247,9 +279,9 @@ export default class BaseValidator {
             })
         }
     }
-    locationValidate(req, res) {
+    locationValidate(param, res) {
         try {
-            if (req.body.Location == undefined || validator.isEmpty(req.body.Location) == true) {
+            if (param == undefined || validator.isEmpty(param) == true) {
                 return res.status(200).json({
                     status: 400,
                     error: 'Location can not empty'
@@ -259,7 +291,7 @@ export default class BaseValidator {
         } catch (error) {
             return res.status(200).json({
                 status: 400,
-                message: 'Main Location error',
+                message: 'Location error',
                 error: error.toString()
             })
         }

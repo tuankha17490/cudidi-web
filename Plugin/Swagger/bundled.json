@@ -1532,7 +1532,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "ID": {
+                  "Article_Id": {
                     "type": "integer",
                     "readOnly": true
                   },
@@ -1570,9 +1570,6 @@
                       "name": "Image-Article"
                     }
                   }
-                },
-                "xml": {
-                  "name": "Description-Article"
                 }
               }
             }

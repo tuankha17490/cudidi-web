@@ -1,5 +1,5 @@
 import BaseValidator from "../../core/Validator"
-export default class UserValidator extends BaseValidator {
+export default class ArticleValidator extends BaseValidator {
     constructor() {
         super()
     }
@@ -7,11 +7,13 @@ export default class UserValidator extends BaseValidator {
         try {
             const checkPrice = super.priceValidate(req, res)
             if (checkPrice != true) return checkPrice;
+            const checkDuration = super.durationValidate(req.body.Duration, res)
+            if (checkDuration != true) return checkDuration;
             const checkTitle = super.titleValidate(req, res)
             if (checkTitle != true) return checkTitle;
             const checkAmountPeople = super.amountPeopleValidate(req, res)
             if (checkAmountPeople != true) return checkAmountPeople;
-            const checkLocation = super.locationValidate(req, res)
+            const checkLocation = super.locationValidate(req.body.Location, res)
             if (checkLocation != true) return checkLocation;
             const checkImage = super.imageValidate(req.body.Image, res)
             if(checkImage != true) return checkImage;

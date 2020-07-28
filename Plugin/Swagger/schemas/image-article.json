@@ -6,7 +6,7 @@
                 "type": "integer",
                 "readOnly": true
             },
-            "Url": {
+            "URL": {
                 "type": "string",
                 "minLength":1
             },

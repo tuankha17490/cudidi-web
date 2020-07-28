@@ -12,9 +12,9 @@ export function up(knex) {
         t.string('Slug')
         t.string('GoogleID')
         t.string('FacebookID')
-        t.timestamps();
         t.integer('Role_Id').unsigned()
         t.foreign('Role_Id').references('Roles.ID').onDelete('CASCADE').onUpdate('CASCADE')
+        t.timestamps();
     })
 }
 

@@ -16,7 +16,29 @@
             "content": {
                 "application/x-www-form-urlencoded": {
                     "schema": {
-                        "$ref": "../schemas/description-article.json#/Description-Article"
+                        "type": "object",
+                        "properties": {
+                            "Article_Id": {
+                                "type": "integer",
+                                "readOnly": true
+                            },
+                            "Place": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 255
+                            },
+                            "Day": {
+                                "type": "integer"
+                            },
+                            "Description": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 255
+                            },
+                            "imageArticles": {
+                                "$ref": "../schemas/image-article.json#/Image-Article"
+                            }
+                        }
                     }
                 }
             },

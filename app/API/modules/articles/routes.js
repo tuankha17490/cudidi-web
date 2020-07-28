@@ -34,21 +34,14 @@ router.post('/create',authorization,validator.createTask, (req, res) => {
     }
 })
 
-router.post('/create/description',authorization, (req, res) => {
-    try {
-        controller.createDescription(req).then(result => {return res.status(201).json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_CREATE_ARTICLE');
-        return res.status(200).json(error)
-    }
-})
+
 
 
 router.delete('/:id',authorization, (req, res) => {
     try {
         controller.deleteBySlug(req.params.id).then(result => {return res.status(200).json(result)})
     } catch (error) {
-        console.log('CONTROLLER_DELETE_USER')
+        console.log('CONTROLLER_DELETE_ARTICLE')
         return res.status(200).json(error)
     }
 })
@@ -61,5 +54,16 @@ router.post('/upload-image',authorization, multer.single('image'), (req, res) =>
         return res.status(200).json(error)
     }
 })
+
+router.put('/:id',authorization,  (req, res) => {
+    try {
+        controller.updateUserById(req, req.params.id).then(result => {return res.status(201).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_UPDATE_ARTICLE')
+        return res.status(200).json(error)
+    }
+   
+})
+
 
 export default router;
