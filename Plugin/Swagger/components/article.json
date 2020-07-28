@@ -6,6 +6,11 @@
         "summary": "Get list article",
         "description": "Get information with offset and limit to paginate.",
         "operationId": "PaginationArticle",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
         "parameters": [
             {
                 "name": "page",
@@ -270,7 +275,7 @@
             "article"
         ],
         "summary": "Create article",
-        "description": "This can only be done by the logged in user.",
+        "description": "Create article.",
         "operationId": "createArticle",
         "security": [
             {
@@ -278,15 +283,38 @@
             }
         ],
         "requestBody": {
-            "description": "Created user object",
+            "description": "Create article",
+            "required": true,
             "content": {
-                "*/*": {
+                "application/x-www-form-urlencoded": {
                     "schema": {
-                        "$ref": "../schemas/article.json#/Article"
+                        "type": "object",
+                        "properties": {
+                            "Title": {
+                                "type": "string"
+                            },
+                            "Location": {
+                                "type": "string"
+                            },
+                            "Image": {
+                                "type": "string"
+                            },
+                            "Duration": {
+                                "type": "integer"
+                            },
+                            "Price": {
+                                "type": "integer"
+                            },
+                            "NumberOfPeople": {
+                                "type": "integer"
+                            },
+                            "Introduce": {
+                                "type": "string"
+                            }
+                        }
                     }
                 }
-            },
-            "required": true
+            }
         },
         "responses": {
             "default": {
@@ -315,7 +343,7 @@
                     "schema": {
                         "type": "object",
                         "properties": {
-                            "avatar": {
+                            "image": {
                                 "type": "string",
                                 "format": "binary"
                             }
@@ -333,10 +361,11 @@
                 "description": "User not found",
                 "content": {}
             },
-            "401":{
+            "401": {
                 "description": "Access token is missing or invalid",
-                "content":{}
+                "content": {}
             }
         }
-    }
+    },
+    
 }

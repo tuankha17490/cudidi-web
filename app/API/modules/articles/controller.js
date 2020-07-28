@@ -10,4 +10,7 @@ export default class ArticleController extends BaseController {
     uploadImage(req) {
         return this.service.uploadImage(req)
     }
+    createDescription(req) {
+        return this.service.createDescription(req)
+    }
 }

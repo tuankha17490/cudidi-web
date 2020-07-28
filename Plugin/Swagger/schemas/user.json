@@ -2,8 +2,9 @@
     "User": {
         "type": "object",
         "properties": {
-            "id": {
-                "type": "integer"
+            "ID": {
+                "type": "integer",
+                "readOnly": true
             },
             "Username": {
                 "type": "string",
@@ -12,7 +13,8 @@
             },
             "Password": {
                 "type": "string",
-                "minLength": 6
+                "minLength": 6,
+                "writeOnly": true
             },
             "FullName": {
                 "type": "string",

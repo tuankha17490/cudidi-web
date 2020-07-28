@@ -2,8 +2,9 @@
     "Description-Article": {
         "type": "object",
         "properties": {
-            "id": {
-                "type": "integer"
+            "ID": {
+                "type": "integer",
+                "readOnly": true
             },
             "Place": {
                 "type": "string",

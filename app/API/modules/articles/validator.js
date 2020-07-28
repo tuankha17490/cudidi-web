@@ -15,10 +15,6 @@ export default class UserValidator extends BaseValidator {
             if (checkLocation != true) return checkLocation;
             const checkImage = super.imageValidate(req.body.Image, res)
             if(checkImage != true) return checkImage;
-            req.body.description.forEach(description => {
-                const checkImage = super.imageValidate(description.Image, res)
-                if(checkImage != true) return checkImage;
-            });
             next()
         } catch (error) {
             return res.status(200).json({

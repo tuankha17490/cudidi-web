@@ -39,8 +39,12 @@
             "description": "Everything about your Articles"
         },
         {
+            "name": "description of article",
+            "description": "Everything about Description of Articles"
+        },
+        {
             "name": "user",
-            "description": "Operations about user"
+            "description": "Operations about User"
         }
     ],
     "paths": {
@@ -209,6 +213,10 @@
         },
         "/article/upload-image": {
             "$ref": "./paths/article.json#/uploadImage"
+        },
+
+        "/description-article/create": {
+            "$ref": "./paths/description-article.json#/create"
         }
 
     }

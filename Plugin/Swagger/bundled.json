@@ -39,8 +39,12 @@
       "description": "Everything about your Articles"
     },
     {
+      "name": "description of article",
+      "description": "Everything about Description of Articles"
+    },
+    {
       "name": "user",
-      "description": "Operations about user"
+      "description": "Operations about User"
     }
   ],
   "paths": {
@@ -80,8 +84,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
                     },
                     "Username": {
                       "type": "string",
@@ -90,7 +95,8 @@
                     },
                     "Password": {
                       "type": "string",
-                      "minLength": 6
+                      "minLength": 6,
+                      "writeOnly": true
                     },
                     "FullName": {
                       "type": "string",
@@ -126,8 +132,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
                     },
                     "Username": {
                       "type": "string",
@@ -136,7 +143,8 @@
                     },
                     "Password": {
                       "type": "string",
-                      "minLength": 6
+                      "minLength": 6,
+                      "writeOnly": true
                     },
                     "FullName": {
                       "type": "string",
@@ -217,8 +225,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
                     },
                     "Username": {
                       "type": "string",
@@ -227,7 +236,8 @@
                     },
                     "Password": {
                       "type": "string",
-                      "minLength": 6
+                      "minLength": 6,
+                      "writeOnly": true
                     },
                     "FullName": {
                       "type": "string",
@@ -263,8 +273,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
                     },
                     "Username": {
                       "type": "string",
@@ -273,7 +284,8 @@
                     },
                     "Password": {
                       "type": "string",
-                      "minLength": 6
+                      "minLength": 6,
+                      "writeOnly": true
                     },
                     "FullName": {
                       "type": "string",
@@ -329,12 +341,13 @@
         "requestBody": {
           "description": "Created user object",
           "content": {
-            "*/*": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "integer"
+                  "ID": {
+                    "type": "integer",
+                    "readOnly": true
                   },
                   "Username": {
                     "type": "string",
@@ -343,7 +356,8 @@
                   },
                   "Password": {
                     "type": "string",
-                    "minLength": 6
+                    "minLength": 6,
+                    "writeOnly": true
                   },
                   "FullName": {
                     "type": "string",
@@ -395,7 +409,8 @@
         "summary": "Logs user into the system",
         "operationId": "loginUser",
         "requestBody": {
-          "description": "Upload image",
+          "description": "Login",
+          "required": true,
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
@@ -559,15 +574,6 @@
         ],
         "parameters": [
           {
-            "name": "token",
-            "in": "header",
-            "description": "Format: Bearer token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "id",
             "in": "path",
             "description": "The id that needs to be fetched",
@@ -585,8 +591,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
                     },
                     "Username": {
                       "type": "string",
@@ -595,7 +602,8 @@
                     },
                     "Password": {
                       "type": "string",
-                      "minLength": 6
+                      "minLength": 6,
+                      "writeOnly": true
                     },
                     "FullName": {
                       "type": "string",
@@ -631,8 +639,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
                     },
                     "Username": {
                       "type": "string",
@@ -641,7 +650,8 @@
                     },
                     "Password": {
                       "type": "string",
-                      "minLength": 6
+                      "minLength": 6,
+                      "writeOnly": true
                     },
                     "FullName": {
                       "type": "string",
@@ -699,15 +709,6 @@
         ],
         "parameters": [
           {
-            "name": "token",
-            "in": "header",
-            "description": "Format: Bearer token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "id",
             "in": "path",
             "description": "the id that need to be updated",
@@ -724,8 +725,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "integer"
+                  "ID": {
+                    "type": "integer",
+                    "readOnly": true
                   },
                   "Username": {
                     "type": "string",
@@ -734,7 +736,8 @@
                   },
                   "Password": {
                     "type": "string",
-                    "minLength": 6
+                    "minLength": 6,
+                    "writeOnly": true
                   },
                   "FullName": {
                     "type": "string",
@@ -795,15 +798,6 @@
         ],
         "parameters": [
           {
-            "name": "token",
-            "in": "header",
-            "description": "Format: Bearer token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "id",
             "in": "path",
             "description": "The id that needs to be deleted",
@@ -838,30 +832,24 @@
             "bearerAuth": []
           }
         ],
-        "parameters": [
-          {
-            "name": "oldPassword",
-            "in": "query",
-            "description": "Password need to confirm.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "newPassword",
-            "in": "query",
-            "description": "Password need to confirm.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "description": "Check password of user",
           "required": true,
-          "content": {}
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "oldPassword": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
         },
         "responses": {
           "default": {
@@ -937,8 +925,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "integer"
+                  "ID": {
+                    "type": "integer",
+                    "readOnly": true
                   },
                   "Username": {
                     "type": "string",
@@ -947,7 +936,8 @@
                   },
                   "Password": {
                     "type": "string",
-                    "minLength": 6
+                    "minLength": 6,
+                    "writeOnly": true
                   },
                   "FullName": {
                     "type": "string",
@@ -995,7 +985,7 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/user/search/{limit}?data={}": {
+    "/user/search/{page}&{limit}": {
       "get": {
         "tags": [
           "user"
@@ -1010,9 +1000,9 @@
         ],
         "parameters": [
           {
-            "name": "search field",
-            "in": "query",
-            "description": "Filter name and email",
+            "name": "page",
+            "in": "path",
+            "description": "page of data",
             "required": true,
             "schema": {
               "type": "string"
@@ -1045,8 +1035,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
                     },
                     "Username": {
                       "type": "string",
@@ -1055,7 +1046,8 @@
                     },
                     "Password": {
                       "type": "string",
-                      "minLength": 6
+                      "minLength": 6,
+                      "writeOnly": true
                     },
                     "FullName": {
                       "type": "string",
@@ -1091,8 +1083,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer"
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
                     },
                     "Username": {
                       "type": "string",
@@ -1101,7 +1094,8 @@
                     },
                     "Password": {
                       "type": "string",
-                      "minLength": 6
+                      "minLength": 6,
+                      "writeOnly": true
                     },
                     "FullName": {
                       "type": "string",
@@ -1150,6 +1144,11 @@
         "summary": "Get list article",
         "description": "Get information with offset and limit to paginate.",
         "operationId": "PaginationArticle",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "page",
@@ -1418,7 +1417,7 @@
           "article"
         ],
         "summary": "Create article",
-        "description": "This can only be done by the logged in user.",
+        "description": "Create article.",
         "operationId": "createArticle",
         "security": [
           {
@@ -1426,96 +1425,38 @@
           }
         ],
         "requestBody": {
-          "description": "Created user object",
+          "description": "Create article",
+          "required": true,
           "content": {
-            "*/*": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "integer"
+                  "Title": {
+                    "type": "string"
                   },
                   "Location": {
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 255
+                    "type": "string"
                   },
                   "Image": {
                     "type": "string"
-                  },
-                  "Title": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 255
                   },
                   "Duration": {
                     "type": "integer"
                   },
                   "Price": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true
+                    "type": "integer"
                   },
                   "NumberOfPeople": {
                     "type": "integer"
                   },
                   "Introduce": {
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 255
-                  },
-                  "descriptionArticles": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "Place": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 255
-                      },
-                      "Day": {
-                        "type": "integer"
-                      },
-                      "Description": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 255
-                      },
-                      "imageArticles": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "Url": {
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "Location": {
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 255
-                          }
-                        },
-                        "xml": {
-                          "name": "Image-Article"
-                        }
-                      }
-                    },
-                    "xml": {
-                      "name": "Description-Article"
-                    }
+                    "type": "string"
                   }
-                },
-                "xml": {
-                  "name": "Article"
                 }
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "default": {
@@ -1546,7 +1487,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "avatar": {
+                  "image": {
                     "type": "string",
                     "format": "binary"
                   }
@@ -1569,6 +1510,82 @@
             "content": {}
           }
         }
+      }
+    },
+    "/description-article/create": {
+      "post": {
+        "tags": [
+          "description of article"
+        ],
+        "summary": "Create description of article",
+        "description": "Create description day by day of article.",
+        "operationId": "createDescriptionArticle",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Create description of article",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ID": {
+                    "type": "integer",
+                    "readOnly": true
+                  },
+                  "Place": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "Day": {
+                    "type": "integer"
+                  },
+                  "Description": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "imageArticles": {
+                    "type": "object",
+                    "properties": {
+                      "ID": {
+                        "type": "integer",
+                        "readOnly": true
+                      },
+                      "Url": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "Location": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                      }
+                    },
+                    "xml": {
+                      "name": "Image-Article"
+                    }
+                  }
+                },
+                "xml": {
+                  "name": "Description-Article"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
       }
     }
   }

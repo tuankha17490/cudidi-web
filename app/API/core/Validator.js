@@ -161,6 +161,12 @@ export default class BaseValidator {
     }
     imageValidate(image, res) {
         try {
+            if (image == undefined) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Image cannot undefined'
+                })
+            }
             if (!validator.isURL(image)) {
                 return res.status(200).json({
                     status: 400,
@@ -185,9 +191,18 @@ export default class BaseValidator {
                 })
             }
             if(!(Number(req.body.Price) === req.body.Price)) {
+                if(!validator.isNumeric(req.body.Price)) {
+                    return res.status(200).json({
+                        status: 400,
+                        error: 'Price must be numberic'
+                    })
+                }
+                req.body.Price = Number(req.body.Price)
+            }
+            if(req.body.Price <= 0) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Price must be numberic'
+                    error: 'Price must be greater than 0'
                 })
             }
             return true
@@ -205,21 +220,29 @@ export default class BaseValidator {
             if (req.body.NumberOfPeople == undefined) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Price can not empty'
+                    error: 'Amount people can not empty'
                 })
             }
-            
+            if(!(Number(req.body.NumberOfPeople) === req.body.NumberOfPeople)) {
+                if(!validator.isNumeric(req.body.NumberOfPeople)) {
+                    return res.status(200).json({
+                        status: 400,
+                        error: 'Price must be numberic'
+                    })
+                }
+                req.body.NumberOfPeople = Number(req.body.NumberOfPeople)
+            }
             if(Number.isInteger(req.body.NumberOfPeople) == false) {
                 return res.status(200).json({
                     status: 400,
-                    message: 'Price must be numberic'
+                    message: 'Amount people must be numberic'
                 })
             }
             return true
         } catch (error) {
             return res.status(200).json({
                 status: 400,
-                message: 'Price error',
+                message: 'Amount people error',
                 error: error.toString()
             })
         }

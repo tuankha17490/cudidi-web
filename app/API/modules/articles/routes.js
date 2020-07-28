@@ -20,7 +20,7 @@ router.get('/:page&:limit',authorization, (req, res) => {
     try {
         controller.getList(req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
-        console.log('CONTROLLER_GET_USER_LIST_PAGINATION');
+        console.log('CONTROLLER_GET_ARTICLE_LIST_PAGINATION');
         return res.status(200).json(error)
     }
 })
@@ -33,6 +33,16 @@ router.post('/create',authorization,validator.createTask, (req, res) => {
         return res.status(200).json(error)
     }
 })
+
+router.post('/create/description',authorization, (req, res) => {
+    try {
+        controller.createDescription(req).then(result => {return res.status(201).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_CREATE_ARTICLE');
+        return res.status(200).json(error)
+    }
+})
+
 
 router.delete('/:id',authorization, (req, res) => {
     try {

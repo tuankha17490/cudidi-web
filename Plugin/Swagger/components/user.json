@@ -9,7 +9,7 @@
         "requestBody": {
             "description": "Created user object",
             "content": {
-                "*/*": {
+                "application/x-www-form-urlencoded": {
                     "schema": {
                         "$ref": "../schemas/user.json#/User"
                     }
@@ -242,16 +242,9 @@
                         "bearerAuth": []
                     }
                 ],
+                
                 "parameters": [
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "description": "Format: Bearer token",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
+
                     {
                         "name": "id",
                         "in": "path",
@@ -302,15 +295,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "token",
-                        "in": "header",
-                        "description": "Format: Bearer token",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "id",
                         "in": "path",
                         "description": "the id that need to be updated",
@@ -356,15 +340,7 @@
                     }
                 ],
                 "parameters": [
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "description": "Format: Bearer token",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
+
                     {
                         "name": "id",
                         "in": "path",
@@ -453,87 +429,87 @@
                         }
                     }
                 }
-            },
-            "responses": {
-                "default": {
-                    "description": "successful operation",
-                    "content": {}
-                }
-            },
-            "x-codegen-request-body-name": "body"
+            }
         },
-        "uploadAvatar": {
-            "tags": [
-                "user"
-            ],
-            "summary": "Upload avatar of user",
-            "description": "Upload avatar of user by id.",
-            "operationId": "uploadAvatar",
-            "security": [
-                {
-                    "bearerAuth": []
-                }
-            ],
-            "requestBody": {
-                "description": "Upload user object",
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "avatar": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
+        "responses": {
+            "default": {
+                "description": "successful operation",
+                "content": {}
+            }
+        },
+        "x-codegen-request-body-name": "body"
+    },
+    "uploadAvatar": {
+        "tags": [
+            "user"
+        ],
+        "summary": "Upload avatar of user",
+        "description": "Upload avatar of user by id.",
+        "operationId": "uploadAvatar",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "requestBody": {
+            "description": "Upload user object",
+            "content": {
+                "multipart/form-data": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "avatar": {
+                                "type": "string",
+                                "format": "binary"
                             }
                         }
                     }
                 }
-            },
-            "responses": {
-                "400": {
-                    "description": "Invalid user supplied",
-                    "content": {}
-                },
-                "404": {
-                    "description": "User not found",
-                    "content": {}
-                },
-                "401": {
-                    "description": "Access token is missing or invalid",
-                    "content": {}
-                }
             }
         },
-        "getMe": {
-            "tags": [
-                "user"
-            ],
-            "summary": "Get me",
-            "description": "Get information my user.",
-            "operationId": "getMyUser",
-            "security": [
-                {
-                    "bearerAuth": []
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "successful operation",
-                    "content": {}
-                },
-                "400": {
-                    "description": "Invalid username supplied",
-                    "content": {}
-                },
-                "404": {
-                    "description": "User not found",
-                    "content": {}
-                },
-                "401": {
-                    "description": "Access token is missing or invalid",
-                    "content": {}
-                }
+        "responses": {
+            "400": {
+                "description": "Invalid user supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "User not found",
+                "content": {}
+            },
+            "401": {
+                "description": "Access token is missing or invalid",
+                "content": {}
+            }
+        }
+    },
+    "getMe": {
+        "tags": [
+            "user"
+        ],
+        "summary": "Get me",
+        "description": "Get information my user.",
+        "operationId": "getMyUser",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {}
+            },
+            "400": {
+                "description": "Invalid username supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "User not found",
+                "content": {}
+            },
+            "401": {
+                "description": "Access token is missing or invalid",
+                "content": {}
             }
         }
     }

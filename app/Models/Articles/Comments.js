@@ -8,6 +8,14 @@ export default class Comments extends Model {
     static get idColumn() {
         return 'ID'
     }
+    async $beforeInsert() {
+        this.created_at = new Date()
+        this.updated_at = new Date()
+    }
+
+    async $beforeUpdate() {
+        this.updated_at = new Date()
+    }
     static get relationMappings() {
         return {
             users: {

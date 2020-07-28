@@ -19,6 +19,14 @@ export default class Users extends Model {
             }
         }
     }
+    async $beforeInsert() {
+        this.created_at = new Date()
+        this.updated_at = new Date()
+    }
+
+    async $beforeUpdate() {
+        this.updated_at = new Date()
+    }
     // To do validate 
     static get jsonSchema() {
         return {
