@@ -29,12 +29,12 @@ router.get('/search/:page&:limit',authorization, (req, res) => {
     try {
         controller.search(req.query.data,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
-        console.log('CONTROLLER_SEARCH_USER');
+        console.log('CONTROLLER_SEARCH_ARTICLE');
         return res.status(200).json(error)
     }
 })
 
-router.get('/userID/:page&:limit',authorization, (req, res) => {
+router.get('/:userID/:page&:limit',authorization, (req, res) => {
     try {
         controller.getListWithUser(req.params.userID,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {

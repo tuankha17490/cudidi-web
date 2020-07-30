@@ -25,6 +25,22 @@ router.get('/:page&:limit',authorization, (req, res) => {
     }
 })
 
+router.get('/search/:page&:limit',authorization, (req, res) => {
+    try {
+        controller.search(req.query.data,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_SEARCH_DESCRIPTION');
+        return res.status(200).json(error)
+    }
+})
+router.get('/:id',authorization, (req, res) => {
+    try {
+        controller.getInformation({ID:req.params.id}).then(result => {return res.status(200).json(result)});
+    } catch (error) {
+        console.log('CONTROLLER_GET_INFORMATION_OF_DESCRIPTION_ARTICLE')
+        return res.status(200).json(error)
+    }
+})
 
 router.put('/:id',authorization, (req, res) => {
     try {

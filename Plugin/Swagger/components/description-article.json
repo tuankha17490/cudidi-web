@@ -51,5 +51,283 @@
             }
         },
         "x-codegen-request-body-name": "body"
+    },
+    "specify": {
+        "id": {
+            "get": {
+                "tags": [
+                    "description of article"
+                ],
+                "summary": "Get description of article by id",
+                "operationId": "getDescriptionArticleById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                
+                "parameters": [
+
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "../schemas/description-article.json#/Description-Article"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "../schemas/description-article.json#/Description-Article"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid description of article supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Description of Article not found",
+                        "content": {}
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "description of article"
+                ],
+                "summary": "Updated article",
+                "description": "Update information of article by id.",
+                "operationId": "updateDescriptionArticleById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the id that need to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create description of article",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "Place": {
+                                        "type": "string"
+                                    },
+                                    "Day": {
+                                        "type": "integer"
+                                    },
+                                    "Description": {
+                                        "type": "string"
+                                    },
+                                    "Introduce": {
+                                        "type": "object",
+                                        "properties":{
+                                            "URL": {
+                                                "type":"string"
+                                            },
+                                            "Location": {
+                                                "type":"string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid description article supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Description Article not found",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "body"
+            },
+            "delete": {
+                "tags": [
+                    "description of article"
+                ],
+                "summary": "Delete article",
+                "description": "Delete specify article by id.",
+                "operationId": "deleleDescriptionArticleById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id that needs to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid description of article supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Description of Article not found",
+                        "content": {}
+                    }
+                }
+            }
+        }
+    },
+    "search": {
+        "tags": [
+            "description of article"
+        ],
+        "summary": "Search description of article",
+        "description": "Search article follow place.",
+        "operationId": "searchDescriptionArticle",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "parameters": [
+            {
+                "name": "page",
+                "in": "path",
+                "description": "page of data",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "data",
+                "in": "query",
+                "description": "The data that needs to be searched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/description-article.json#/Description-Article"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/description-article.json#/Description-Article"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Description of Article not found",
+                "content": {}
+            }
+        }
+    },
+    "pagination": {
+        "tags": [
+            "description of article"
+        ],
+        "summary": "Get list description of article",
+        "description": "Get information with offset and limit to paginate.",
+        "operationId": "PaginationDescriptionArticle",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "parameters": [
+            {
+                "name": "page",
+                "in": "path",
+                "description": "The offset that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref":"../schemas/description-article.json#/Description-Article"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref":"../schemas/description-article.json#/Description-Article"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid description of article supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "Description of Article not found",
+                "content": {}
+            }
+        }
     }
 }

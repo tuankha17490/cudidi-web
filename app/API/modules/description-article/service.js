@@ -31,29 +31,37 @@ export default class DescriptionArticleService extends BaseServices {
             return response(400, error.toString())
         }
     }
-    // async updateById(req, id) {
-    //     try {
-    //         const data = req.body
-    //         console.log('asdadasdasda', data);
-    //         if (data.imageArticles != undefined) {
-    //                 await ImageArticleRespository.Instance().tableQuery().insertGraph(
-    //                     [{
-    //                         data.imageArticles,
-    //                         descriptionArticles: [{
-    //                             id
-    //                         }]
-    //                     }],
-    //                     {
-    //                         relate:true
-    //                     }
-    //                 )
-            
-    //         }
-    //         data.imageArticles = undefined
-    //         const update = await this.respository.updateById(data)
-    //     } catch (error) {
-    //         console.log('UPDATE DESCRIPTION ARTICLE', error.toString());
-    //         return response(400, 'Update failed !!!')
-    //     }
-    // }
+    async updateById(req, id) {
+        try {
+            const data = req.body
+            const imageArticles = data.imageArticles
+            if (data.imageArticles != undefined) {
+                imageArticles.forEach(async element => {
+                    await ImageArticleRespository.Instance().tableQuery().insertGraph(
+                        [{
+                            URL: element.URL,
+                            Location: element.Location,
+                            descriptionArticles: [{
+                                ID: id
+                            }]
+                        }], {
+                            relate: true
+                        }
+                    )
+                });
+              
+
+            }
+            data.imageArticles = undefined
+            const update = await this.respository.updateById(data, id)
+            return {
+                status: 200,
+                message: 'Success !!!',
+                isUpdate: update
+            }
+        } catch (error) {
+            console.log('UPDATE DESCRIPTION ARTICLE', error.toString());
+            return response(400, 'Update failed !!!')
+        }
+    }
 }

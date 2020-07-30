@@ -4,5 +4,28 @@
             "$ref": "../components/description-article.json#/create"
         }
        
+    },
+    "specify": {
+        "id": {
+            "get": {
+                "$ref": "../components/description-article.json#/specify/id/get"
+            },
+            "put": {
+                "$ref": "../components/description-article.json#/specify/id/put"
+            },
+            "delete": {
+                "$ref": "../components/description-article.json#/specify/id/delete"
+            }
+        }
+    },
+    "pagination": {
+        "get": {
+            "$ref": "../components/description-article.json#/pagination"
+        }
+    },
+    "search": {
+        "get": {
+            "$ref":"../components/description-article.json#/search"
+        }
     }
 }

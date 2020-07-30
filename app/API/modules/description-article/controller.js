@@ -7,5 +7,13 @@ export default class DescriptionArticleController extends BaseController {
     getModule() {
         return DescriptionArticleService.Instance();  
     }
-  
+    search(data,page, limit) {
+        return this.service.search(data,page,limit,'imageArticles', ['Place'])
+    }
+    getList(page, limit) {
+        return this.service.getList(page, limit, 'imageArticles')
+    }
+    getInformation(condition) {
+        return this.service.getInformation(condition, 'imageArticles')
+    }
 }

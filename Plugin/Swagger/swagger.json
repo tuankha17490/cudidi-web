@@ -51,6 +51,9 @@
         "/user/{page}&{limit}": {
             "$ref": "./paths/user.json#/pagination"
         },
+        "/user/search/{page}&{limit}": {
+            "$ref": "./paths/user.json#/search"
+        },
         "/user/lazy-load-list/{lastId}&{limit}": {
             "$ref": "./paths/user.json#/lazyLoad"
         },
@@ -198,12 +201,16 @@
         },
         "/user/update-information": {
             "$ref": "./paths/user.json#/updateInformation"
-        },
-        "/user/search/{page}&{limit}": {
-            "$ref": "./paths/user.json#/search"
-        },
+        },   
+        
         "/article/{page}&{limit}": {
             "$ref": "./paths/article.json#/pagination"
+        },
+        "/article/search/{page}&{limit}": {
+            "$ref": "./paths/article.json#/search"
+        },
+        "/article/{userID}/{page}&{limit}": {
+            "$ref": "./paths/article.json#/paginationWithUser"
         },
         "/article/lazy-load-list/{lastId}&{limit}": {
             "$ref": "./paths/article.json#/lazyLoad"
@@ -218,8 +225,17 @@
             "$ref": "./paths/article.json#/specifyArticle/id"
         },
 
+        "/description-article/{page}&{limit}": {
+            "$ref": "./paths/description-article.json#/pagination"
+        },
+        "/description-article/search/{page}&{limit}": {
+            "$ref": "./paths/description-article.json#/search"
+        },
         "/description-article/create": {
             "$ref": "./paths/description-article.json#/create"
+        },
+        "/description-article/{id}": {
+            "$ref": "./paths/description-article.json#/specify/id"
         }
 
     }

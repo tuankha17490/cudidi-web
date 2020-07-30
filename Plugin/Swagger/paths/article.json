@@ -4,6 +4,11 @@
             "$ref": "../components/article.json#/pagination"
         }
     },
+    "paginationWithUser": {
+        "get": {
+            "$ref": "../components/article.json#/paginationWithUser"
+        }
+    },
     "lazyLoad": {
         "get": {
             "$ref": "../components/article.json#/lazyLoad"
@@ -20,6 +25,11 @@
             "$ref":"../components/article.json#/uploadImage"
         }
     },
+    "search": {
+        "get": {
+            "$ref":"../components/article.json#/search"
+        }
+    },
     "specifyArticle": {
         
         "id": {
@@ -33,5 +43,5 @@
                 "$ref": "../components/article.json#/specifyArticle/id/delete"
             }
         }
-    },
+    }
 }
