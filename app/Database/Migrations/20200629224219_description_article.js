@@ -7,6 +7,7 @@ export function up(knex) {
       t.integer('Day')
       t.string('Place')
       t.string('Description')
+      t.boolean('isDeleted').defaultTo(0)
       t.timestamps()
     })
   }

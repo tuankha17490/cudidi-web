@@ -6,6 +6,7 @@ export function up(knex) {
         t.foreign('Tour_Id').references('Tours.ID').onDelete('CASCADE').onUpdate('CASCADE')
         t.string('Place')
         t.string('Description')
+        t.boolean('isDeleted').defaultTo(0)
         t.timestamps()
     })
 }

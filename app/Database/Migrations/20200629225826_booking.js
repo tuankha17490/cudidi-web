@@ -8,6 +8,7 @@ export function up(knex) {
         t.integer('Tour_Id').unsigned()
         t.foreign('Tour_Id').references('Tours.ID').onDelete('CASCADE').onUpdate('CASCADE')
         t.bool('IsChecked')
+        t.boolean('isDeleted').defaultTo(0)
         t.timestamps()
     })
 }

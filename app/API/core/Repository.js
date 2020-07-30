@@ -15,10 +15,10 @@ export default class BaseRespository {
         return this.tableQuery().select(column).findById(id);
     }
     count() {
-        return this.tableQuery().count();
+        return this.tableQuery().count('id as CNT');
     }
     countBy(condition = {}) {
-        return this.tableQuery().where(condition).count();
+        return this.tableQuery().where(condition).count('id as CNT');
     }
     getBy(condition, column = ['*']) {
         return this.tableQuery().select(column).findOne(condition);
@@ -31,6 +31,9 @@ export default class BaseRespository {
     }
     deleteById(id) {
         return this.tableQuery().deleteById(id)
+    }
+    deleteSoft(condition) {
+        return this.tableQuery().patch({isDeleted: 1}).where(condition)
     }
     update(data, condition) {
         return this.tableQuery().patch(data).where(condition);

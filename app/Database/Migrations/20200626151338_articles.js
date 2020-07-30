@@ -14,6 +14,7 @@ export function up(knex) {
     t.integer('NumberOfPeople')
     t.float('AvgRate')
     t.integer('NumberOfVote')
+    t.boolean('isDeleted').defaultTo(0)
     t.timestamps()
   })
 }

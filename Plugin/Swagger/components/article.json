@@ -366,6 +366,164 @@
                 "content": {}
             }
         }
+    },
+    "specifyArticle": {
+        "id": {
+            "get": {
+                "tags": [
+                    "article"
+                ],
+                "summary": "Get user by user id",
+                "operationId": "getArticleById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                
+                "parameters": [
+
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "../schemas/user.json#/User"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "../schemas/user.json#/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid article supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Article not found",
+                        "content": {}
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "article"
+                ],
+                "summary": "Updated article",
+                "description": "Update information of article by id.",
+                "operationId": "updateArticleById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the id that need to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create article",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "Title": {
+                                        "type": "string"
+                                    },
+                                    "Location": {
+                                        "type": "string"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Duration": {
+                                        "type": "integer",
+                                    },
+                                    "Price": {
+                                        "type": "integer"
+                                    },
+                                    "NumberOfPeople": {
+                                        "type": "integer"
+                                    },
+                                    "Introduce": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid article supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Article not found",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "body"
+            },
+            "delete": {
+                "tags": [
+                    "article"
+                ],
+                "summary": "Delete article",
+                "description": "Delete specify article by id.",
+                "operationId": "deleleArticleById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id that needs to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid article supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Article not found",
+                        "content": {}
+                    }
+                }
+            }
+        }
     }
     
 }

@@ -26,9 +26,9 @@ router.get('/:page&:limit',authorization, (req, res) => {
 })
 
 
-router.put('/:id',authorization,  (req, res) => {
+router.put('/:id',authorization, (req, res) => {
     try {
-        controller.updateUserById(req, req.params.id).then(result => {return res.status(201).json(result)})
+        controller.updateById(req, req.params.id).then(result => {return res.status(201).json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPDATE_DESCRIPTION')
         return res.status(200).json(error)
@@ -37,7 +37,7 @@ router.put('/:id',authorization,  (req, res) => {
 })
 router.delete('/:id',authorization, (req, res) => {
     try {
-        controller.deleteById(req).then(result => {return res.status(200).json(result)})
+        controller.deleteSoft({ID: req.params.id}).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_DELETE_DESCRIPTION')
         return res.status(200).json(error)

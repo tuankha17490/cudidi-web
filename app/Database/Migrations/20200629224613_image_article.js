@@ -4,6 +4,7 @@ export function up(knex) {
         t.increments('ID');
         t.string('URL');
         t.string('Location');
+        t.boolean('isDeleted').defaultTo(0)
         t.timestamps()
     })
 }

@@ -7,6 +7,7 @@ export function up(knex) {
         t.integer('Article_Id').unsigned()
         t.foreign('Article_Id').references('Articles.ID').onDelete('CASCADE').onUpdate('CASCADE')
         t.float('Rate')
+        t.boolean('isDeleted').defaultTo(0)
     })
 }
 

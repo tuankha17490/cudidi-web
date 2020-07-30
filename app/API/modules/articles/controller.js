@@ -10,5 +10,19 @@ export default class ArticleController extends BaseController {
     uploadImage(req) {
         return this.service.uploadImage(req)
     }
-    
+    getInformation(condition) {
+        return this.service.getInformation(condition, 'users')
+    }
+    updateById(req) {
+        return this.service.updateById(req);
+    }
+    getList(page, limit) {
+        return this.service.getList(page, limit, 'users')
+    }
+    search(data,page, limit) {
+        return this.service.search(data,page,limit,'users', ['Title', 'Location'])
+    }
+    getListWithUser(userID, page, limit) {
+        return this.service.getListWithUser(userID, page, limit)
+    }
 }

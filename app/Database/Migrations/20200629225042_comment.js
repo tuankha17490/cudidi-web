@@ -9,6 +9,7 @@ export function up(knex) {
         t.string('Description')
         t.integer('Reply_Id').unsigned()
         t.foreign('Reply_Id').references('Comments.ID').onDelete('CASCADE').onUpdate('CASCADE')
+        t.boolean('isDeleted').defaultTo(0)
         t.timestamps()
     })
 }

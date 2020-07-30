@@ -27,10 +27,10 @@
   },
   "servers": [
     {
-      "url": "https://cudidi-web.herokuapp.com/"
+      "url": "http://localhost:3000/"
     },
     {
-      "url": "http://cudidi-web.herokuapp.com/"
+      "url": "https://localhost:3000/"
     }
   ],
   "tags": [
@@ -1507,6 +1507,306 @@
           },
           "404": {
             "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/article/{id}": {
+      "get": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Get user by user id",
+        "operationId": "getArticleById",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6,
+                      "writeOnly": true
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6,
+                      "writeOnly": true
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid article supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Article not found",
+            "content": {}
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Updated article",
+        "description": "Update information of article by id.",
+        "operationId": "updateArticleById",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "the id that need to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated article object",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ID": {
+                    "type": "integer",
+                    "readOnly": true
+                  },
+                  "Location": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 255
+                  },
+                  "Image": {
+                    "type": "string"
+                  },
+                  "Title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "Duration": {
+                    "type": "integer"
+                  },
+                  "Price": {
+                    "type": "number",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                  },
+                  "NumberOfPeople": {
+                    "type": "integer"
+                  },
+                  "Introduce": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 255
+                  },
+                  "descriptionArticles": {
+                    "type": "object",
+                    "properties": {
+                      "ID": {
+                        "type": "integer",
+                        "readOnly": true
+                      },
+                      "Place": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                      },
+                      "Day": {
+                        "type": "integer"
+                      },
+                      "Description": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                      },
+                      "imageArticles": {
+                        "type": "object",
+                        "properties": {
+                          "ID": {
+                            "type": "integer",
+                            "readOnly": true
+                          },
+                          "URL": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "Location": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 255
+                          }
+                        },
+                        "xml": {
+                          "name": "Image-Article"
+                        }
+                      }
+                    },
+                    "xml": {
+                      "name": "Description-Article"
+                    }
+                  }
+                },
+                "xml": {
+                  "name": "Article"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid article supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Article not found",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Delete article",
+        "description": "Delete specify article by id.",
+        "operationId": "deleleArticleById",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid article supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Article not found",
             "content": {}
           }
         }

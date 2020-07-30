@@ -25,6 +25,24 @@ router.get('/:page&:limit',authorization, (req, res) => {
     }
 })
 
+router.get('/search/:page&:limit',authorization, (req, res) => {
+    try {
+        controller.search(req.query.data,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_SEARCH_USER');
+        return res.status(200).json(error)
+    }
+})
+
+router.get('/userID/:page&:limit',authorization, (req, res) => {
+    try {
+        controller.getListWithUser(req.params.userID,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_LIST_PAGINATION');
+        return res.status(200).json(error)
+    }
+})
+
 router.post('/create',authorization,validator.createTask, (req, res) => {
     try {
         controller.create(req).then(result => {return res.status(201).json(result)})
@@ -34,14 +52,20 @@ router.post('/create',authorization,validator.createTask, (req, res) => {
     }
 })
 
-
-
+router.get('/:id',authorization, (req, res) => {
+    try {
+        controller.getInformation({ID:req.params.id}).then(result => {return res.status(200).json(result)});
+    } catch (error) {
+        console.log('CONTROLLER_GET_INFORMATION_OF_ARTICLE')
+        return res.status(200).json(error)
+    }
+})
 
 router.delete('/:id',authorization, (req, res) => {
     try {
-        controller.deleteBySlug(req.params.id).then(result => {return res.status(200).json(result)})
+        controller.deleteSoft({ID: req.params.id}).then(result => {return res.status(200).json(result)})
     } catch (error) {
-        console.log('CONTROLLER_DELETE_ARTICLE')
+        console.log('CONTROLLER_DELETE_USER')
         return res.status(200).json(error)
     }
 })
@@ -55,9 +79,9 @@ router.post('/upload-image',authorization, multer.single('image'), (req, res) =>
     }
 })
 
-router.put('/:id',authorization,  (req, res) => {
+router.put('/:id',authorization, validator.updateTask, (req, res) => {
     try {
-        controller.updateUserById(req, req.params.id).then(result => {return res.status(201).json(result)})
+        controller.updateById(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPDATE_ARTICLE')
         return res.status(200).json(error)

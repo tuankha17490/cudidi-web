@@ -8,6 +8,7 @@ export function up(knex) {
         t.float('ChildrenPrice')
         t.string('Duration')
         t.integer('NumberOfPeople')
+        t.boolean('isDeleted').defaultTo(0)
         t.timestamps()
     })
 }

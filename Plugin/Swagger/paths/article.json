@@ -19,5 +19,19 @@
         "post": {
             "$ref":"../components/article.json#/uploadImage"
         }
-    }
+    },
+    "specifyArticle": {
+        
+        "id": {
+            "get": {
+                "$ref": "../components/article.json#/specifyArticle/id/get"
+            },
+            "put": {
+                "$ref": "../components/article.json#/specifyArticle/id/put"
+            },
+            "delete": {
+                "$ref": "../components/article.json#/specifyArticle/id/delete"
+            }
+        }
+    },
 }

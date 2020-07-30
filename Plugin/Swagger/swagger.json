@@ -214,6 +214,9 @@
         "/article/upload-image": {
             "$ref": "./paths/article.json#/uploadImage"
         },
+        "/article/{id}": {
+            "$ref": "./paths/article.json#/specifyArticle/id"
+        },
 
         "/description-article/create": {
             "$ref": "./paths/description-article.json#/create"

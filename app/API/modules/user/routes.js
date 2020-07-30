@@ -15,22 +15,22 @@ router.get('/me',authorization,(req, res) => {
         return res.status(200).json(error)
     }
 })
-router.get('/search/:limit',authorization, (req, res) => {
+router.get('/search/:page&:limit',authorization, (req, res) => {
     try {
-        controller.search(req.query.data,req.params.limit).then(result => {return res.status(200).json(result)})
+        controller.search(req.query.data,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_SEARCH_USER');
         return res.status(200).json(error)
     }
 })
-router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
-    try {
-        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(200).json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_GET_USER_LIST');
-        return res.status(200).json(error)
-    }
-})
+// router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
+//     try {
+//         controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(200).json(result)})
+//     } catch (error) {
+//         console.log('CONTROLLER_GET_USER_LIST');
+//         return res.status(200).json(error)
+//     }
+// })
 
 router.get('/:page&:limit',authorization, (req, res) => {
     try {
@@ -90,7 +90,7 @@ router.put('/:id',authorization,validator.updateTask,  (req, res) => {
 })
 router.delete('/:id',authorization, (req, res) => {
     try {
-        controller.deleteById(req).then(result => {return res.status(200).json(result)})
+        controller.deleteSoft(req).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_DELETE_USER')
         return res.status(200).json(error)

@@ -8,6 +8,7 @@ export function up(knex) {
         t.string('Note')
         t.float('PriceInclude')
         t.float('PriceNotInclude')
+        t.boolean('isDeleted').defaultTo(0)
         t.timestamps()
     })
 }

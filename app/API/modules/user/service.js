@@ -30,7 +30,8 @@ export default class UserService extends BaseServices {
     async create(param) {
         try {
             const checkUser = await this.respository.getBy({
-                Username: param.Username
+                Username: param.Username,
+                isDeleted: 0
             })
             if (checkUser) {
                 return response(403, 'Username is registered by another people !!!')
@@ -62,11 +63,11 @@ export default class UserService extends BaseServices {
     async login(param) {
         try {
             const queryData = await this.respository.getBy({
-                Username: param.Username
+                Username: param.Username,
             }).withGraphFetched('roles')
             if (queryData) {
+                if(queryData.isDeleted == 1) return response(404, 'Your account was deleted')
                 const checkPasswordHashed = bcrypt.compareSync(param.Password, queryData.Password)
-                console.log(checkPasswordHashed);
                 if (checkPasswordHashed) {
                     const token = await jwt.sign({
                         Username: queryData.Username,
@@ -100,6 +101,7 @@ export default class UserService extends BaseServices {
             const checkUsername = await this.respository.getBy({
                 Username: data.Username
             })
+            if(checkUsername && checkUsername.isDeleted == 1) return response(404, 'Your account was deleted')
             if(data.Password != undefined) {
                 data.Password = bcrypt.hashSync(data.Password, 10)
             }
@@ -129,7 +131,6 @@ export default class UserService extends BaseServices {
             } = req
             const id = req.userData.ID
             const image = await uploads(file.path, req.userData.Username);
-            console.log('image', image);
             const Avatar = image.url
             await this.respository.updateById({
                 Avatar
@@ -158,8 +159,11 @@ export default class UserService extends BaseServices {
     async getMe(decode) {
         try {
             const data = await this.respository
-                .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
+                .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'isDeleted'])
                 .withGraphFetched('roles')
+            if(data.isDeleted == 1) {
+                return response(404, 'Your account was deleted')
+            }
             return response(200, 'Success !!!', data)
         } catch (error) {
             return response(400, error.toString())
@@ -175,6 +179,7 @@ export default class UserService extends BaseServices {
                 newPassword
             } = req.body
             const data = await this.respository.findAt(id)
+            if(data.isDeleted == 1) return response(404, 'Your account was deleted')
             if (bcrypt.compareSync(oldPassword, data.Password)) {
                 const Password = bcrypt.hashSync(newPassword, 10)
                 const updateFetched = await this.respository.updateAndFetchById({
@@ -194,6 +199,9 @@ export default class UserService extends BaseServices {
             const checkUsername = await this.respository.getBy({
                 Username: data.Username
             })
+            if(checkUsername && checkUsername.isDeleted == 1) {
+                return response(404, 'Your account was deleted')
+            }
             if (checkUsername && id != checkUsername.ID) {
                 return response(403, 'Username is registered by another people !!!')
             }
@@ -274,6 +282,22 @@ export default class UserService extends BaseServices {
         }
     }
 
+    async deleteSoft(req) {
+        try {
+            const id = req.params.id
+            if (id == req.userData.ID) {
+                return response(403, 'Cant delete account of you');
+            }
+            const result = await this.respository.deleteSoft({ID: req.params.id})
+            return {
+                status: 200,
+                message: 'Delete success!!!',
+                isDeleted: result
+            }
+        } catch (error) {
+            return response(400, error.toString())
+        }
+    }
 
     async loginByFacebook(accessToken, refreshToken, profile, done) {
         try {
@@ -314,5 +338,5 @@ export default class UserService extends BaseServices {
             return done(response(error.errno, error.message))
         }
     }
-
+   
 }

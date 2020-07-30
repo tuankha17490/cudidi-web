@@ -1,4 +1,5 @@
 import ArticleRespository from "./respository"
+import DescriptionArticleRespository from "../description-article/respository"
 import BaseServices from '../../core/Service';
 import getSlug from "slugify"
 import dotenv from "dotenv"
@@ -54,5 +55,86 @@ export default class ArticleService extends BaseServices {
             return response(400, error.toString())
         }
     }
-  
+
+    async getInformation(condition, table) {
+        try {
+            const data = await this.respository.getBy(condition).withGraphFetched(table).modifyGraph(table, builder => {
+                builder.select('FullName', 'ID', 'Avatar')
+            })
+            if (data) {
+                if (data.isDeleted == 1) return response(404, 'The article was deleted')
+                data.User_Id = undefined
+            }
+            return response(200, 'Success !!!', data)
+        } catch (error) {
+            return response(400, error.toString())
+        }
+    }
+    async updateById(req) {
+        try {
+            const data = req.body
+            const id = req.params.id
+            const checkData = await this.respository.findAt(id).withGraphFetched('users')
+            if (checkData) {
+                if (checkData.isDeleted == 1) {
+                    return response(404, 'Article Was deleted')
+                }
+            }
+            if (checkData.users.ID != req.userData.ID) {
+                throw 'Only writer is allowed to edit'
+            }
+            // if(data.Duration < checkData.Duration) {
+            //     for (let i = data.Duration + 1; i <= checkData.Duration; i++) {
+            //         await DescriptionArticleRespository.Instance().deleteSoft({ID: i})
+            //     }
+            // }
+            if (data.Duration != checkData.Duration) {
+                return response(400, 'Can not edit duration')
+            }
+            const result = await this.respository.updateById(data, id)
+            return response(200, 'Success !!!', result)
+        } catch (error) {
+            console.log(error.toString());
+            response(400, 'Update article failed !!!')
+        }
+    }
+
+    async getList(page, limit, table = '', column = ['*']) {
+        try {
+            const count = await this.respository.count();
+            const offset = (page - 1) * limit
+            if (offset > count) {
+                throw 'Offset can not be greater than the number of data'
+            }
+            const data = await this.respository.listOffSet(offset, limit, column).where({
+                    isDeleted: 0
+                })
+                .withGraphFetched(table).modifyGraph(table, builder => {
+                    builder.select('ID', 'FullName', 'Avatar')
+                })
+            return response(200, 'Success !!!', data)
+        } catch (error) {
+            return response(400, error.toString())
+        }
+    }
+    async getListWithUser(userID, page, limit) {
+        try {
+            const count = await this.respository.count().where({
+                User_Id: userID,
+                isDeleted: 0
+            })
+            const offset = (page - 1) * limit
+            if (offset > count) {
+                throw 'Offset can not be greater than the number of data'
+            }
+            const data = await this.respository.listOffSet(offset, limit).where({
+                User_Id: userID,
+                isDeleted: 0
+            })
+            return response(200, 'Success !!!', data)
+        } catch (error) {
+            console.log('GET LIST WITH USER', error.toString());
+            return response(400, 'Get list article of user failed')
+        }
+    }
 }
