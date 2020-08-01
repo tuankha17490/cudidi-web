@@ -481,6 +481,156 @@
         }
       }
     },
+    "/user/article/{userSlug}&{lastId}&{limit}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get list article of user by slug",
+        "description": "Get list article of user by slug.",
+        "operationId": "getListWithSlug",
+        "parameters": [
+          {
+            "name": "userSlug",
+            "in": "path",
+            "description": "The lastId that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "lastId",
+            "in": "path",
+            "description": "The lastId that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "The limit that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6,
+                      "writeOnly": true
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ID": {
+                      "type": "integer",
+                      "readOnly": true
+                    },
+                    "Username": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 30
+                    },
+                    "Password": {
+                      "type": "string",
+                      "minLength": 6,
+                      "writeOnly": true
+                    },
+                    "FullName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "BirthDay": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Address": {
+                      "type": "string"
+                    },
+                    "Avatar": {
+                      "type": "string"
+                    },
+                    "PhoneNumber": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 15
+                    }
+                  },
+                  "xml": {
+                    "name": "User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
     "/register": {
       "post": {
         "tags": [
