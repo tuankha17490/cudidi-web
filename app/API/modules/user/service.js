@@ -345,13 +345,17 @@ export default class UserService extends BaseServices {
             const slug = req.params.userSlug
             const lastID = req.params.lastID
             const limit = req.params.limit
-            console.log(lastID);
-            const query = await this.respository.listOffSet(0, limit, column)
-            .where('Users.ID', '>', lastID).where('Users.isDeleted', 0).where('Users.Slug',slug).withGraphJoined('articles')
+            let query = await this.respository.tableQuery().select(column).where('Users.Slug',slug)
+            .where('Users.isDeleted', 0).withGraphJoined('articles')
             .modifyGraph(table, builder => {
-                builder.select('*').where({isDeleted: 0})
+                builder.select('*').where({isDeleted: 0}).where('ID', '>', lastID).limit(limit)
             })
-            return response(200, 'Success !!!', query)
+            const result = {}
+            result.articles = query[0].articles
+            query[0].articles = undefined
+            result.user = query[0]
+            result.lastID = result.articles.length
+            return response(200, 'Success !!!', result)
         } catch (error) {
             console.log('Base Service list with slug',error.toString());
             return response(400, 'Get list with slug failed')

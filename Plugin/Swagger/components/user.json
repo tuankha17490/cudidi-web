@@ -527,7 +527,7 @@
                 "description": "The lastId that needs to be fetched.",
                 "required": true,
                 "schema": {
-                    "type": "integer"
+                    "type": "string"
                 }
             },
             {
