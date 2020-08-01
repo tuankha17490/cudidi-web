@@ -62,6 +62,21 @@ export default class BaseServices {
             return response(400, error.toString())
         }
     }
+    async getListWithSlug(req, table = '', column = ['*']) {
+        try {
+            const slug = req.params.userSlug
+            const lastID = req.params.lastID
+            const limit = req.params.limit
+            const query = await this.respository.graphJoined(0, limit, table, column).where('ID', '>', lastID).where({isDeleted: 0, Slug:slug})
+            .modifyGraph(table, builder => {
+                builder.select('*').where({isDeleted: 0})
+            })
+            return response(200, 'Success !!!', query)
+        } catch (error) {
+            console.log('Base Service list with slug',error.toString());
+            return response(400, 'Get list with slug failed')
+        }
+    }
     async getInforById(id) {
         try {
             const data = await this.respository.findAt(id);

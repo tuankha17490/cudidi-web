@@ -57,6 +57,9 @@
         "/user/lazy-load-list/{lastId}&{limit}": {
             "$ref": "./paths/user.json#/lazyLoad"
         },
+        "/user/article/{userSlug}&{lastId}&{limit}": {
+            "$ref": "./paths/user.json#/getListWithSlug"
+        },
         "/register": {
             "$ref": "./paths/user.json#/create"
         },

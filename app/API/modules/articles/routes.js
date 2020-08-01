@@ -4,6 +4,8 @@ import authorization from "../../../Middleware/Authorization"
 import ArticleController from "./controller"
 import multer from "../../../Config/multer"
 import ArticleValidator from "./validator"
+import Permissions from "../../../Middleware/Permission"
+const permissions = new Permissions()
 const controller = new ArticleController()
 const validator = new ArticleValidator()
 
@@ -16,7 +18,7 @@ router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
     }
 })
 
-router.get('/:page&:limit',authorization, (req, res) => {
+router.get('/:page&:limit',authorization,permissions.setModuleArticle, permissions.GetList, (req, res) => {
     try {
         controller.getList(req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
@@ -25,7 +27,7 @@ router.get('/:page&:limit',authorization, (req, res) => {
     }
 })
 
-router.get('/search/:page&:limit',authorization, (req, res) => {
+router.get('/search/:page&:limit',authorization,permissions.setModuleArticle, permissions.Search, (req, res) => {
     try {
         controller.search(req.query.data,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
@@ -43,7 +45,16 @@ router.get('/:userID/:page&:limit',authorization, (req, res) => {
     }
 })
 
-router.post('/create',authorization,validator.createTask, (req, res) => {
+router.get('/:userSlug/:lastID&:limit',authorization, (req, res) => {
+    try {
+        controller.getListWithSlug(req).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_LIST_PAGINATION');
+        return res.status(200).json(error)
+    }
+})
+
+router.post('/create',authorization,permissions.setModuleArticle, permissions.Create,validator.createTask, (req, res) => {
     try {
         controller.create(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
@@ -61,7 +72,7 @@ router.get('/:id',authorization, (req, res) => {
     }
 })
 
-router.delete('/:id',authorization, (req, res) => {
+router.delete('/:id',authorization,permissions.setModuleArticle, permissions.Delete, (req, res) => {
     try {
         controller.deleteSoft({ID: req.params.id}).then(result => {return res.status(200).json(result)})
     } catch (error) {
@@ -79,7 +90,7 @@ router.post('/upload-image',authorization, multer.single('image'), (req, res) =>
     }
 })
 
-router.put('/:id',authorization, validator.updateTask, (req, res) => {
+router.put('/:id',authorization,permissions.setModuleArticle, permissions.Update, validator.updateTask, (req, res) => {
     try {
         controller.updateById(req).then(result => {return res.status(201).json(result)})
     } catch (error) {

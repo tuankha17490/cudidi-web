@@ -4,6 +4,8 @@ import UserController from "./controller"
 import authorization from "../../../Middleware/Authorization"
 import UserValidator from "./validator"
 import multer from "../../../Config/multer"
+import Permissions from "../../../Middleware/Permission"
+const permissions = new Permissions()
 const controller = new UserController()
 const validator = new UserValidator()
 
@@ -15,7 +17,7 @@ router.get('/me',authorization,(req, res) => {
         return res.status(200).json(error)
     }
 })
-router.get('/search/:page&:limit',authorization, (req, res) => {
+router.get('/search/:page&:limit',authorization,permissions.setModuleUsers, permissions.Search, (req, res) => {
     try {
         controller.search(req.query.data,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
@@ -32,7 +34,16 @@ router.get('/search/:page&:limit',authorization, (req, res) => {
 //     }
 // })
 
-router.get('/:page&:limit',authorization, (req, res) => {
+router.get('/article/:userSlug&:lastID&:limit',(req, res) => {
+    try {
+        controller.getListWithSlug(req).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_USER_LIST');
+        return res.status(200).json(error)
+    }
+})
+
+router.get('/:page&:limit',authorization,permissions.setModuleUsers, permissions.GetList, (req, res) => {
     try {
         controller.getList(req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
@@ -40,7 +51,7 @@ router.get('/:page&:limit',authorization, (req, res) => {
         return res.status(200).json(error)
     }
 })
-router.get('/:id',authorization, (req, res) => {
+router.get('/:id',authorization,permissions.setModuleUsers, permissions.Read, (req, res) => {
     try {
         controller.getInforById(req.params.id).then(result => {return res.status(200).json(result)});
     } catch (error) {
@@ -79,7 +90,7 @@ router.put('/update-information',authorization,validator.updateTask, (req, res) 
         return res.status(200).json(error)
     }
 })
-router.put('/:id',authorization,validator.updateTask,  (req, res) => {
+router.put('/:id',authorization,permissions.setModuleUsers, permissions.Update,validator.updateTask,  (req, res) => {
     try {
         controller.updateUserById(req, req.params.id).then(result => {return res.status(201).json(result)})
     } catch (error) {
@@ -88,7 +99,7 @@ router.put('/:id',authorization,validator.updateTask,  (req, res) => {
     }
    
 })
-router.delete('/:id',authorization, (req, res) => {
+router.delete('/:id',authorization,permissions.setModuleUsers, permissions.Delete, (req, res) => {
     try {
         controller.deleteSoft(req).then(result => {return res.status(200).json(result)})
     } catch (error) {

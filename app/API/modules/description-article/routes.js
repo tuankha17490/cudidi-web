@@ -3,11 +3,13 @@ const router = express.Router()
 import authorization from "../../../Middleware/Authorization"
 import DescriptionArticleController from "./controller"
 import DescriptionArticleValidator from "./validator"
+import Permissions from "../../../Middleware/Permission"
+const permissions = new Permissions()
 const controller = new DescriptionArticleController()
 const validator = new DescriptionArticleValidator()
 
 
-router.post('/create',authorization,validator.createTask, (req, res) => {
+router.post('/create',authorization,permissions.setModuleDescription, permissions.Create,validator.createTask, (req, res) => {
     try {
         controller.create(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
@@ -16,7 +18,7 @@ router.post('/create',authorization,validator.createTask, (req, res) => {
     }
 })
 
-router.get('/:page&:limit',authorization, (req, res) => {
+router.get('/:page&:limit',authorization,permissions.setModuleDescription, permissions.GetList, (req, res) => {
     try {
         controller.getList(req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
@@ -25,7 +27,7 @@ router.get('/:page&:limit',authorization, (req, res) => {
     }
 })
 
-router.get('/search/:page&:limit',authorization, (req, res) => {
+router.get('/search/:page&:limit',authorization,permissions.setModuleDescription, permissions.Search, (req, res) => {
     try {
         controller.search(req.query.data,req.params.page,req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
@@ -42,7 +44,7 @@ router.get('/:id',authorization, (req, res) => {
     }
 })
 
-router.put('/:id',authorization, (req, res) => {
+router.put('/:id',authorization,permissions.setModuleDescription, permissions.Update, (req, res) => {
     try {
         controller.updateById(req, req.params.id).then(result => {return res.status(201).json(result)})
     } catch (error) {
@@ -51,7 +53,7 @@ router.put('/:id',authorization, (req, res) => {
     }
    
 })
-router.delete('/:id',authorization, (req, res) => {
+router.delete('/:id',authorization,permissions.setModuleDescription, permissions.Delete, (req, res) => {
     try {
         controller.deleteSoft({ID: req.params.id}).then(result => {return res.status(200).json(result)})
     } catch (error) {

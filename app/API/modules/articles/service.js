@@ -72,6 +72,11 @@ export default class ArticleService extends BaseServices {
     }
     async updateById(req) {
         try {
+            if(req.userData.Role == 'Users') {
+                if(req.userData.ID != req.params.id) {
+                    return response(403, 'You don not have permission to access')
+                }
+            }
             const data = req.body
             const id = req.params.id
             const checkData = await this.respository.findAt(id).withGraphFetched('users')

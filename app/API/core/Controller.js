@@ -32,4 +32,7 @@ export default class BaseConTroller {
     deleteSoft(condition) {
         return this.service.deleteSoft(condition)
     }
+    getListWithSlug(req) {
+        return this.service.getListWithSlug(req)
+    }
 }

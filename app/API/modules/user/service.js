@@ -12,6 +12,7 @@ import convertString from "../../../Util/ExcuteString"
 import {
     uploads
 } from "../../../Services/cloundinary"
+import { query } from "express";
 dotenv.config({
     silent: process.env.NODE_ENV === 'production'
 });
@@ -43,11 +44,11 @@ export default class UserService extends BaseServices {
             param.Slug = Slug
             param.Password = bcrypt.hashSync(param.Password, 10)
             const checkRole = await RoleRespository.Instance().getBy({
-                Name: 'Client'
+                Name: 'Users'
             })
             if (!checkRole) {
                 const createRole = await RoleRespository.Instance().create({
-                    Name: 'Client'
+                    Name: 'Users'
                 })
                 param.Role_Id = createRole.ID
             } else {
@@ -72,7 +73,8 @@ export default class UserService extends BaseServices {
                     const token = await jwt.sign({
                         Username: queryData.Username,
                         ID: queryData.ID,
-                        Password: queryData.Password
+                        Password: queryData.Password,
+                        Role: queryData.roles.Name
                     }, process.env.JWT_KEY, {
                         expiresIn: "2h"
                     })
@@ -338,5 +340,21 @@ export default class UserService extends BaseServices {
             return done(response(error.errno, error.message))
         }
     }
-   
+    async getListWithSlug(req, table = '', column = ['*']) {
+        try {
+            const slug = req.params.userSlug
+            const lastID = req.params.lastID
+            const limit = req.params.limit
+            console.log(lastID);
+            const query = await this.respository.listOffSet(0, limit, column)
+            .where('Users.ID', '>', lastID).where('Users.isDeleted', 0).where('Users.Slug',slug).withGraphJoined('articles')
+            .modifyGraph(table, builder => {
+                builder.select('*').where({isDeleted: 0})
+            })
+            return response(200, 'Success !!!', query)
+        } catch (error) {
+            console.log('Base Service list with slug',error.toString());
+            return response(400, 'Get list with slug failed')
+        }
+    }
 }

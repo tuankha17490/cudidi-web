@@ -50,6 +50,9 @@ export default class BaseRespository {
     graphFetched(offsetValue,limitValue,table,column = ['*']) {
         return this.listOffSet(offsetValue,limitValue,column).withGraphFetched(table);
     }
+    graphJoined(offsetValue,limitValue,table,column = ['*']) {
+        return this.listOffSet(offsetValue,limitValue,column).withGraphJoined(table);
+    }
     relatedDelete(table, id, condition = {}) {
         return this.relatedQuery(table, id, condition).delete()
     }

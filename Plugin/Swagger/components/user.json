@@ -512,5 +512,67 @@
                 "content": {}
             }
         }
-    }
+    },
+    "getListWithSlug": {
+        "tags": [
+            "user"
+        ],
+        "summary": "Get list article of user by slug",
+        "description": "Get list article of user by slug.",
+        "operationId": "getListWithSlug",
+        "parameters": [
+            {
+                "name": "userSlug",
+                "in": "path",
+                "description": "The lastId that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "lastId",
+                "in": "path",
+                "description": "The lastId that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/user.json#/User"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid username supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "User not found",
+                "content": {}
+            }
+        }
+    },
 }

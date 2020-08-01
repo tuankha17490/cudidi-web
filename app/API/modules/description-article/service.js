@@ -33,6 +33,11 @@ export default class DescriptionArticleService extends BaseServices {
     }
     async updateById(req, id) {
         try {
+            if(req.userData.Role == 'Users') {
+                if(req.userData.ID != req.params.id) {
+                    return response(403, 'You don not have permission to access')
+                }
+            }
             const data = req.body
             const imageArticles = data.imageArticles
             if (data.imageArticles != undefined) {

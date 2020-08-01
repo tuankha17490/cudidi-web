@@ -10,8 +10,6 @@ export function up(knex) {
         t.string('PhoneNumber').nullable()
         t.date('BirthDay').nullable()
         t.string('Slug')
-        t.string('GoogleID')
-        t.string('FacebookID')
         t.boolean('isDeleted').defaultTo(0)
         t.integer('Role_Id').unsigned()
         t.foreign('Role_Id').references('Roles.ID').onDelete('CASCADE').onUpdate('CASCADE')

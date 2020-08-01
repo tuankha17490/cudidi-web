@@ -20,6 +20,11 @@
             "$ref": "../components/user.json#/lazyLoad"
         }
     },
+    "getListWithSlug": {
+        "get": {
+            "$ref": "../components/user.json#/getListWithSlug"
+        }
+    },
     "checkPassword": {
         "post": {
             "$ref": "../components/user.json#/checkPassword"
