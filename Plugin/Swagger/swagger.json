@@ -221,6 +221,9 @@
         "/article/create": {
             "$ref": "./paths/article.json#/create"
         },
+        "/article/description/{articleSlug}": {
+            "$ref": "./paths/article.json#/getDescription"
+        },
         "/article/upload-image": {
             "$ref": "./paths/article.json#/uploadImage"
         },

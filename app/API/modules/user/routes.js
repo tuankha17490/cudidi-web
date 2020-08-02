@@ -34,7 +34,7 @@ router.get('/search/:page&:limit',authorization,permissions.setModuleUsers, perm
 //     }
 // })
 
-router.get('/article/:userSlug&:lastID&:limit',(req, res) => {
+router.get('/article/:userSlug&:lastId&:limit',(req, res) => {
     try {
         controller.getListWithSlug(req).then(result => {return res.status(200).json(result)})
     } catch (error) {

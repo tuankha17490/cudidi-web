@@ -343,7 +343,7 @@ export default class UserService extends BaseServices {
     async getListWithSlug(req, table = '', column = ['*']) {
         try {
             const slug = req.params.userSlug
-            const lastID = req.params.lastID
+            const lastID = req.params.lastId
             const limit = req.params.limit
             let query = await this.respository.tableQuery().select(column).where('Users.Slug',slug)
             .where('Users.isDeleted', 0).withGraphJoined('articles')
@@ -354,7 +354,9 @@ export default class UserService extends BaseServices {
             result.articles = query[0].articles
             query[0].articles = undefined
             result.user = query[0]
-            result.lastID = result.articles.length
+            if(result.articles.length > 0) {
+                result.lastID = result.articles[result.articles.length - 1].ID
+            }
             return response(200, 'Success !!!', result)
         } catch (error) {
             console.log('Base Service list with slug',error.toString());

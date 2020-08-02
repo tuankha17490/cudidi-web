@@ -142,4 +142,19 @@ export default class ArticleService extends BaseServices {
             return response(400, 'Get list article of user failed')
         }
     }
+
+    async getListWithSlug(req) {
+        try {
+            const slug = req.params.articleSlug
+            const id = await this.respository.getBy({Slug: slug, isDeleted: 0}, ['ID'])
+            if(!id) {
+                return response(404, 'Not found')
+            }
+            const query = await this.respository.relatedQuery('descriptionArticles',id)
+            return response(200, 'Success !!!', query)
+        } catch (error) {
+            console.log('Base Service list with slug',error.toString());
+            return response(400, 'Get list with slug failed')
+        }
+    }
 }

@@ -44,6 +44,15 @@ router.get('/:userID/:page&:limit',authorization, (req, res) => {
         return res.status(200).json(error)
     }
 })
+router.get('/description/:articleSlug',(req, res) => {
+    try {
+        controller.getListWithSlug(req).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_LIST');
+        return res.status(200).json(error)
+    }
+})
+
 
 router.get('/:userSlug/:lastID&:limit',authorization, (req, res) => {
     try {

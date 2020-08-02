@@ -69,4 +69,6 @@ export default class DescriptionArticleService extends BaseServices {
             return response(400, 'Update failed !!!')
         }
     }
+
+    
 }

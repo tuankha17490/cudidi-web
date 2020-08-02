@@ -30,6 +30,11 @@
             "$ref":"../components/article.json#/search"
         }
     },
+    "getDescription": {
+        "get": {
+            "$ref":"../components/article.json#/getDescription"
+        }
+    },
     "specifyArticle": {
         
         "id": {
