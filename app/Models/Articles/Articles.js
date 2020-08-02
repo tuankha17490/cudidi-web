@@ -37,7 +37,7 @@ export default class Articles extends Model {
                     to: 'Followings.Article_Id'
                 }
             },
-            ratesArticles: {
+            rateArticles: {
                 relation: Model.HasManyRelation,
                 modelClass: Rates_Articles,
                 join: {

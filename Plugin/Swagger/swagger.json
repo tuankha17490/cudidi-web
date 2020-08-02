@@ -242,7 +242,10 @@
         },
         "/description-article/{id}": {
             "$ref": "./paths/description-article.json#/specify/id"
-        }
+        },
 
+        "/rating/create": {
+            "$ref": "./paths/rating.json#/create"
+        }
     }
 }

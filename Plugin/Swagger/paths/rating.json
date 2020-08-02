@@ -1,0 +1,8 @@
+{
+    "create": {
+        "post": {
+            "$ref": "../components/rating.json#/post"
+        }
+       
+    }
+}

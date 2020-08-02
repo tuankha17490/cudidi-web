@@ -59,16 +59,16 @@ export default class UserValidator extends BaseValidator {
             })
         }
     }
-    login(req, res, next) {
-        try {
-            const checkUsername = super.usernameValidate(req, res)
-            if (checkUsername != true) return checkUsername;
-            next()
-        } catch (error) {
-            return res.status(200).json({
-                status: 400,
-                error: error.toString()
-            })
-        }
-    }
+    // login(req, res, next) {
+    //     try {
+    //         const checkUsername = super.usernameValidate(req, res)
+    //         if (checkUsername != true) return checkUsername;
+    //         next()
+    //     } catch (error) {
+    //         return res.status(200).json({
+    //             status: 400,
+    //             error: error.toString()
+    //         })
+    //     }
+    // }
 }

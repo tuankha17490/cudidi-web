@@ -14,13 +14,19 @@ export default class RateService extends BaseServices {
     }
     async create(req) {
         try {
-            const data = req.bod
+            const data = req.body
+            if(data.Rate == undefined) {
+                return response(400,'Rate can not undefine') 
+            }
+            if(data.Rate > 5) {
+                return response(400,'Rate must be less than 5') 
+            }
             const check = await this.respository.getBy({User_Id: req.userData.ID, Article_Id: req.body.articleID})
             if(check) {
-               await this.respository.update({Rate: data.Rate}, {User_Id: req.userData.ID, Article_Id: req.body.articleID})
+               await this.respository.update({Rate: data.Rate, Article_Id: req.body.articleID}, {User_Id: req.userData.ID, Article_Id: req.body.articleID})
                return response(201, 'Success !!!')
             }
-            await this.respository.create({User_Id: req.userData.ID, Article_Id: req.body.articleID})
+            await this.respository.create({User_Id: req.userData.ID, Article_Id: req.body.articleID, Rate: data.Rate})
             return response(201, 'Success !!!')
         } catch (error) {
             console.log('CREATE_RATING_ARTICLE', error.toString())

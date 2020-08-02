@@ -35,7 +35,7 @@ export default class BaseRespository {
     deleteSoft(condition) {
         return this.tableQuery().patch({isDeleted: 1}).where(condition)
     }
-    update(data, condition) {
+    update(data, condition = {}) {
         return this.tableQuery().patch(data).where(condition);
     }
     updateById(data, id) {

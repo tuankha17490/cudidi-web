@@ -30,7 +30,7 @@
       "url": "https://cudidi-web.herokuapp.com/"
     },
     {
-      "url": "http://localhost:3000"
+      "url": "http://cudidi-web.herokuapp.com/"
     }
   ],
   "tags": [
@@ -3104,6 +3104,39 @@
             "content": {}
           }
         }
+      }
+    },
+    "/rating/create": {
+      "post": {
+        "tags": [
+          "rating"
+        ],
+        "summary": "Create rating",
+        "description": "Rate the article.",
+        "operationId": "createRating",
+        "requestBody": {
+          "description": "Created rating object",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Article_Id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
       }
     }
   }
