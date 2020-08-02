@@ -143,15 +143,31 @@ export default class ArticleService extends BaseServices {
         }
     }
 
+    // async getListWithSlug(req) {
+    //     try {
+    //         const slug = req.params.articleSlug
+    //         const id = await this.respository.getBy({Slug: slug, isDeleted: 0}, ['ID'])
+    //         if(!id) {
+    //             return response(404, 'Not found')
+    //         }
+    //         const query = await this.respository.relatedQuery('descriptionArticles',id)
+    //         return response(200, 'Success !!!', query)
+    //     } catch (error) {
+    //         console.log('Base Service list with slug',error.toString());
+    //         return response(400, 'Get list with slug failed')
+    //     }
+    // }
+
     async getListWithSlug(req) {
         try {
             const slug = req.params.articleSlug
-            const id = await this.respository.getBy({Slug: slug, isDeleted: 0}, ['ID'])
-            if(!id) {
-                return response(404, 'Not found')
-            }
-            const query = await this.respository.relatedQuery('descriptionArticles',id)
-            return response(200, 'Success !!!', query)
+            let query = await this.respository.tableQuery().select('*').where('Slug',slug)
+            .where('isDeleted', 0).withGraphFetched('descriptionArticles')
+            const result = {}
+            result.descriptionArticles = query[0].descriptionArticles
+            query[0].descriptionArticles = undefined
+            result.user = query[0]
+            return response(200, 'Success !!!', result)
         } catch (error) {
             console.log('Base Service list with slug',error.toString());
             return response(400, 'Get list with slug failed')

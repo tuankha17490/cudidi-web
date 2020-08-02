@@ -54,15 +54,6 @@ router.get('/description/:articleSlug',(req, res) => {
 })
 
 
-router.get('/:userSlug/:lastID&:limit',authorization, (req, res) => {
-    try {
-        controller.getListWithSlug(req).then(result => {return res.status(200).json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_GET_ARTICLE_LIST_PAGINATION');
-        return res.status(200).json(error)
-    }
-})
-
 router.post('/create',authorization,permissions.setModuleArticle, permissions.Create,validator.createTask, (req, res) => {
     try {
         controller.create(req).then(result => {return res.status(201).json(result)})
