@@ -6,6 +6,11 @@
         "summary": "Create rating",
         "description": "Rate the article.",
         "operationId": "createRating",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
         "requestBody": {
             "description": "Created rating object",
             "content": {
