@@ -170,7 +170,7 @@ export default class ArticleService extends BaseServices {
             result.descriptionArticles = query[0].descriptionArticles
             result.users = query[0].users
             query[0].descriptionArticles = undefined
-            query[0].users = undefined
+            query[0].user = undefined
             result.articles = query[0]
             return response(200, 'Success !!!', result)
         } catch (error) {
