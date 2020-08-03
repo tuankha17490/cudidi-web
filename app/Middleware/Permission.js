@@ -2,6 +2,8 @@ import RoleRespository from "../API/modules/roles/respository"
 var module
 const Excute = async (req, res, method) => {
     const roleName = req.userData.Role;
+    console.log(roleName);
+    console.log('asdasdasdasdasd', module);
     const roleFetched = await RoleRespository.Instance().tableQuery().where('Roles.Name',roleName)
     .withGraphJoined('permissions.[modules, methods]').where('permissions:modules.Name', module).where('permissions:methods.Name', method)
     if(roleFetched.length == 0) {
@@ -24,7 +26,7 @@ export default class Permissions {
         next()
     }
     setModuleDescription(req, res, next) {
-        module = 'Description-Article'
+        module = 'Description-Articles'
         next()
     }
     async GetList(req, res, next) {

@@ -6,7 +6,7 @@ export function up(knex) {
         t.foreign('User_Id').references('Users.ID').onDelete('CASCADE').onUpdate('CASCADE')
         t.integer('Article_Id').unsigned()
         t.foreign('Article_Id').references('Articles.ID').onDelete('CASCADE').onUpdate('CASCADE')
-        t.string('Description')
+        t.string('Content')
         t.integer('Reply_Id').unsigned()
         t.foreign('Reply_Id').references('Comments.ID').onDelete('CASCADE').onUpdate('CASCADE')
         t.boolean('isDeleted').defaultTo(0)
