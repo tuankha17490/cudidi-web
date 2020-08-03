@@ -6,7 +6,7 @@ export function up(knex) {
       t.foreign('Article_Id').references('Articles.ID').onDelete('CASCADE').onUpdate('CASCADE')
       t.integer('Day')
       t.string('Place')
-      t.string('Description')
+      t.longtext('Description')
       t.boolean('isDeleted').defaultTo(0)
       t.timestamps()
     })

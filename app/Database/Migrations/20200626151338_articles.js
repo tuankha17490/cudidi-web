@@ -10,7 +10,7 @@ export function up(knex) {
     t.string('Slug')
     t.integer('Duration')
     t.float('Price')
-    t.string('Introduce')
+    t.text('Introduce')
     t.integer('NumberOfPeople')
     t.float('AvgRate').defaultTo(0)
     t.integer('RateAmount').defaultTo(0)

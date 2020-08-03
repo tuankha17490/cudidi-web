@@ -166,6 +166,9 @@ export default class ArticleService extends BaseServices {
                 .modifyGraph('users', builder => {
                     builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
                 })
+                .modifyGraph('descriptionArticles', builder => {
+                    builder.orderBy('ID','desc')
+                })
             const result = {}
             result.descriptionArticles = query[0].descriptionArticles
             result.users = query[0].users

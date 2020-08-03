@@ -347,7 +347,7 @@ export default class UserService extends BaseServices {
             let query = await this.respository.tableQuery().select(column).where('Slug',slug)
             .where('isDeleted', 0).withGraphFetched('articles')
             .modifyGraph(table, builder => {
-                builder.select('*').where({isDeleted: 0}).where('ID', '>', lastID).limit(limit)
+                builder.select('*').where({isDeleted: 0}).where('ID', '>', lastID).limit(limit).orderBy('ID','desc')
             })
             const result = {}
             result.articles = query[0].articles

@@ -20,7 +20,6 @@ export default class CommentService extends BaseServices {
             }
             data.User_Id = req.userData.ID
             const result = await this.respository.create(data)
-            console.log(result);
             return response(201,'Success !!!', result)
         } catch (error) {
             console.log('SERVICE_COMMENT_ARTICLE', error.toString());
