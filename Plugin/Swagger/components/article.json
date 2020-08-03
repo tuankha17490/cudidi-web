@@ -594,12 +594,47 @@
         ],
         "summary": "Get description",
         "description": "Get description of article by slug.",
-        "operationId": "getDescription",
-        "security": [
+        "operationId": "listRelation",
+        "parameters": [
             {
-                "bearerAuth": []
+                "name": "articleSlug",
+                "in": "path",
+                "description": "slug of article",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
             }
         ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/article.json#/Article"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/article.json#/Article"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Article not found",
+                "content": {}
+            }
+        }
+    },
+    "listRelation": {
+        "tags": [
+            "article"
+        ],
+        "summary": "Get list relation",
+        "description": "Get 5 article relative to currence article.",
+        "operationId": "getDescription",
         "parameters": [
             {
                 "name": "articleSlug",

@@ -224,6 +224,9 @@
         "/article/description/{articleSlug}": {
             "$ref": "./paths/article.json#/getDescription"
         },
+        "/article/relation/{articleSlug}": {
+            "$ref": "./paths/article.json#/listRelation"
+        },
         "/article/upload-image": {
             "$ref": "./paths/article.json#/uploadImage"
         },

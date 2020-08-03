@@ -35,6 +35,11 @@
             "$ref":"../components/article.json#/getDescription"
         }
     },
+    "listRelation": {
+        "get": {
+            "$ref":"../components/article.json#/listRelation"
+        }
+    },
     "specifyArticle": {
         
         "id": {

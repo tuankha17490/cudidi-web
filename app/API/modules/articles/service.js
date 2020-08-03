@@ -72,8 +72,8 @@ export default class ArticleService extends BaseServices {
     }
     async updateById(req) {
         try {
-            if(req.userData.Role == 'Users') {
-                if(req.userData.ID != req.params.id) {
+            if (req.userData.Role == 'Users') {
+                if (req.userData.ID != req.params.id) {
                     return response(403, 'You don not have permission to access')
                 }
             }
@@ -161,25 +161,39 @@ export default class ArticleService extends BaseServices {
     async getListWithSlug(req) {
         try {
             const slug = req.params.articleSlug
-            let query = await this.respository.tableQuery().select('*').where('Slug',slug)
-            .where('isDeleted', 0).withGraphFetched('descriptionArticles')
+            let query = await this.respository.tableQuery().select('*').where('Slug', slug)
+                .where('isDeleted', 0).withGraphFetched('descriptionArticles')
             const result = {}
             result.descriptionArticles = query[0].descriptionArticles
             query[0].descriptionArticles = undefined
             result.user = query[0]
             return response(200, 'Success !!!', result)
         } catch (error) {
-            console.log('Article service list with slug',error.toString());
+            console.log('Article service list with slug', error.toString());
             return response(400, 'Get list with slug failed')
         }
     }
 
     async getListRelation(req) {
         try {
-            const query = await this.respository
+            const query = await this.respository.getBy({
+                Slug: req.params.articleSlug
+            })
+            console.log('asdasdasd',req.params.articleSlug);
+            console.log(query);
+            if (query) {
+                if (query.isDeleted == 1) {
+                    throw 'The article was deleted'
+                }
+                const result = await this.respository.listOffSet(0,5)
+                .havingNotBetween('ID', [query.ID, query.ID]).havingBetween('NumberOfPeople', [query.NumberOfPeople - 2, query.NumberOfPeople + 4])
+                .where({Location: query.Location}).orWhere({User_Id: query.User_Id})
+                return response(200, 'Success', result)
+            }
+
         } catch (error) {
-            console.log('Article service list with slug',error.toString());
-            return response(400, 'Get list with slug failed')
+            console.log('Article service list with slug', error.toString());
+            return response(400, error.toString())
         }
     }
 }
