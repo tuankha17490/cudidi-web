@@ -124,8 +124,8 @@ function ModeratorRole(moduleName, methodNames = []) {
 
 exports.seed = async function (knex) {
   await UsersRole('Users', ['Search', 'Read', 'GetList'])
-  await UsersRole('Article', ['Read', 'Create', 'Update', 'Delete', 'Rating', 'Follow'])
-  await UsersRole('Description-Article', ['Read', 'Create', 'Update', 'Delete'])
+  await UsersRole('Article', ['Read', 'Create', 'Update', 'Delete', 'Follow'])
+  await UsersRole('Description-Articles', ['Read', 'Create', 'Update', 'Delete'])
   await UsersRole('Image-Article', ['Read', 'Create', 'Read', 'Delete'])
 
   await ModeratorRole('Users', ['Create', 'Read', 'GetList', 'Search', 'Delete', 'Update'])
@@ -157,6 +157,5 @@ exports.seed = async function (knex) {
   await knex('Role_Permission').insert(admin_role_permission);
   await knex('Role_Permission').insert(moderator_role_permission);
   await knex('Role_Permission').insert(users_role_permission);
-
 
 };

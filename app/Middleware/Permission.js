@@ -62,11 +62,6 @@ export default class Permissions {
         if (excute != true) return excute
         next()
     }
-    async JoinClass(req, res, next) {
-        const excute = await Excute(req, res, 'JoinClass')
-        if (excute != true) return excute
-        next()
-    }
     async UpdateMyUser(req, res, next) {
         const excute = await Excute(req, res, 'UpdateMyUser')
         if (excute != true) return excute
