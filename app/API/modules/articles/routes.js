@@ -53,6 +53,14 @@ router.get('/description/:articleSlug',(req, res) => {
     }
 })
 
+router.get('/relation/:articleSlug',(req, res) => {
+    try {
+        controller.getListRelation(req).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_LIST');
+        return res.status(200).json(error)
+    }
+})
 
 router.post('/create',authorization,permissions.setModuleArticle, permissions.Create,validator.createTask, (req, res) => {
     try {

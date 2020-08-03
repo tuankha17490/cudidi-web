@@ -169,7 +169,16 @@ export default class ArticleService extends BaseServices {
             result.user = query[0]
             return response(200, 'Success !!!', result)
         } catch (error) {
-            console.log('Base Service list with slug',error.toString());
+            console.log('Article service list with slug',error.toString());
+            return response(400, 'Get list with slug failed')
+        }
+    }
+
+    async getListRelation(req) {
+        try {
+            const query = await this.respository
+        } catch (error) {
+            console.log('Article service list with slug',error.toString());
             return response(400, 'Get list with slug failed')
         }
     }

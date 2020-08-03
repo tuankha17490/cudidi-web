@@ -25,4 +25,7 @@ export default class ArticleController extends BaseController {
     getListWithUser(userID, page, limit) {
         return this.service.getListWithUser(userID, page, limit)
     }
+    getListRelation(req) {
+        return this.service.getListRelation(req)
+    }
 }

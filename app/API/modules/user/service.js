@@ -345,8 +345,8 @@ export default class UserService extends BaseServices {
             const slug = req.params.userSlug
             const lastID = req.params.lastId
             const limit = req.params.limit
-            let query = await this.respository.tableQuery().select(column).where('Users.Slug',slug)
-            .where('Users.isDeleted', 0).withGraphJoined('articles')
+            let query = await this.respository.tableQuery().select(column).where('Slug',slug)
+            .where('isDeleted', 0).withGraphFetched('articles')
             .modifyGraph(table, builder => {
                 builder.select('*').where({isDeleted: 0}).where('ID', '>', lastID).limit(limit)
             })
