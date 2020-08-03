@@ -162,11 +162,16 @@ export default class ArticleService extends BaseServices {
         try {
             const slug = req.params.articleSlug
             let query = await this.respository.tableQuery().select('*').where('Slug', slug)
-                .where('isDeleted', 0).withGraphFetched('descriptionArticles')
+                .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users]')
+                .modifyGraph('users', builder => {
+                    builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
+                })
             const result = {}
             result.descriptionArticles = query[0].descriptionArticles
+            result.users = query[0].users
             query[0].descriptionArticles = undefined
-            result.user = query[0]
+            query[0].users = undefined
+            result.articles = query[0]
             return response(200, 'Success !!!', result)
         } catch (error) {
             console.log('Article service list with slug', error.toString());

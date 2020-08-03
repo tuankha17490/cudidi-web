@@ -12,7 +12,6 @@ import convertString from "../../../Util/ExcuteString"
 import {
     uploads
 } from "../../../Services/cloundinary"
-import { query } from "express";
 dotenv.config({
     silent: process.env.NODE_ENV === 'production'
 });

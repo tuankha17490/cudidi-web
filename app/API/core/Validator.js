@@ -40,6 +40,13 @@ export default class BaseValidator {
     }
     fullnameValidate(req, res) {
         try {
+            if(validator.isEmpty(validator.trim(req.body.FullName)) == true) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Fullname is invalid',
+                    message: 'Fullname can not be empty'
+                })
+            }
             if (!validator.isLength(req.body.FullName, {
                     min: 1,
                     max: 255
@@ -281,7 +288,7 @@ export default class BaseValidator {
     }
     locationValidate(param, res) {
         try {
-            if (param == undefined || validator.isEmpty(param) == true) {
+            if (param == undefined || validator.isEmpty(validator.trim(param)) == true) {
                 return res.status(200).json({
                     status: 400,
                     error: 'Location can not empty'
@@ -298,7 +305,7 @@ export default class BaseValidator {
     }
     titleValidate(req, res) {
         try {
-            if (req.body.Title == undefined || validator.isEmpty(req.body.Title) == true) {
+            if (req.body.Title == undefined || validator.isEmpty(validator.trim(req.body.Title)) == true) {
                 return res.status(200).json({
                     status: 400,
                     error: 'Title can not empty'
@@ -309,6 +316,23 @@ export default class BaseValidator {
             return res.status(200).json({
                 status: 400,
                 message: 'Title error',
+                error: error.toString()
+            })
+        }
+    }
+    commentValidate(req, res) {
+        try {
+            if (req.body.Content == undefined || validator.isEmpty(validator.trim(req.body.Content)) == true) {
+                return res.status(200).json({
+                    status: 400,
+                    error: 'Comment can not empty'
+                })
+            }
+            return true
+        } catch (error) {
+            return res.status(200).json({
+                status: 400,
+                message: 'Comment error',
                 error: error.toString()
             })
         }

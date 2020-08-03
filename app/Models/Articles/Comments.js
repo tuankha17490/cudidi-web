@@ -34,7 +34,7 @@ export default class Comments extends Model {
                     to: 'Articles.ID'
                 }
             },
-            parents: {
+            childs: {
                 relation: Model.HasManyRelation,
                 modelClass: Comments,
                 join: {
@@ -42,11 +42,11 @@ export default class Comments extends Model {
                     to: 'Comments.Reply_Id'
                 }
             },
-            child: {
+            parents: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Comments,
                 join: {
-                    from: 'Comments.Reply_ID',
+                    from: 'Comments.Reply_Id',
                     to: 'Comments.ID'
                 }
             }

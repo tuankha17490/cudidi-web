@@ -29,6 +29,10 @@ export default class Permissions {
         module = 'Description-Articles'
         next()
     }
+    setModuleComment(req, res, next) {
+        module = 'Comment'
+        next()
+    }
     async GetList(req, res, next) {
         const excute = await Excute(req, res, 'GetList')
         if (excute != true) return excute
