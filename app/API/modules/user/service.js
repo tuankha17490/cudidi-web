@@ -354,7 +354,7 @@ export default class UserService extends BaseServices {
             query[0].articles = undefined
             result.user = query[0]
             if(result.articles.length > 0) {
-                result.lastID = result.articles[result.articles.length - 1].ID
+                result.lastID = result.articles[0].ID
             }
             return response(200, 'Success !!!', result)
         } catch (error) {
