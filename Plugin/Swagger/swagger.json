@@ -233,6 +233,13 @@
         "/article/{id}": {
             "$ref": "./paths/article.json#/specifyArticle/id"
         },
+        "/article/{articleSlug}": {
+            "$ref": "./paths/article.json#/updateBySlug"
+        },
+        "/article/update-image/{articleSlug}": {
+            "$ref": "./paths/article.json#/updateImage"
+        },
+
 
         "/description-article/{page}&{limit}": {
             "$ref": "./paths/description-article.json#/pagination"

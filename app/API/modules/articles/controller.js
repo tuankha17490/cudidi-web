@@ -10,11 +10,17 @@ export default class ArticleController extends BaseController {
     uploadImage(req) {
         return this.service.uploadImage(req)
     }
+    updateImage(req) {
+        return this.service.updateImage(req)
+    }
     getInformation(condition) {
         return this.service.getInformation(condition, 'users')
     }
     updateById(req) {
         return this.service.updateById(req);
+    }
+    updateBySlug(req) {
+        return this.service.updateBySlug(req);
     }
     getList(page, limit) {
         return this.service.getList(page, limit, 'users')

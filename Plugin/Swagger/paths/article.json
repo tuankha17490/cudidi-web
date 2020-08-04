@@ -53,5 +53,15 @@
                 "$ref": "../components/article.json#/specifyArticle/id/delete"
             }
         }
+    },
+    "updateBySlug": {
+        "put": {
+            "$ref": "../components/article.json#/updateBySlug"
+        }
+    },
+    "updateImage": {
+        "put": {
+            "$ref":"../components/article.json#/updateImage"
+        }
     }
 }

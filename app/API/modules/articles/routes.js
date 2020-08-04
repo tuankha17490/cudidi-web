@@ -88,6 +88,15 @@ router.delete('/:id',authorization,permissions.setModuleArticle, permissions.Del
         return res.status(200).json(error)
     }
 })
+router.put('/update-image/:articleSlug',authorization, multer.single('image'), (req, res) => {
+    try {
+        controller.updateImage(req).then(result => {return res.status(201).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_ARTICLE_UPLOAD_IMAGE')
+        return res.status(200).json(error)
+    }
+})
+
 
 router.post('/upload-image',authorization, multer.single('image'), (req, res) => {
     try {
@@ -98,15 +107,23 @@ router.post('/upload-image',authorization, multer.single('image'), (req, res) =>
     }
 })
 
-router.put('/:id',authorization,permissions.setModuleArticle, permissions.Update, validator.updateTask, (req, res) => {
+// router.put('/:id',authorization,permissions.setModuleArticle, permissions.Update, validator.updateTask, (req, res) => {
+//     try {
+//         controller.updateById(req).then(result => {return res.status(201).json(result)})
+//     } catch (error) {
+//         console.log('CONTROLLER_UPDATE_ARTICLE')
+//         return res.status(200).json(error)
+//     }
+   
+// })
+router.put('/:articleSlug',authorization,permissions.setModuleArticle, permissions.Update, validator.updateTask, (req, res) => {
     try {
-        controller.updateById(req).then(result => {return res.status(201).json(result)})
+        controller.updateBySlug(req).then(result => {return res.status(201).json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPDATE_ARTICLE')
         return res.status(200).json(error)
     }
    
 })
-
 
 export default router;

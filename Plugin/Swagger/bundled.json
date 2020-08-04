@@ -2703,6 +2703,133 @@
         }
       }
     },
+    "/article/{articleSlug}": {
+      "put": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Updated article",
+        "description": "Update information of article by slug.",
+        "operationId": "updateArticleBySlug",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "articleSlug",
+            "in": "path",
+            "description": "the id that need to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update article",
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Title": {
+                    "type": "string"
+                  },
+                  "Location": {
+                    "type": "string"
+                  },
+                  "Image": {
+                    "type": "string"
+                  },
+                  "Duration": {
+                    "type": "integer"
+                  },
+                  "Price": {
+                    "type": "integer"
+                  },
+                  "NumberOfPeople": {
+                    "type": "integer"
+                  },
+                  "Introduce": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid article supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Article not found",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/article/update-image/{articleSlug}": {
+      "put": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Update image of article",
+        "description": "Update image of article by slug.",
+        "operationId": "updateImage",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "articleSlug",
+            "in": "path",
+            "description": "the id that need to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update image",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid article supplied",
+            "content": {}
+          },
+          "401": {
+            "description": "Access token is missing or invalid",
+            "content": {}
+          },
+          "404": {
+            "description": "Article not found",
+            "content": {}
+          }
+        }
+      }
+    },
     "/description-article/{page}&{limit}": {
       "get": {
         "tags": [

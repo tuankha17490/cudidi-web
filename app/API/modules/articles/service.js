@@ -56,6 +56,23 @@ export default class ArticleService extends BaseServices {
         }
     }
 
+    async updateImage(req) {
+        try {
+            const {
+                file
+            } = req
+            const image = await uploads(file.path, req.params.articleSlug);
+            const Avatar = image.url
+            await this.respository.update({
+                Avatar
+            }, {Slug: req.params.articleSlug})
+            await fs.unlinkSync(file.path)
+            return response(200, 'Image of article updates successfully', Avatar)
+        } catch (error) {
+            return response(400, error.toString())
+        }
+    }
+
     async getInformation(condition, table) {
         try {
             const data = await this.respository.getBy(condition).withGraphFetched(table).modifyGraph(table, builder => {
@@ -143,21 +160,6 @@ export default class ArticleService extends BaseServices {
         }
     }
 
-    // async getListWithSlug(req) {
-    //     try {
-    //         const slug = req.params.articleSlug
-    //         const id = await this.respository.getBy({Slug: slug, isDeleted: 0}, ['ID'])
-    //         if(!id) {
-    //             return response(404, 'Not found')
-    //         }
-    //         const query = await this.respository.relatedQuery('descriptionArticles',id)
-    //         return response(200, 'Success !!!', query)
-    //     } catch (error) {
-    //         console.log('Base Service list with slug',error.toString());
-    //         return response(400, 'Get list with slug failed')
-    //     }
-    // }
-
     async getListWithSlug(req) {
         try {
             const slug = req.params.articleSlug
@@ -187,8 +189,6 @@ export default class ArticleService extends BaseServices {
             const query = await this.respository.getBy({
                 Slug: req.params.articleSlug
             })
-            console.log('asdasdasd',req.params.articleSlug);
-            console.log(query);
             if (query) {
                 if (query.isDeleted == 1) {
                     throw 'The article was deleted'
@@ -201,6 +201,39 @@ export default class ArticleService extends BaseServices {
 
         } catch (error) {
             console.log('Article service list with slug', error.toString());
+            return response(400, error.toString())
+        }
+    }
+
+    async updateBySlug(req) {
+        try {
+           
+            const data = req.body
+            const slug = req.params.articleSlug
+            const checkData = await this.respository.getBy({Slug:slug})
+            if (checkData) {
+                if (req.userData.Role == 'Users') {
+                    if (checkData.User_Id != req.userData.ID) {
+                        return response(403, 'Only writer is allowed to edit')
+                    }
+                }
+                if (checkData.isDeleted == 1) {
+                    return response(404, 'Article Was deleted')
+                }
+            }
+            else {
+                return response(404, 'Not found')
+            }
+          
+            if(data.Duration < checkData.Duration) {
+                for (let i = data.Duration + 1; i <= checkData.Duration; i++) {
+                    await DescriptionArticleRespository.Instance().delete({ID: i})
+                }
+            }
+            const result = await this.respository.update(data, {Slug: slug})
+            return response(200, 'Success !!!', result)
+        } catch (error) {
+            console.log('ARTICLE_UPDATE_SERVICE', error.toString());
             return response(400, error.toString())
         }
     }

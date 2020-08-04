@@ -71,7 +71,7 @@ export default class CommentService extends BaseServices {
             return response(400, error.toString())
         }
     }
-    async getListLazyLoad(lastId, limitvalue,table = 'childs', column = ['*']) {
+    async getListLazyLoad(lastId, limitvalue,table = 'childs') {
         try {
             let data = 0
             if(lastId == 0) {
