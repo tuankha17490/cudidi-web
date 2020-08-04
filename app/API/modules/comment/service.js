@@ -73,14 +73,27 @@ export default class CommentService extends BaseServices {
     }
     async getListLazyLoad(lastId, limitvalue,table = 'childs', column = ['*']) {
         try {
-            const data = await this.respository.graphFetched(0, limitvalue, table, column).where('ID', '>', lastId).where({isDeleted: 0})
-            .modifyGraph('childs', builder => {
-                builder.select('*').where({isDeleted: 0}).limit(5)
-            })
+            let data = 0
+            if(lastId == 0) {
+                data = await this.respository.tableQuery()
+                .where('ID', '>', lastId).where({isDeleted: 0, Reply_Id: null}).orderBy('ID','desc').limit(limitvalue)
+                .withGraphFetched(table)
+                .modifyGraph('childs', builder => {
+                    builder.select('*').where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+                })
+            }
+            else {
+                data = await this.respository.tableQuery().where('ID', '<', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(limitvalue)
+                .modifyGraph('childs', builder => {
+                    builder.select('*').where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+                })
+            }
+            if(data.length != 0) lastId = data[data.length - 1].ID
+            else lastId = 0
             return {
                 status: 200,
                 message: 'Success to load data !!!',
-                lastId: data[data.length - 1].ID,
+                lastId,
                 data
             }
         } catch (error) {

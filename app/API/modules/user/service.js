@@ -344,17 +344,29 @@ export default class UserService extends BaseServices {
             const slug = req.params.userSlug
             const lastID = req.params.lastId
             const limit = req.params.limit
-            let query = await this.respository.tableQuery().select(column).where('Slug',slug)
-            .where('isDeleted', 0).withGraphFetched('articles')
-            .modifyGraph(table, builder => {
-                builder.select('*').where({isDeleted: 0}).where('ID', '>', lastID).limit(limit).orderBy('ID','desc')
-            })
+            let query = 0
+            
+            if(lastID == 0) {
+                query =  await this.respository.tableQuery().select(column).where('Slug',slug)
+                .where('isDeleted', 0).withGraphFetched('articles')
+                .modifyGraph(table, builder => {
+                    builder.select('*').where('ID', '>', lastID).where({isDeleted: 0}).orderBy('ID','desc').limit(limit)
+                })
+            }
+            else {
+                query =  await this.respository.tableQuery().select(column).where('Slug',slug)
+                .where('isDeleted', 0).withGraphFetched('articles')
+                .modifyGraph(table, builder => {
+                    builder.select('*').where('ID', '<', lastID).where({isDeleted: 0}).orderBy('ID','desc').limit(limit)
+                })
+            }
+           
             const result = {}
             result.articles = query[0].articles
             query[0].articles = undefined
             result.user = query[0]
             if(result.articles.length > 0) {
-                result.lastID = result.articles[0].ID
+                result.lastID = result.articles[result.articles.length - 1].ID
             }
             return response(200, 'Success !!!', result)
         } catch (error) {

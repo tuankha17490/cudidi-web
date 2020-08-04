@@ -5,11 +5,29 @@ export default class BaseServices {
     }
     async getListLazyLoad(lastId, limitvalue,table = '', column = ['*']) {
         try {
-            const data = await this.respository.graphFetched(0, limitvalue, table, column).where('ID', '>', lastId).where({isDeleted: 0})
+            let data = 0
+            if(lastId == 0) {
+                data = await this.respository.tableQuery().select(column)
+                .where('ID', '>', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(limitvalue)
+                .withGraphFetched(table)
+                .modifyGraph(table, builder => {
+                    builder.select('*').where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+                })
+            }
+            else {
+                data = await this.respository.tableQuery().select(column)
+                .withGraphFetched(table)
+                .where('ID', '<', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(limitvalue)
+                .modifyGraph(table, builder => {
+                    builder.select('*').where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+                })
+            }
+            if(data.length != 0) lastId = data[data.length - 1].ID
+            else lastId = 0
             return {
                 status: 200,
                 message: 'Success to load data !!!',
-                lastId: data[data.length - 1].ID,
+                lastId,
                 data
             }
         } catch (error) {
