@@ -169,8 +169,11 @@ export default class ArticleService extends BaseServices {
                     builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
                 })
                 .modifyGraph('descriptionArticles', builder => {
-                    builder.orderBy('ID','desc')
+                    builder.orderBy('Day','inc')
                 })
+            if(query.length == 0) {
+                return response(404, 'Not found')
+            }
             const result = {}
             result.descriptionArticles = query[0].descriptionArticles
             result.users = query[0].users
@@ -210,7 +213,6 @@ export default class ArticleService extends BaseServices {
             const data = req.body
             const slug = req.params.articleSlug
             const checkData = await this.respository.getBy({Slug:slug})
-            console.log(checkData);
             if (checkData) {
                 if (req.userData.Role == 'Users') {
                     if (checkData.User_Id != req.userData.ID) {
@@ -226,7 +228,7 @@ export default class ArticleService extends BaseServices {
             }
             if(data.Duration < checkData.Duration) {
                 for (let i = data.Duration + 1; i <= checkData.Duration; i++) {
-                    await DescriptionArticleRespository.Instance().delete({ID: i})
+                    await DescriptionArticleRespository.Instance().delete({Day: i, Article_Id: checkData.ID})
                 }
             }
             const result = await checkData.$query().patchAndFetch(data)

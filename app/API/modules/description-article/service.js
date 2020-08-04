@@ -33,15 +33,16 @@ export default class DescriptionArticleService extends BaseServices {
     }
     async updateById(req, id) {
         try {
-            // const checkData = await this.respository.findAt(id)
-            // if(!checkData) {
-            //     return response(404, 'Not found')
-            // }
-            // if(req.userData.Role == 'Users') {
-            //     if(req.userData.ID != ) {
-            //         return response(403, 'You don not have permission to access')
-            //     }
-            // }
+            const checkData = await this.respository.findAt(id).withGraphFetched('articles')
+            console.log(checkData);
+            if(!checkData) {
+                return response(404, 'Not found')
+            }
+            if(req.userData.Role == 'Users') {
+                if(req.userData.ID != checkData.articles.User_Id) {
+                    return response(403, 'You don not have permission to access')
+                }
+            }
             const data = req.body
             const imageArticles = data.imageArticles
             if (data.imageArticles != undefined) {
