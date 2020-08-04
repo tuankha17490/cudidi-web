@@ -207,10 +207,10 @@ export default class ArticleService extends BaseServices {
 
     async updateBySlug(req) {
         try {
-           
             const data = req.body
             const slug = req.params.articleSlug
             const checkData = await this.respository.getBy({Slug:slug})
+            console.log(checkData);
             if (checkData) {
                 if (req.userData.Role == 'Users') {
                     if (checkData.User_Id != req.userData.ID) {
@@ -224,13 +224,12 @@ export default class ArticleService extends BaseServices {
             else {
                 return response(404, 'Not found')
             }
-          
             if(data.Duration < checkData.Duration) {
                 for (let i = data.Duration + 1; i <= checkData.Duration; i++) {
                     await DescriptionArticleRespository.Instance().delete({ID: i})
                 }
             }
-            const result = await this.respository.update(data, {Slug: slug})
+            const result = await checkData.$query().patchAndFetch(data)
             return response(200, 'Success !!!', result)
         } catch (error) {
             console.log('ARTICLE_UPDATE_SERVICE', error.toString());
