@@ -1,0 +1,567 @@
+{
+    "specifyComment": {
+        "id": {
+            "get": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Get comment by comment id",
+                "operationId": "getCommentById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "../schemas/comment.json#/Comment"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "../schemas/comment.json#/Comment"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid comment supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Comment not found",
+                        "content": {}
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Updated comment",
+                "description": "Update information of comment by id.",
+                "operationId": "updateCommentById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the id that need to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create comment",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "Title": {
+                                        "type": "string"
+                                    },
+                                    "Location": {
+                                        "type": "string"
+                                    },
+                                    "Image": {
+                                        "type": "string"
+                                    },
+                                    "Duration": {
+                                        "type": "integer"
+                                    },
+                                    "Price": {
+                                        "type": "integer"
+                                    },
+                                    "NumberOfPeople": {
+                                        "type": "integer"
+                                    },
+                                    "Introduce": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid comment supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Comment not found",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "body"
+            },
+            "delete": {
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Delete comment",
+                "description": "Delete specify comment by id.",
+                "operationId": "deleleCommentById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id that needs to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid comment supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Comment not found",
+                        "content": {}
+                    }
+                }
+            }
+        }
+    },
+    "create": {
+        "tags": [
+            "comment"
+        ],
+        "summary": "Create comment",
+        "description": "Create comment.",
+        "operationId": "createComment",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "requestBody": {
+            "description": "Create comment",
+            "required": true,
+            "content": {
+                "application/x-www-form-urlencoded": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "Article_Id": {
+                                "type": "integer"
+                            },
+                            "Content": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "default": {
+                "description": "successful operation",
+                "content": {}
+            }
+        },
+        "x-codegen-request-body-name": "body"
+    },
+    "createReply": {
+        "tags": [
+            "comment"
+        ],
+        "summary": "Create reply of comment",
+        "description": "Create reply of comment.",
+        "operationId": "createCommentReply",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "requestBody": {
+            "description": "Create comment",
+            "required": true,
+            "content": {
+                "application/x-www-form-urlencoded": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "Article_Id": {
+                                "type": "integer"
+                            },
+                            "Reply_Id": {
+                                "type": "integer"
+                            },
+                            "Content": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "default": {
+                "description": "successful operation",
+                "content": {}
+            }
+        },
+        "x-codegen-request-body-name": "body"
+    },
+    "lazyLoad": {
+        "tags": [
+            "comment"
+        ],
+        "summary": "Get list comment",
+        "description": "Get information with lazy load to paginate.",
+        "operationId": "lazyLoadComment",
+        "parameters": [
+            {
+                "name": "lastId",
+                "in": "path",
+                "description": "The lastId that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Article_Id": {
+                                    "type": "integer"
+                                },
+                                "Reply_Id": {
+                                    "type": "integer"
+                                },
+                                "Content": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Comment"
+                            }
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Article_Id": {
+                                    "type": "integer"
+                                },
+                                "Reply_Id": {
+                                    "type": "integer"
+                                },
+                                "Content": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Comment"
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid comment supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "Comment not found",
+                "content": {}
+            }
+        }
+    },
+    "listReply": {
+        "tags": [
+            "comment"
+        ],
+        "summary": "Get list reply of comment",
+        "description": "Get information with lazy load to paginate.",
+        "operationId": "lazyLoadCommentReply",
+        "parameters": [
+            {
+                "name": "replyId",
+                "in": "path",
+                "description": "The replyId that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "lastId",
+                "in": "path",
+                "description": "The lastId that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Article_Id": {
+                                    "type": "integer"
+                                },
+                                "Reply_Id": {
+                                    "type": "integer"
+                                },
+                                "Content": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Comment"
+                            }
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Article_Id": {
+                                    "type": "integer"
+                                },
+                                "Reply_Id": {
+                                    "type": "integer"
+                                },
+                                "Content": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Comment"
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid comment supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "Comment not found",
+                "content": {}
+            }
+        }
+    },
+    "pagination": {
+        "tags": [
+            "comment"
+        ],
+        "summary": "Get list comment",
+        "description": "Get information with offset and limit to paginate.",
+        "operationId": "PaginationComment",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "parameters": [
+            {
+                "name": "page",
+                "in": "path",
+                "description": "The offset that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Article_Id": {
+                                    "type": "integer"
+                                },
+                                "Reply_Id": {
+                                    "type": "integer"
+                                },
+                                "Content": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Comment"
+                            }
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Article_Id": {
+                                    "type": "integer"
+                                },
+                                "Reply_Id": {
+                                    "type": "integer"
+                                },
+                                "Content": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Comment"
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid comment supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "Comment not found",
+                "content": {}
+            }
+        }
+    },
+    "search": {
+        "tags": [
+            "comment"
+        ],
+        "summary": "Search comment",
+        "description": "Search comment follow title and location.",
+        "operationId": "searchComment",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "parameters": [
+            {
+                "name": "page",
+                "in": "path",
+                "description": "page of data",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "The limit that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "data",
+                "in": "query",
+                "description": "The data that needs to be searched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/comment.json#/Comment"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/comment.json#/Comment"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Comment not found",
+                "content": {}
+            }
+        }
+    },
+}

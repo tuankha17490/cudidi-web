@@ -256,6 +256,28 @@
 
         "/rating/create": {
             "$ref": "./paths/rating.json#/create"
+        },
+
+        "/comment/create": {
+            "$ref": "./paths/comment.json#/create"
+        },
+        "/comment/reply/create": {
+            "$ref": "./paths/comment.json#/createReply"
+        },
+        "/comment/reply/{replyId}&{lastId}": {
+            "$ref": "./paths/comment.json#/listReply"
+        },
+        "/comment/lazy-load-list/{lastId}&{limit}": {
+            "$ref": "./paths/comment.json#/lazyLoad"
+        },
+        "/comment/{page}&{limit}": {
+            "$ref": "./paths/comment.json#/pagination"
+        },
+        "/comment/search/{page}&{limit}": {
+            "$ref": "./paths/comment.json#/search"
+        },
+        "/comment/{id}": {
+            "$ref": "./paths/comment.json#/specifyComment/id"
         }
     }
 }

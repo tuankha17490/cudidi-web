@@ -1,0 +1,22 @@
+{
+    "Comment": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "integer"
+            },
+            "Article_Id": {
+                "type": "integer"
+            },
+            "Reply_Id": {
+                "type": "integer"
+            },
+            "Content": {
+                "type": "string"
+            }
+        },
+        "xml": {
+            "name": "Comment"
+        }
+    }
+}

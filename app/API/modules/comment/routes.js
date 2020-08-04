@@ -37,7 +37,7 @@ router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
 
 router.get('/reply/:replyId&:lastId',(req, res) => {
     try {
-        controller.getListReply(req.params.replyId, req.params.replyId).then(result => {return res.status(200).json(result)})
+        controller.getListReply(req.params.replyId, req.params.lastId).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_COMMENT_LIST');
         return res.status(200).json(error)

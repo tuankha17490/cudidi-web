@@ -71,25 +71,30 @@ export default class CommentService extends BaseServices {
             return response(400, error.toString())
         }
     }
-    async getListLazyLoad(lastId, limitvalue,table = 'childs') {
+    async getListLazyLoad(lastId, limitvalue,table = 'users') {
         try {
             let data = 0
             if(lastId == 0) {
                 data = await this.respository.tableQuery()
                 .where('ID', '>', lastId).where({isDeleted: 0, Reply_Id: null}).orderBy('ID','desc').limit(limitvalue)
                 .withGraphFetched(table)
-                .modifyGraph('childs', builder => {
-                    builder.select('*').where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+                .modifyGraph('users', builder => {
+                    builder.select('ID', 'FullName','Username', 'Avatar').where({isDeleted: 0})
                 })
             }
             else {
                 data = await this.respository.tableQuery().where('ID', '<', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(limitvalue)
-                .modifyGraph('childs', builder => {
-                    builder.select('*').where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+                .modifyGraph('users', builder => {
+                    builder.select('ID', 'FullName', 'Username', 'Avatar').where({isDeleted: 0})
                 })
             }
             if(data.length != 0) lastId = data[data.length - 1].ID
-            else lastId = 0
+            else lastId = undefined
+            let temp = 0
+            for (let index = 0; index < data.length; index++) {
+                temp = await this.respository.listBy(['*'], {Reply_Id: data[index].ID}).limit(3)
+                data[index].childs = temp
+            }
             return {
                 status: 200,
                 message: 'Success to load data !!!',
@@ -102,11 +107,21 @@ export default class CommentService extends BaseServices {
     }
     async getListReply(replyId, lastId) {
         try {
-            const data = await this.respository.graphFetched.listBy(['*'], {Reply_Id: replyId}).where('ID', '>', lastId).where({isDeleted: 0}).limit(5)
+            let data = 0
+            if(lastId == 0) {
+                data = await this.respository.listBy(['*'], {Reply_Id: replyId})
+                .where('ID', '>', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+            }
+            else {
+                data = await this.respository.listBy(['*'], {Reply_Id: replyId})
+                .where('ID', '<', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+            }
+            if(data.length != 0) lastId =data[data.length - 1].ID
+            else lastId = undefined
             return {
                 status: 200,
                 message: 'Success to load data !!!',
-                lastId: data[data.length - 1].ID,
+                lastId,
                 data
             }
         } catch (error) {

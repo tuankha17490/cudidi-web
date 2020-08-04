@@ -1,0 +1,47 @@
+{
+    "specifyComment": {
+        "id": {
+            "get": {
+                "$ref": "../components/comment.json#/specifyComment/id/get"
+            },
+            "put": {
+                "$ref": "../components/comment.json#/specifyComment/id/put"
+            },
+            "delete": {
+                "$ref": "../components/comment.json#/specifyComment/id/delete"
+            }
+        }
+    },
+    "create": {
+        "post": {
+            "$ref": "../components/comment.json#/create"
+        }
+       
+    },
+    "createReply": {
+        "post": {
+            "$ref": "../components/comment.json#/createReply"
+        }
+       
+    },
+    "lazyLoad": {
+        "get": {
+            "$ref": "../components/comment.json#/lazyLoad"
+        }
+    },
+    "listReply": {
+        "get": {
+            "$ref": "../components/comment.json#/listReply"
+        }
+    },
+    "pagination": {
+        "get": {
+            "$ref": "../components/comment.json#/pagination"
+        }
+    },
+    "search": {
+        "get": {
+            "$ref":"../components/comment.json#/search"
+        }
+    }
+}
