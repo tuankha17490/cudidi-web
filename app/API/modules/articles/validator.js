@@ -37,8 +37,6 @@ export default class ArticleValidator extends BaseValidator {
             if (checkAmountPeople != true) return checkAmountPeople;
             const checkLocation = super.locationValidate(req.body.Location, res)
             if (checkLocation != true) return checkLocation;
-            const checkImage = super.imageValidate(req.body.Image, res)
-            if(checkImage != true) return checkImage;
             next()
         } catch (error) {
             return res.status(200).json({
