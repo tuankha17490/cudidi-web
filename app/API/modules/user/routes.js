@@ -26,6 +26,7 @@ router.get('/search/:page&:limit',authorization,permissions.setModuleUsers, perm
         return res.status(200).json(error)
     }
 })
+
 // router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
 //     try {
 //         controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(200).json(result)})

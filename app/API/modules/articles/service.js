@@ -174,7 +174,7 @@ export default class ArticleService extends BaseServices {
                     builder.orderBy('Day', 'inc')
                 })
                 .modifyGraph('users', builder => {
-                    builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
+                    builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber', 'Slug')
                 })
                 .modifyGraph('rateArticles', builder => {
                     builder.select('Rate').where({User_Id: req.userData.ID})
@@ -184,7 +184,7 @@ export default class ArticleService extends BaseServices {
                 query = await this.respository.tableQuery().select('*').where('Slug', slug)
                 .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users]')
                 .modifyGraph('users', builder => {
-                    builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
+                    builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber', 'Slug')
                 })
                 .modifyGraph('descriptionArticles', builder => {
                     builder.orderBy('Day', 'inc')
