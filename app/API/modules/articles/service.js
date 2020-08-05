@@ -4,6 +4,7 @@ import BaseServices from '../../core/Service';
 import getSlug from "slugify"
 import dotenv from "dotenv"
 import process from "process"
+import jwt from "jsonwebtoken"
 import fs from "fs"
 import response from "../../../Util/Response"
 import {
@@ -65,7 +66,9 @@ export default class ArticleService extends BaseServices {
             const Avatar = image.url
             await this.respository.update({
                 Avatar
-            }, {Slug: req.params.articleSlug})
+            }, {
+                Slug: req.params.articleSlug
+            })
             await fs.unlinkSync(file.path)
             return response(200, 'Image of article updates successfully', Avatar)
         } catch (error) {
@@ -163,15 +166,40 @@ export default class ArticleService extends BaseServices {
     async getListWithSlug(req) {
         try {
             const slug = req.params.articleSlug
-            let query = await this.respository.tableQuery().select('*').where('Slug', slug)
+            let query = 0
+            if (req.headers.authorization != undefined) {
+                const temp = req.headers.authorization.split(" ")
+                if(temp.length == 2 && temp[0] == 'Bearer') {
+                    const token = temp[1]
+                    const decoded = await jwt.verify(token, process.env.JWT_KEY)
+                    query = await this.respository.tableQuery().select('*').where('Slug', slug)
+                    .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users, rateArticles]')
+                    .modifyGraph('users', builder => {
+                        builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
+                    })
+                    .modifyGraph('users', builder => {
+                        builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
+                    })
+                    .modifyGraph('rateArticles', builder => {
+                        builder.select('Rate').where({User_Id: decoded.ID})
+                    })
+                }
+                else {
+                    return response(401, 'Format token is wrong !!!')
+                }
+            }
+            else {
+                query = await this.respository.tableQuery().select('*').where('Slug', slug)
                 .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users]')
                 .modifyGraph('users', builder => {
                     builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
                 })
                 .modifyGraph('descriptionArticles', builder => {
-                    builder.orderBy('Day','inc')
+                    builder.orderBy('Day', 'inc')
                 })
-            if(query.length == 0) {
+            }
+           
+            if (query.length == 0) {
                 return response(404, 'Not found')
             }
             const result = {}
@@ -196,9 +224,13 @@ export default class ArticleService extends BaseServices {
                 if (query.isDeleted == 1) {
                     throw 'The article was deleted'
                 }
-                const result = await this.respository.listOffSet(0,5)
-                .havingNotBetween('ID', [query.ID, query.ID]).havingBetween('NumberOfPeople', [query.NumberOfPeople - 2, query.NumberOfPeople + 4])
-                .where({Location: query.Location}).orWhere({User_Id: query.User_Id})
+                const result = await this.respository.listOffSet(0, 5)
+                    .havingNotBetween('ID', [query.ID, query.ID]).havingBetween('NumberOfPeople', [query.NumberOfPeople - 2, query.NumberOfPeople + 4])
+                    .where({
+                        Location: query.Location
+                    }).orWhere({
+                        User_Id: query.User_Id
+                    })
                 return response(200, 'Success', result)
             }
 
@@ -212,7 +244,9 @@ export default class ArticleService extends BaseServices {
         try {
             const data = req.body
             const slug = req.params.articleSlug
-            const checkData = await this.respository.getBy({Slug:slug})
+            const checkData = await this.respository.getBy({
+                Slug: slug
+            })
             if (checkData) {
                 if (req.userData.Role == 'Users') {
                     if (checkData.User_Id != req.userData.ID) {
@@ -222,13 +256,15 @@ export default class ArticleService extends BaseServices {
                 if (checkData.isDeleted == 1) {
                     return response(404, 'Article Was deleted')
                 }
-            }
-            else {
+            } else {
                 return response(404, 'Not found')
             }
-            if(data.Duration < checkData.Duration) {
+            if (data.Duration < checkData.Duration) {
                 for (let i = data.Duration + 1; i <= checkData.Duration; i++) {
-                    await DescriptionArticleRespository.Instance().delete({Day: i, Article_Id: checkData.ID})
+                    await DescriptionArticleRespository.Instance().delete({
+                        Day: i,
+                        Article_Id: checkData.ID
+                    })
                 }
             }
             const result = await checkData.$query().patchAndFetch(data)

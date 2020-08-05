@@ -30,7 +30,7 @@
       "url": "https://cudidi-web.herokuapp.com/"
     },
     {
-      "url": "http://cudidi-web.herokuapp.com/"
+      "url": "http://localhost:3000"
     }
   ],
   "tags": [
@@ -3460,6 +3460,9 @@
                 "properties": {
                   "Article_Id": {
                     "type": "integer"
+                  },
+                  "Rate": {
+                    "type": "number"
                   }
                 }
               }

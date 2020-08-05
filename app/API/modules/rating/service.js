@@ -21,16 +21,16 @@ export default class RateService extends BaseServices {
             if(data.Rate > 5) {
                 return response(400,'Rate must be less than 5') 
             }
-            const check = await this.respository.getBy({User_Id: req.userData.ID, Article_Id: req.body.articleID})
+            const check = await this.respository.getBy({User_Id: req.userData.ID, Article_Id: req.body.Article_Id})
             if(check) {
-               await this.respository.update({Rate: data.Rate, Article_Id: req.body.articleID}, {User_Id: req.userData.ID, Article_Id: req.body.articleID})
+               await this.respository.update({Rate: data.Rate, Article_Id: req.body.Article_Id}, {User_Id: req.userData.ID, Article_Id: req.body.Article_Id})
                return response(201, 'Success !!!')
             }
-            await this.respository.create({User_Id: req.userData.ID, Article_Id: req.body.articleID, Rate: data.Rate})
+            await this.respository.create({User_Id: req.userData.ID, Article_Id: req.body.Article_Id, Rate: data.Rate})
             return response(201, 'Success !!!')
         } catch (error) {
             console.log('CREATE_RATING_ARTICLE', error.toString())
-            return response(400, 'Rate failed')
+            return response(400, error.toString())
         }
     }
    

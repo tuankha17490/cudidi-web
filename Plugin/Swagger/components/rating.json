@@ -20,6 +20,9 @@
                         "properties": {
                             "Article_Id": {
                                 "type": "integer"
+                            },
+                            "Rate": {
+                                "type": "number"
                             }
                         }
                     }
