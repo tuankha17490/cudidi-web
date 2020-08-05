@@ -1,6 +1,7 @@
 import RateRespository from "./respository"
 import BaseServices from '../../core/Service';
 import response from "../../../Util/Response";
+import ArticleRespository from "../../modules/articles/respository"
 export default class RateService extends BaseServices {
     static _Instance;
     static Instance() {
@@ -38,6 +39,10 @@ export default class RateService extends BaseServices {
                     Rate: data.Rate
                 })
             }
+            const temp = await ArticleRespository.Instance().tableQuery().select('AvgRate').where({
+                ID: result.Article_Id
+            })
+            result.AvgRate = temp[0].AvgRate
             return response(201, 'Success !!!', result)
         } catch (error) {
             console.log('CREATE_RATING_ARTICLE', error.toString())
