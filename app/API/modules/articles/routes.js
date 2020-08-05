@@ -5,6 +5,7 @@ import ArticleController from "./controller"
 import multer from "../../../Config/multer"
 import ArticleValidator from "./validator"
 import Permissions from "../../../Middleware/Permission"
+import decoded from "../../../Middleware/Decoded"
 const permissions = new Permissions()
 const controller = new ArticleController()
 const validator = new ArticleValidator()
@@ -44,7 +45,7 @@ router.get('/:userID/:page&:limit',authorization, (req, res) => {
         return res.status(200).json(error)
     }
 })
-router.get('/description/:articleSlug',(req, res) => {
+router.get('/description/:articleSlug',decoded,(req, res) => {
     try {
         controller.getListWithSlug(req).then(result => {return res.status(200).json(result)})
     } catch (error) {

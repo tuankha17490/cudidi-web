@@ -5,6 +5,7 @@ import authorization from "../../../Middleware/Authorization"
 import UserValidator from "./validator"
 import multer from "../../../Config/multer"
 import Permissions from "../../../Middleware/Permission"
+import decode from "../../../Middleware/Decoded"
 const permissions = new Permissions()
 const controller = new UserController()
 const validator = new UserValidator()
@@ -34,7 +35,7 @@ router.get('/search/:page&:limit',authorization,permissions.setModuleUsers, perm
 //     }
 // })
 
-router.get('/article/:userSlug&:lastId&:limit',(req, res) => {
+router.get('/article/:userSlug&:lastId&:limit',decode,(req, res) => {
     try {
         controller.getListWithSlug(req).then(result => {return res.status(200).json(result)})
     } catch (error) {

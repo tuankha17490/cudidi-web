@@ -345,20 +345,44 @@ export default class UserService extends BaseServices {
             const lastID = req.params.lastId
             const limit = req.params.limit
             let query = 0
-            
-            if(lastID == 0) {
-                query =  await this.respository.tableQuery().select(column).where('Slug',slug)
-                .where('isDeleted', 0).withGraphFetched('articles')
-                .modifyGraph(table, builder => {
-                    builder.select('*').where('ID', '>', lastID).where({isDeleted: 0}).orderBy('ID','desc').limit(limit)
-                })
+            if(req.userData == undefined) {
+                if(lastID == 0) {
+                    query =  await this.respository.tableQuery().select(column).where('Slug',slug)
+                    .where('isDeleted', 0).withGraphFetched('articles')
+                    .modifyGraph(table, builder => {
+                        builder.select('*').where('ID', '>', lastID).where({isDeleted: 0}).orderBy('ID','desc').limit(limit)
+                    })
+                }
+                else {
+                    query =  await this.respository.tableQuery().select(column).where('Slug',slug)
+                    .where('isDeleted', 0).withGraphFetched('articles')
+                    .modifyGraph(table, builder => {
+                        builder.select('*').where('ID', '<', lastID).where({isDeleted: 0}).orderBy('ID','desc').limit(limit)
+                    })
+                }
             }
             else {
-                query =  await this.respository.tableQuery().select(column).where('Slug',slug)
-                .where('isDeleted', 0).withGraphFetched('articles')
-                .modifyGraph(table, builder => {
-                    builder.select('*').where('ID', '<', lastID).where({isDeleted: 0}).orderBy('ID','desc').limit(limit)
-                })
+                if(lastID == 0) {
+                    console.log('herererererererere');
+                    query =  await this.respository.tableQuery().select(column).where('Slug',slug)
+                    .where('isDeleted', 0).withGraphFetched('articles.rateArticles')
+                    .modifyGraph(table, builder => {
+                        builder.select('*').where('ID', '>', lastID).where({isDeleted: 0}).orderBy('ID','desc').limit(limit)
+                    })
+                    .modifyGraph('articles.rateArticles', builder => {
+                        builder.select('Rate').where({User_Id: req.userData.ID})
+                    })
+                }
+                else {
+                    query =  await this.respository.tableQuery().select(column).where('Slug',slug)
+                    .where('isDeleted', 0).withGraphFetched('articles.rateArticles')
+                    .modifyGraph(table, builder => {
+                        builder.select('*').where('ID', '<', lastID).where({isDeleted: 0}).orderBy('ID','desc').limit(limit)
+                    })
+                    .modifyGraph('articles.rateArticles', builder => {
+                        builder.select('Rate').where({User_Id: req.userData.ID})
+                    })
+                }
             }
            
             const result = {}

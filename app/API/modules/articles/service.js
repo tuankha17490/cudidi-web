@@ -167,26 +167,18 @@ export default class ArticleService extends BaseServices {
         try {
             const slug = req.params.articleSlug
             let query = 0
-            if (req.headers.authorization != undefined) {
-                const temp = req.headers.authorization.split(" ")
-                if(temp.length == 2 && temp[0] == 'Bearer') {
-                    const token = temp[1]
-                    const decoded = await jwt.verify(token, process.env.JWT_KEY)
-                    query = await this.respository.tableQuery().select('*').where('Slug', slug)
-                    .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users, rateArticles]')
-                    .modifyGraph('users', builder => {
-                        builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
-                    })
-                    .modifyGraph('users', builder => {
-                        builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
-                    })
-                    .modifyGraph('rateArticles', builder => {
-                        builder.select('Rate').where({User_Id: decoded.ID})
-                    })
-                }
-                else {
-                    return response(401, 'Format token is wrong !!!')
-                }
+            if (req.userData != undefined) {
+                query = await this.respository.tableQuery().select('*').where('Slug', slug)
+                .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users, rateArticles]')
+                .modifyGraph('descriptionArticles', builder => {
+                    builder.orderBy('Day', 'inc')
+                })
+                .modifyGraph('users', builder => {
+                    builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber')
+                })
+                .modifyGraph('rateArticles', builder => {
+                    builder.select('Rate').where({User_Id: req.userData.ID})
+                })
             }
             else {
                 query = await this.respository.tableQuery().select('*').where('Slug', slug)
@@ -206,7 +198,9 @@ export default class ArticleService extends BaseServices {
             result.descriptionArticles = query[0].descriptionArticles
             result.users = query[0].users
             query[0].descriptionArticles = undefined
-            query[0].user = undefined
+            query[0].users = undefined
+            if(query[0].rateArticles != undefined) result.users.rateArticles = query[0].rateArticles[0].Rate
+            query[0].rateArticles = undefined
             result.articles = query[0]
             return response(200, 'Success !!!', result)
         } catch (error) {
