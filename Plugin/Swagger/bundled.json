@@ -30,7 +30,7 @@
       "url": "https://cudidi-web.herokuapp.com/"
     },
     {
-      "url": "http://localhost:3000"
+      "url": "http://cudidi-web.herokuapp.com/"
     }
   ],
   "tags": [
@@ -3653,7 +3653,7 @@
         }
       }
     },
-    "/comment/lazy-load-list/{lastId}&{limit}": {
+    "/comment/lazy-load-list/{lastId}&{limit}&{articleId}": {
       "get": {
         "tags": [
           "comment"
@@ -3675,6 +3675,15 @@
             "name": "limit",
             "in": "path",
             "description": "The limit that needs to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "articleId",
+            "in": "path",
+            "description": "The id of article that needs to be fetched.",
             "required": true,
             "schema": {
               "type": "integer"

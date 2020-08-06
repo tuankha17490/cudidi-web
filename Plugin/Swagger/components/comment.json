@@ -260,6 +260,15 @@
                 "schema": {
                     "type": "integer"
                 }
+            },
+            {
+                "name": "articleId",
+                "in": "path",
+                "description": "The id of article that needs to be fetched.",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
             }
         ],
         "responses": {

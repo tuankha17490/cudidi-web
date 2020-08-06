@@ -267,7 +267,7 @@
         "/comment/reply/{replyId}&{lastId}": {
             "$ref": "./paths/comment.json#/listReply"
         },
-        "/comment/lazy-load-list/{lastId}&{limit}": {
+        "/comment/lazy-load-list/{lastId}&{limit}&{articleId}": {
             "$ref": "./paths/comment.json#/lazyLoad"
         },
         "/comment/{page}&{limit}": {
