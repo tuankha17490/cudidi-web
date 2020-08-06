@@ -245,6 +245,12 @@
         "/article/home/search/{lastId}&{limit}": {
             "$ref": "./paths/article.json#/searchHomePage"
         },
+        "/article/sort": {
+            "$ref": "./paths/article.json#/sort"
+        },
+        "/article/slider": {
+            "$ref": "./paths/article.json#/slider"
+        },
 
 
         "/description-article/{page}&{limit}": {

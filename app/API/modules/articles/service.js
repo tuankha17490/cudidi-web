@@ -334,4 +334,33 @@ export default class ArticleService extends BaseServices {
             return response(400, error.toString())
         }
     }
+    async sort(req) {
+        try {
+            const data = req.body
+            if(data.Duration == undefined && data.Price == undefined && data.NumberOfPeople == undefined) throw 'Do not have data is received'
+            let query = this.respository.tableQuery()
+            if(data.Duration != undefined) query.where({Duration: data.Duration})
+            if(data.Price != undefined) query.where({Price: data.Price})
+            if(data.NumberOfPeople != undefined) query.where({NumberOfPeople: data.NumberOfPeople})
+            query = query.orderBy('ID', 'desc')
+            let result = 0
+            if(data.lastId == 0) {
+                result = await query.limit(data.limit)
+            }
+            else {
+                result = await query.where('ID', '<', 'lastId').limit(data.limit)
+            }
+            if(result.length != 0) data.lastId = result[result.length - 1].ID
+            else data.lastId = undefined
+            return {
+                status: 200,
+                message: 'Success !!!',
+                lastId: data.lastId,
+                data: result
+            }
+        } catch (error) {
+            console.log('SORT_ARTICLE_SERVICE', error.toString());
+            return response(400, error.toString())   
+        }
+    }
 }

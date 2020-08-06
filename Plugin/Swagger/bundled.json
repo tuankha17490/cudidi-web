@@ -2945,7 +2945,7 @@
         }
       }
     },
-    "/article/home/search/{lastId}": {
+    "/article/home/search/{lastId}&{limit}": {
       "get": {
         "tags": [
           "article"
@@ -2963,6 +2963,15 @@
             "name": "lastId",
             "in": "path",
             "description": "lastId of data",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "path",
+            "description": "limit of data",
             "required": true,
             "schema": {
               "type": "integer"
@@ -3161,6 +3170,170 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Article not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/article/sort": {
+      "post": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Sort article",
+        "description": "Sort article follow duration, price and number of people.",
+        "operationId": "sortArticle",
+        "requestBody": {
+          "description": "Sort article",
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lastId": {
+                    "type": "integer"
+                  },
+                  "limit": {
+                    "type": "integer"
+                  },
+                  "Duration": {
+                    "type": "integer"
+                  },
+                  "Price": {
+                    "type": "integer"
+                  },
+                  "NumberOfPeople": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid article supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Article not found",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/article/slider": {
+      "get": {
+        "tags": [
+          "article"
+        ],
+        "summary": "Get information to fill in slider article",
+        "description": "Get information to fill in slider article.",
+        "operationId": "slider",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Location": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    },
+                    "Image": {
+                      "type": "string"
+                    },
+                    "Title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Duration": {
+                      "type": "integer"
+                    },
+                    "Price": {
+                      "type": "number",
+                      "minimum": 0,
+                      "exclusiveMinimum": true
+                    },
+                    "NumberOfPeople": {
+                      "type": "integer"
+                    },
+                    "isWare": {
+                      "type": "boolean"
+                    },
+                    "Introduce": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    }
+                  },
+                  "xml": {
+                    "name": "Article"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "Location": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    },
+                    "Image": {
+                      "type": "string"
+                    },
+                    "Title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    },
+                    "Duration": {
+                      "type": "integer"
+                    },
+                    "Price": {
+                      "type": "number",
+                      "minimum": 0,
+                      "exclusiveMinimum": true
+                    },
+                    "NumberOfPeople": {
+                      "type": "integer"
+                    },
+                    "isWare": {
+                      "type": "boolean"
+                    },
+                    "Introduce": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 255
+                    }
+                  },
+                  "xml": {
+                    "name": "Article"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid article supplied",
+            "content": {}
           },
           "404": {
             "description": "Article not found",

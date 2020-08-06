@@ -43,4 +43,7 @@ export default class ArticleController extends BaseController {
     searchHomePage(req) {
         return this.service.searchHomePage(req)
     }
+    sort(req) {
+        return this.service.sort(req)
+    }
 }

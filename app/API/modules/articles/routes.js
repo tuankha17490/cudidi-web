@@ -45,7 +45,14 @@ router.get('/slider',(req, res) => {
         return res.status(200).json(error)
     }
 })
-
+router.post('/sort',(req, res) => {
+    try {
+        controller.sort(req).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_HOME');
+        return res.status(200).json(error)
+    }
+})
 
 router.get('/:page&:limit',authorization,permissions.setModuleArticle, permissions.GetList, (req, res) => {
     try {

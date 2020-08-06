@@ -24,9 +24,20 @@
             "$ref": "../components/article.json#/searchHomePage"
         }
     },
+    "slider": {
+        "get": {
+            "$ref": "../components/article.json#/slider"
+        }
+    },
     "create": {
         "post": {
             "$ref": "../components/article.json#/create"
+        }
+       
+    },
+    "sort": {
+        "post": {
+            "$ref": "../components/article.json#/sort"
         }
        
     },
