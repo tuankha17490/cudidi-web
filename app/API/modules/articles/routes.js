@@ -28,7 +28,7 @@ router.get('/home',(req, res) => {
     }
 })
 
-router.get('/home/search/:lastId',(req, res) => {
+router.get('/home/search/:lastId&:limit',(req, res) => {
     try {
         controller.searchHomePage(req).then(result => {return res.status(200).json(result)})
     } catch (error) {

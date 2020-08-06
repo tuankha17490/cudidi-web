@@ -296,14 +296,14 @@ export default class ArticleService extends BaseServices {
                     ], {
                         isDeleted: 0
                     })
-                    .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(6)
+                    .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(req.params.limit)
             } else {
                 data = await this.respository.listBy([
                         ['*']
                     ], {
                         isDeleted: 0
                     }).where('ID', '<', req.params.lastId)
-                    .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(6)
+                    .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(req.params.limit)
             }
             if (data.length != 0) lastId = data[data.length - 1].ID
             else lastId = undefined

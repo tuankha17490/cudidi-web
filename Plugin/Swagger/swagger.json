@@ -242,7 +242,7 @@
         "/article/home": {
             "$ref": "./paths/article.json#/getHomePage"
         },
-        "/article/home/search/{lastId}": {
+        "/article/home/search/{lastId}&{limit}": {
             "$ref": "./paths/article.json#/searchHomePage"
         },
 

@@ -1071,6 +1071,15 @@
                 }
             },
             {
+                "name": "limit",
+                "in": "path",
+                "description": "limit of data",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
                 "name": "data",
                 "in": "query",
                 "description": "The data that needs to be searched.",
