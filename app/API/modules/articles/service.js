@@ -169,28 +169,29 @@ export default class ArticleService extends BaseServices {
             let query = 0
             if (req.userData != undefined) {
                 query = await this.respository.tableQuery().select('*').where('Slug', slug)
-                .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users, rateArticles]')
-                .modifyGraph('descriptionArticles', builder => {
-                    builder.orderBy('Day', 'inc')
-                })
-                .modifyGraph('users', builder => {
-                    builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber', 'Slug')
-                })
-                .modifyGraph('rateArticles', builder => {
-                    builder.select('Rate').where({User_Id: req.userData.ID})
-                })
-            }
-            else {
+                    .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users, rateArticles]')
+                    .modifyGraph('descriptionArticles', builder => {
+                        builder.orderBy('Day', 'inc')
+                    })
+                    .modifyGraph('users', builder => {
+                        builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber', 'Slug')
+                    })
+                    .modifyGraph('rateArticles', builder => {
+                        builder.select('Rate').where({
+                            User_Id: req.userData.ID
+                        })
+                    })
+            } else {
                 query = await this.respository.tableQuery().select('*').where('Slug', slug)
-                .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users]')
-                .modifyGraph('users', builder => {
-                    builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber', 'Slug')
-                })
-                .modifyGraph('descriptionArticles', builder => {
-                    builder.orderBy('Day', 'inc')
-                })
+                    .where('isDeleted', 0).withGraphFetched('[descriptionArticles, users]')
+                    .modifyGraph('users', builder => {
+                        builder.select('ID', 'FullName', 'Username', 'Email', 'Avatar', 'PhoneNumber', 'Slug')
+                    })
+                    .modifyGraph('descriptionArticles', builder => {
+                        builder.orderBy('Day', 'inc')
+                    })
             }
-           
+
             if (query.length == 0) {
                 return response(404, 'Not found')
             }
@@ -199,7 +200,7 @@ export default class ArticleService extends BaseServices {
             result.users = query[0].users
             query[0].descriptionArticles = undefined
             query[0].users = undefined
-            if(query[0].rateArticles != undefined) result.users.rateArticles = query[0].rateArticles[0].Rate
+            if (query[0].rateArticles != undefined) result.users.rateArticles = query[0].rateArticles[0].Rate
             query[0].rateArticles = undefined
             result.articles = query[0]
             return response(200, 'Success !!!', result)
@@ -271,10 +272,16 @@ export default class ArticleService extends BaseServices {
     async getHomePage() {
         try {
             const query = await this.respository.listBy(['*'])
-            .orderBy([{column: 'RateAmount', order: 'desc'}, {column: 'AvgRate', order: 'desc'}]).where('AvgRate', '>','3').limit(5)
+                .orderBy([{
+                    column: 'RateAmount',
+                    order: 'desc'
+                }, {
+                    column: 'AvgRate',
+                    order: 'desc'
+                }]).where('AvgRate', '>', '3').limit(5)
             return response(200, 'Success !!!', query)
         } catch (error) {
-            console.log('GET_HOME_PAGE_SERVICE',error.toString());
+            console.log('GET_HOME_PAGE_SERVICE', error.toString());
             return response(400, error.toString())
         }
     }
@@ -283,15 +290,22 @@ export default class ArticleService extends BaseServices {
             const query = req.query.data
             let lastId = req.params.lastId
             let data = 0
-            if(req.params.lastId == 0) {
-                 data = await this.respository.listBy([['*']],{isDeleted: 0})
-                .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(6)
+            if (req.params.lastId == 0) {
+                data = await this.respository.listBy([
+                        ['*']
+                    ], {
+                        isDeleted: 0
+                    })
+                    .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(6)
+            } else {
+                data = await this.respository.listBy([
+                        ['*']
+                    ], {
+                        isDeleted: 0
+                    }).where('ID', '<', req.params.lastId)
+                    .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(6)
             }
-            else {
-                 data = await this.respository.listBy([['*']],{isDeleted: 0}).where('ID', '<', req.params.lastId)
-                .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(6)
-            }
-            if(data.length != 0) lastId = data[data.length - 1].ID
+            if (data.length != 0) lastId = data[data.length - 1].ID
             else lastId = undefined
             return {
                 status: 200,
@@ -300,7 +314,23 @@ export default class ArticleService extends BaseServices {
                 data
             }
         } catch (error) {
-            console.log('SEARCH_HOME_PAGE_SERVICE',error.toString());
+            console.log('SEARCH_HOME_PAGE_SERVICE', error.toString());
+            return response(400, error.toString())
+        }
+    }
+
+    async slider() {
+        try {
+            const maxDuration = await this.respository.tableQuery().max('Duration as value')
+            const maxPrice = await this.respository.tableQuery().max('Price as value')
+            const maxPeople = await this.respository.tableQuery().max('NumberOfPeople as value')
+            let result = {}
+            result.maxDuration = maxDuration[0].value
+            result.maxPrice = maxPrice[0].value
+            result.maxNumberOfPeople = maxPeople[0].value
+            return response(200, 'Success !!!', result)
+        } catch (error) {
+            console.log('SLIDER_PAGE_SERVICE', error.toString());
             return response(400, error.toString())
         }
     }

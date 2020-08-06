@@ -84,6 +84,7 @@ export default class CommentService extends BaseServices {
             }
             else {
                 data = await this.respository.tableQuery().where('ID', '<', lastId).where({isDeleted: 0, Reply_Id: null, Article_Id}).orderBy('ID','desc').limit(limitvalue)
+                .withGraphFetched(table)
                 .modifyGraph('users', builder => {
                     builder.select('ID', 'FullName', 'Username', 'Avatar').where({isDeleted: 0})
                 })

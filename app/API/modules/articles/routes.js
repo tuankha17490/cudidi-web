@@ -37,6 +37,15 @@ router.get('/home/search/:lastId',(req, res) => {
     }
 })
 
+router.get('/slider',(req, res) => {
+    try {
+        controller.slider().then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_HOME');
+        return res.status(200).json(error)
+    }
+})
+
 
 router.get('/:page&:limit',authorization,permissions.setModuleArticle, permissions.GetList, (req, res) => {
     try {

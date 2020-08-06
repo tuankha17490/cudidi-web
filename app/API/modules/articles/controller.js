@@ -37,6 +37,9 @@ export default class ArticleController extends BaseController {
     getHomePage() {
         return this.service.getHomePage()
     }
+    slider() {
+        return this.service.slider()
+    }
     searchHomePage(req) {
         return this.service.searchHomePage(req)
     }
