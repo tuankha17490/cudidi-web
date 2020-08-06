@@ -71,19 +71,19 @@ export default class CommentService extends BaseServices {
             return response(400, error.toString())
         }
     }
-    async getListLazyLoad(lastId, limitvalue,table = 'users') {
+    async getListLazyLoad(lastId, limitvalue,Article_Id,table = 'users') {
         try {
             let data = 0
             if(lastId == 0) {
                 data = await this.respository.tableQuery()
-                .where('ID', '>', lastId).where({isDeleted: 0, Reply_Id: null}).orderBy('ID','desc').limit(limitvalue)
+                .where('ID', '>', lastId).where({isDeleted: 0, Reply_Id: null, Article_Id}).orderBy('ID','desc').limit(limitvalue)
                 .withGraphFetched(table)
                 .modifyGraph('users', builder => {
                     builder.select('ID', 'FullName','Username', 'Avatar').where({isDeleted: 0})
                 })
             }
             else {
-                data = await this.respository.tableQuery().where('ID', '<', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(limitvalue)
+                data = await this.respository.tableQuery().where('ID', '<', lastId).where({isDeleted: 0, Reply_Id: null, Article_Id}).orderBy('ID','desc').limit(limitvalue)
                 .modifyGraph('users', builder => {
                     builder.select('ID', 'FullName', 'Username', 'Avatar').where({isDeleted: 0})
                 })

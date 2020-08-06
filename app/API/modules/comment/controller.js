@@ -13,4 +13,7 @@ export default class CommentController extends BaseController {
     getListReply(replyId, lastId) {
         return this.service.getListReply(replyId, lastId)
     }
+    getListLazyLoad(lastId, limit, articleId) {
+        return this.service.getListLazyLoad(lastId, limit, articleId)
+    }
 }   

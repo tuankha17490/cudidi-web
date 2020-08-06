@@ -34,4 +34,10 @@ export default class ArticleController extends BaseController {
     getListRelation(req) {
         return this.service.getListRelation(req)
     }
+    getHomePage() {
+        return this.service.getHomePage()
+    }
+    searchHomePage(req) {
+        return this.service.searchHomePage(req)
+    }
 }

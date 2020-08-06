@@ -26,9 +26,9 @@ router.post('/reply/create',authorization,validator.commentTask, (req, res) => {
     }
 })
 
-router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
+router.get('/lazy-load-list/:lastId&:limit&:articleId',(req, res) => {
     try {
-        controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(200).json(result)})
+        controller.getListLazyLoad(req.params.lastId, req.params.limit, req.params.articleId).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_COMMENT_LIST');
         return res.status(200).json(error)

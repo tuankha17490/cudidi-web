@@ -14,6 +14,16 @@
             "$ref": "../components/article.json#/lazyLoad"
         }
     },
+    "getHomePage": {
+        "get": {
+            "$ref": "../components/article.json#/getHomePage"
+        }
+    },
+    "searchHomePage": {
+        "get": {
+            "$ref": "../components/article.json#/searchHomePage"
+        }
+    },
     "create": {
         "post": {
             "$ref": "../components/article.json#/create"

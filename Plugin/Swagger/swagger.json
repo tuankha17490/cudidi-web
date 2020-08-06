@@ -239,6 +239,12 @@
         "/article/update-image/{articleSlug}": {
             "$ref": "./paths/article.json#/updateImage"
         },
+        "/article/home": {
+            "$ref": "./paths/article.json#/getHomePage"
+        },
+        "/article/home/search/{lastId}": {
+            "$ref": "./paths/article.json#/searchHomePage"
+        },
 
 
         "/description-article/{page}&{limit}": {

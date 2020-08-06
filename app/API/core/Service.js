@@ -23,7 +23,7 @@ export default class BaseServices {
                 })
             }
             if(data.length != 0) lastId = data[data.length - 1].ID
-            else lastId = 0
+            else lastId = undefined
             return {
                 status: 200,
                 message: 'Success to load data !!!',

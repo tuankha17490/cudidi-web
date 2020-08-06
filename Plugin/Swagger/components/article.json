@@ -934,5 +934,172 @@
                 "content": {}
             }
         }
+    },
+    "getHomePage": {
+        "tags": [
+            "article"
+        ],
+        "summary": "Get list article in home page",
+        "description": "Get information with lazy load to paginate.",
+        "operationId": "getHomePage",
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Location": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                },
+                                "Image": {
+                                    "type": "string"
+                                },
+                                "Title": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                },
+                                "Duration": {
+                                    "type": "integer"
+                                },
+                                "Price": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "exclusiveMinimum": true
+                                },
+                                "NumberOfPeople": {
+                                    "type": "integer"
+                                },
+                                "isWare": {
+                                    "type": "boolean"
+                                },
+                                "Introduce": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                }
+                            },
+                            "xml": {
+                                "name": "Article"
+                            }
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "Location": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                },
+                                "Image": {
+                                    "type": "string"
+                                },
+                                "Title": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                },
+                                "Duration": {
+                                    "type": "integer"
+                                },
+                                "Price": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "exclusiveMinimum": true
+                                },
+                                "NumberOfPeople": {
+                                    "type": "integer"
+                                },
+                                "isWare": {
+                                    "type": "boolean"
+                                },
+                                "Introduce": {
+                                    "type": "string",
+                                    "minLength": 5,
+                                    "maxLength": 255
+                                }
+                            },
+                            "xml": {
+                                "name": "Article"
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid article supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "Article not found",
+                "content": {}
+            }
+        }
+    },
+    "searchHomePage": {
+        "tags": [
+            "article"
+        ],
+        "summary": "Search article in home page",
+        "description": "Search article follow title and location.",
+        "operationId": "searchHomeArticle",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "parameters": [
+            {
+                "name": "lastId",
+                "in": "path",
+                "description": "lastId of data",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "data",
+                "in": "query",
+                "description": "The data that needs to be searched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "content": {
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "../schemas/article.json#/Article"
+                        }
+                    },
+                    "application/json": {
+                        "schema": {
+                            "$ref": "../schemas/article.json#/Article"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Article not found",
+                "content": {}
+            }
+        }
     }
 }

@@ -268,4 +268,40 @@ export default class ArticleService extends BaseServices {
             return response(400, error.toString())
         }
     }
+    async getHomePage() {
+        try {
+            const query = await this.respository.listBy(['*'])
+            .orderBy([{column: 'RateAmount', order: 'desc'}, {column: 'AvgRate', order: 'desc'}]).where('AvgRate', '>','3').limit(5)
+            return response(200, 'Success !!!', query)
+        } catch (error) {
+            console.log('GET_HOME_PAGE_SERVICE',error.toString());
+            return response(400, error.toString())
+        }
+    }
+    async searchHomePage(req) {
+        try {
+            const query = req.query.data
+            let lastId = req.params.lastId
+            let data = 0
+            if(req.params.lastId == 0) {
+                 data = await this.respository.listBy([['*']],{isDeleted: 0})
+                .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(6)
+            }
+            else {
+                 data = await this.respository.listBy([['*']],{isDeleted: 0}).where('ID', '<', req.params.lastId)
+                .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(6)
+            }
+            if(data.length != 0) lastId = data[data.length - 1].ID
+            else lastId = undefined
+            return {
+                status: 200,
+                message: 'Success to load data !!!',
+                lastId,
+                data
+            }
+        } catch (error) {
+            console.log('SEARCH_HOME_PAGE_SERVICE',error.toString());
+            return response(400, error.toString())
+        }
+    }
 }

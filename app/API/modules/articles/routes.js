@@ -14,10 +14,29 @@ router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
     try {
         controller.getListLazyLoad(req.params.lastId, req.params.limit).then(result => {return res.status(200).json(result)})
     } catch (error) {
-        console.log('CONTROLLER_GET_USER_LIST');
+        console.log('CONTROLLER_GET_ARTICLE_LIST');
         return res.status(200).json(error)
     }
 })
+
+router.get('/home',(req, res) => {
+    try {
+        controller.getHomePage().then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_HOME');
+        return res.status(200).json(error)
+    }
+})
+
+router.get('/home/search/:lastId',(req, res) => {
+    try {
+        controller.searchHomePage(req).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_HOME');
+        return res.status(200).json(error)
+    }
+})
+
 
 router.get('/:page&:limit',authorization,permissions.setModuleArticle, permissions.GetList, (req, res) => {
     try {
