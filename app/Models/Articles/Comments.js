@@ -1,6 +1,7 @@
 import Model from '../Schema'
 import Users from '../Users/Users'
 import Articles from './Articles'
+import {raw} from "objection"
 export default class Comments extends Model {
     static get tableName() {
         return 'Comments'
@@ -15,6 +16,9 @@ export default class Comments extends Model {
 
     async $beforeUpdate() {
         this.updated_at = new Date()
+    }
+    async $afterInsert() {
+        await Articles.query().where({ID: this.Article_Id}).patch({CommentAmount: raw('CommentAmount + 1')})
     }
     static get relationMappings() {
         return {

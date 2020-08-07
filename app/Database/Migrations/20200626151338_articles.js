@@ -14,6 +14,7 @@ export function up(knex) {
     t.integer('NumberOfPeople')
     t.float('AvgRate').defaultTo(0)
     t.integer('RateAmount').defaultTo(0)
+    t.integer('CommentAmount').defaultTo(0)
     t.boolean('isDeleted').defaultTo(0)
     t.timestamps()
   })

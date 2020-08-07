@@ -11,13 +11,10 @@ export default class Rate_Articles extends Model {
     }
     async $afterInsert() {
         const avgRate = await Rate_Articles.query().where({Article_Id: this.Article_Id}).avg('Rate as value')
-        console.log('average', avgRate);
         await Articles.query().where({ID: this.Article_Id}).patch({RateAmount: raw('RateAmount + 1'), AvgRate: avgRate[0].value})
     }
     async $afterUpdate() {
-        console.log(this);
         const avgRate = await Rate_Articles.query().where({Article_Id: this.Article_Id}).avg('Rate as value')
-        console.log('average', avgRate);
         await Articles.query().where({ID: this.Article_Id}).patch({AvgRate: avgRate[0].value})
     }
     static get relationMappings() {
