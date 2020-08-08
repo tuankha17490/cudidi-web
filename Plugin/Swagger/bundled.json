@@ -2755,6 +2755,10 @@
                   },
                   "Introduce": {
                     "type": "string"
+                  },
+                  "Day": {
+                    "type": "array",
+                    "items": {}
                   }
                 }
               }
@@ -3677,24 +3681,27 @@
                     "maxLength": 255
                   },
                   "imageArticles": {
-                    "type": "object",
-                    "properties": {
-                      "ID": {
-                        "type": "integer",
-                        "readOnly": true
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "ID": {
+                          "type": "integer",
+                          "readOnly": true
+                        },
+                        "URL": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "Location": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 255
+                        }
                       },
-                      "URL": {
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "Location": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 255
+                      "xml": {
+                        "name": "Image-Article"
                       }
-                    },
-                    "xml": {
-                      "name": "Image-Article"
                     }
                   }
                 }

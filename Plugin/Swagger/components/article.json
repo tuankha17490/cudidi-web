@@ -853,7 +853,7 @@
                                 "type": "string"
                             },
                             "Duration": {
-                                "type": "integer",
+                                "type": "integer"
                             },
                             "Price": {
                                 "type": "integer"
@@ -863,6 +863,10 @@
                             },
                             "Introduce": {
                                 "type": "string"
+                            },
+                            "Day": {
+                                "type": "array",
+                                "items": {}
                             }
                         }
                     }

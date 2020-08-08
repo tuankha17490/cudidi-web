@@ -4,7 +4,6 @@ import BaseServices from '../../core/Service';
 import getSlug from "slugify"
 import dotenv from "dotenv"
 import process from "process"
-import jwt from "jsonwebtoken"
 import fs from "fs"
 import response from "../../../Util/Response"
 import {
@@ -255,12 +254,13 @@ export default class ArticleService extends BaseServices {
                 return response(404, 'Not found')
             }
             if (data.Duration < checkData.Duration) {
-                for (let i = data.Duration + 1; i <= checkData.Duration; i++) {
-                    await DescriptionArticleRespository.Instance().delete({
-                        Day: i,
-                        Article_Id: checkData.ID
-                    })
+                if(data.Day == undefined) {
+                    throw 'Decreasing duration must be sent deleted days'
                 }
+                if(data.Day.length > checkData.Duration - data.Duration) throw 'Deleted day was overflowed'
+                await DescriptionArticleRespository.Instance().delete({
+                    Article_Id: checkData.ID
+                }).whereIn('Day',data.Day)
             }
             const result = await checkData.$query().patchAndFetch(data)
             return response(200, 'Success !!!', result)

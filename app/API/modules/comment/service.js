@@ -93,7 +93,10 @@ export default class CommentService extends BaseServices {
             else lastId = undefined
             let temp = 0
             for (let index = 0; index < data.length; index++) {
-                temp = await this.respository.listBy(['*'], {Reply_Id: data[index].ID}).limit(3)
+                temp = await this.respository.listBy(['*'], {Reply_Id: data[index].ID}).withGraphFetched('users').limit(3)
+                .modifyGraph('users', builder => {
+                    builder.select('ID', 'FullName','Username', 'Avatar').where({isDeleted: 0})
+                })
                 data[index].childs = temp
             }
             return {

@@ -36,7 +36,11 @@
                                 "maxLength": 255
                             },
                             "imageArticles": {
-                                "$ref": "../schemas/image-article.json#/Image-Article"
+                                "type": "array",
+                                "items": {
+                                    "$ref": "../schemas/image-article.json#/Image-Article"    
+                                }
+                                
                             }
                         }
                     }

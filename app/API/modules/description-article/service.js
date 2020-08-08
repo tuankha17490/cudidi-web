@@ -34,7 +34,6 @@ export default class DescriptionArticleService extends BaseServices {
     async updateById(req, id) {
         try {
             const checkData = await this.respository.findAt(id).withGraphFetched('articles')
-            console.log(checkData);
             if(!checkData) {
                 return response(404, 'Not found')
             }
@@ -44,6 +43,11 @@ export default class DescriptionArticleService extends BaseServices {
                 }
             }
             const data = req.body
+            if(data.Day) {
+                await this.respository.update({Day: checkData.Day}, {Day: data.Day, Article_Id: checkData.Article_Id})
+                await this.respository.updateById({Day: data.Day}, id)
+
+            }
             const imageArticles = data.imageArticles
             if (data.imageArticles != undefined) {
                 imageArticles.forEach(async element => {
@@ -59,8 +63,6 @@ export default class DescriptionArticleService extends BaseServices {
                         }
                     )
                 });
-              
-
             }
             data.imageArticles = undefined
             const update = await this.respository.updateById(data, id)
