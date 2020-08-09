@@ -265,6 +265,9 @@
         "/description-article/{id}": {
             "$ref": "./paths/description-article.json#/specify/id"
         },
+        "/description-article/{articleId}": {
+            "$ref": "./paths/description-article.json#/update"
+        },
 
         "/rating/create": {
             "$ref": "./paths/rating.json#/create"

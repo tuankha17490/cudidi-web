@@ -16,4 +16,7 @@ export default class DescriptionArticleController extends BaseController {
     getInformation(condition) {
         return this.service.getInformation(condition, 'imageArticles')
     }
+    updateByArticleId(req, articleId) {
+        return this.service.updateByArticleId(req, articleId)
+    }
 }

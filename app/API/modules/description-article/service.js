@@ -18,8 +18,7 @@ export default class DescriptionArticleService extends BaseServices {
         try {
             const data = req.body
             const checkarticle = await ArticleRespository.Instance().findAt(data.Article_Id).withGraphFetched('descriptionArticles')
-            console.log(checkarticle);
-            if (checkarticle.descriptionArticles.length >= data.Day) {
+            if (checkarticle.descriptionArticles.length >= checkarticle.Duration) {
                 throw 'Already write this day'
             }
             if (checkarticle.Duration < data.Day) {
@@ -46,7 +45,6 @@ export default class DescriptionArticleService extends BaseServices {
             if(data.Day) {
                 await this.respository.update({Day: checkData.Day}, {Day: data.Day, Article_Id: checkData.Article_Id})
                 await this.respository.updateById({Day: data.Day}, id)
-
             }
             const imageArticles = data.imageArticles
             if (data.imageArticles != undefined) {
@@ -76,6 +74,43 @@ export default class DescriptionArticleService extends BaseServices {
             return response(400, 'Update failed !!!')
         }
     }
-
-    
+    async updateByArticleId(req, articleId) {
+        try {
+            const check = await ArticleRespository.Instance().findAt(articleId).withGraphFetched('descriptionArticles')
+            if(!check) {
+                return response(404, 'Not found')
+            }
+            if(req.userData.Role == 'Users') {
+                if(req.userData.ID != check.User_Id) {
+                    return response(403, 'You don not have permission to access')
+                }
+            }
+            const data = req.body
+            if(data.descriptions.length > data.Duration) {
+                throw 'Duration is only ' + data.Duration + ' day'
+            }
+            let day = 1
+            let temp = check.descriptionArticles.length + 1
+            const element = data.descriptions
+            for (let i = 0; i < element.length; i++) {
+                if(element[i].ID != undefined) {
+                    if(element[i].Day) element[i].Day= undefined
+                    element[i].ID= undefined
+                    await this.respository.update(element[i], {Day: day, Article_Id: articleId})
+                    day++
+                }
+                else {
+                    if(temp > check.Duration) throw 'Can not create article amount more than duration'
+                    element[i].Day = temp 
+                    element[i].Article_Id = articleId
+                    await this.respository.create(element[i])
+                    temp++
+                }
+            }
+            return response(201, 'Success !!!')
+        } catch (error) {
+            console.log('UPDATE DESCRIPTION ARTICLE', error.toString());
+            return response(400, error.toString())
+        }
+    }
 }

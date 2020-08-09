@@ -44,14 +44,22 @@ router.get('/:id',authorization, (req, res) => {
     }
 })
 
-router.put('/:id',authorization,permissions.setModuleDescription, permissions.Update, (req, res) => {
+// router.put('/:id',authorization,permissions.setModuleDescription, permissions.Update, (req, res) => {
+//     try {
+//         controller.updateById(req, req.params.id).then(result => {return res.status(201).json(result)})
+//     } catch (error) {
+//         console.log('CONTROLLER_UPDATE_DESCRIPTION')
+//         return res.status(200).json(error)
+//     }
+// })
+
+router.put('/:articleId',authorization,permissions.setModuleDescription, permissions.Update, (req, res) => {
     try {
-        controller.updateById(req, req.params.id).then(result => {return res.status(201).json(result)})
+        controller.updateByArticleId(req, req.params.articleId).then(result => {return res.status(201).json(result)})
     } catch (error) {
         console.log('CONTROLLER_UPDATE_DESCRIPTION')
         return res.status(200).json(error)
     }
-   
 })
 router.delete('/:id',authorization,permissions.setModuleDescription, permissions.Delete, (req, res) => {
     try {

@@ -27,5 +27,10 @@
         "get": {
             "$ref":"../components/description-article.json#/search"
         }
+    },
+    "update": {
+        "put": {
+            "$ref": "../components/description-article.json#/update"
+        }
     }
 }

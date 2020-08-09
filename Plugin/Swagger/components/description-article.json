@@ -38,9 +38,8 @@
                             "imageArticles": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "../schemas/image-article.json#/Image-Article"    
+                                    "$ref": "../schemas/image-article.json#/Image-Article"
                                 }
-                                
                             }
                         }
                     }
@@ -69,9 +68,7 @@
                         "bearerAuth": []
                     }
                 ],
-                
                 "parameters": [
-
                     {
                         "name": "id",
                         "in": "path",
@@ -147,17 +144,6 @@
                                     },
                                     "Description": {
                                         "type": "string"
-                                    },
-                                    "Introduce": {
-                                        "type": "object",
-                                        "properties":{
-                                            "URL": {
-                                                "type":"string"
-                                            },
-                                            "Location": {
-                                                "type":"string"
-                                            }
-                                        }
                                     }
                                 }
                             }
@@ -189,7 +175,6 @@
                     }
                 ],
                 "parameters": [
-
                     {
                         "name": "id",
                         "in": "path",
@@ -212,6 +197,79 @@
                 }
             }
         }
+    },
+    "update": {
+        "tags": [
+            "description of article"
+        ],
+        "summary": "Updated article",
+        "description": "Update information of article by id.",
+        "operationId": "updateDescriptionArticleByArticleId",
+        "security": [
+            {
+                "bearerAuth": []
+            }
+        ],
+        "parameters": [
+            {
+                "name": "articleId",
+                "in": "path",
+                "description": "the id of article that need to be updated",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        ],
+        "requestBody": {
+            "description": "Create description of article",
+            "required": true,
+            "content": {
+                "application/x-www-form-urlencoded": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "descriptions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ID": {
+                                            "type": "integer",
+                                            "readOnly": true
+                                        },
+                                        "Place": {
+                                            "type": "string",
+                                            "minLength": 1,
+                                            "maxLength": 255
+                                        },
+                                        "Day": {
+                                            "type": "integer"
+                                        },
+                                        "Description": {
+                                            "type": "string",
+                                            "minLength": 1,
+                                            "maxLength": 255
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "400": {
+                "description": "Invalid description article supplied",
+                "content": {}
+            },
+            "404": {
+                "description": "Description Article not found",
+                "content": {}
+            }
+        },
+        "x-codegen-request-body-name": "body"
     },
     "search": {
         "tags": [
@@ -314,12 +372,12 @@
                 "content": {
                     "application/xml": {
                         "schema": {
-                            "$ref":"../schemas/description-article.json#/Description-Article"
+                            "$ref": "../schemas/description-article.json#/Description-Article"
                         }
                     },
                     "application/json": {
                         "schema": {
-                            "$ref":"../schemas/description-article.json#/Description-Article"
+                            "$ref": "../schemas/description-article.json#/Description-Article"
                         }
                     }
                 }
