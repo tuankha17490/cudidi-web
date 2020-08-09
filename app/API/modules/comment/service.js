@@ -113,12 +113,18 @@ export default class CommentService extends BaseServices {
         try {
             let data = 0
             if(lastId == 0) {
-                data = await this.respository.listBy(['*'], {Reply_Id: replyId})
+                data = await this.respository.listBy(['*'], {Reply_Id: replyId}).withGraphFetched('users')
                 .where('ID', '>', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+                .modifyGraph('users', builder => {
+                    builder.select('ID', 'FullName','Username', 'Avatar').where({isDeleted: 0})
+                })
             }
             else {
-                data = await this.respository.listBy(['*'], {Reply_Id: replyId})
+                data = await this.respository.listBy(['*'], {Reply_Id: replyId}).withGraphFetched('users')
                 .where('ID', '<', lastId).where({isDeleted: 0}).orderBy('ID','desc').limit(5)
+                .modifyGraph('users', builder => {
+                    builder.select('ID', 'FullName','Username', 'Avatar').where({isDeleted: 0})
+                })
             }
             if(data.length != 0) lastId =data[data.length - 1].ID
             else lastId = undefined
