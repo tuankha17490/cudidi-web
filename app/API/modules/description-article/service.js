@@ -86,25 +86,26 @@ export default class DescriptionArticleService extends BaseServices {
                 }
             }
             const data = req.body
+            if(data.descriptions == undefined) throw 'Please send data to update'
             if(data.descriptions.length > data.Duration) {
                 throw 'Duration is only ' + data.Duration + ' day'
             }
-            let day = 1
-            let temp = check.descriptionArticles.length + 1
+            let day = 1   
+            let Day = 1          
             const element = data.descriptions
             for (let i = 0; i < element.length; i++) {
                 if(element[i].ID != undefined) {
-                    if(element[i].Day) element[i].Day= undefined
+                    element[i].Day= day
                     element[i].ID= undefined
-                    await this.respository.update(element[i], {Day: day, Article_Id: articleId})
-                    day++
+                    await this.respository.update(element[i], {Day, Article_Id: articleId})
+                    Day++
                 }
                 else {
-                    if(temp > check.Duration) throw 'Can not create article amount more than duration'
-                    element[i].Day = temp 
+                    if(day + 1 > check.Duration) throw 'Can not create article amount more than duration'
+                    day++
+                    element[i].Day = day 
                     element[i].Article_Id = articleId
                     await this.respository.create(element[i])
-                    temp++
                 }
             }
             return response(201, 'Success !!!')

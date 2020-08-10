@@ -30,7 +30,7 @@
       "url": "https://cudidi-web.herokuapp.com/"
     },
     {
-      "url": "http://cudidi-web.herokuapp.com/"
+      "url": "http://localhost:3000"
     }
   ],
   "tags": [

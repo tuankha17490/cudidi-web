@@ -232,24 +232,26 @@
                             "descriptions": {
                                 "type": "array",
                                 "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "ID": {
-                                            "type": "integer",
-                                            "readOnly": true
-                                        },
-                                        "Place": {
-                                            "type": "string",
-                                            "minLength": 1,
-                                            "maxLength": 255
-                                        },
-                                        "Day": {
-                                            "type": "integer"
-                                        },
-                                        "Description": {
-                                            "type": "string",
-                                            "minLength": 1,
-                                            "maxLength": 255
+                                    "oneOf": {
+                                        "type": "object",
+                                        "properties": {
+                                            "ID": {
+                                                "type": "integer",
+                                                "readOnly": true
+                                            },
+                                            "Place": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "maxLength": 255
+                                            },
+                                            "Day": {
+                                                "type": "integer"
+                                            },
+                                            "Description": {
+                                                "type": "string",
+                                                "minLength": 1,
+                                                "maxLength": 255
+                                            }
                                         }
                                     }
                                 }
