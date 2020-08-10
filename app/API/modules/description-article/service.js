@@ -103,10 +103,10 @@ export default class DescriptionArticleService extends BaseServices {
                 }
                 else {
                     if(day + 1 > check.Duration) throw 'Can not create article amount more than duration'
-                    day++
                     element[i].Day = day 
                     element[i].Article_Id = articleId
                     await this.respository.create(element[i])
+                    day++
                 }
             }
             return response(201, 'Success !!!')
