@@ -253,11 +253,14 @@ export default class ArticleService extends BaseServices {
                     return response(404, 'Article Was deleted')
                 }
             }
+
             if (data.Duration < checkData.Duration) {
                 if (data.deletedDay == undefined) {
                     throw 'Decreasing duration must be sent deleted days'
                 }
                 if (data.deletedDay.length > checkData.Duration - data.Duration) throw 'Deleted day was overflowed'
+            }
+            if(data.deletedDay) {
                 await DescriptionArticleRespository.Instance().delete({
                     Article_Id: checkData.ID
                 }).whereIn('ID', data.deletedDay)
