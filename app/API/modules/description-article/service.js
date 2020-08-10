@@ -102,7 +102,7 @@ export default class DescriptionArticleService extends BaseServices {
                     Day++
                 }
                 else {
-                    if(day + 1 > check.Duration) throw 'Can not create article amount more than duration'
+                    if(day > check.Duration) throw 'Can not create article amount more than duration'
                     element[i].Day = day 
                     element[i].Article_Id = articleId
                     await this.respository.create(element[i])
