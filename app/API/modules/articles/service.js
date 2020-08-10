@@ -242,7 +242,8 @@ export default class ArticleService extends BaseServices {
             const checkData = await this.respository.getBy({
                 Slug: slug
             })
-            if (checkData) {
+            if (checkData == undefined) return response(404, 'Not found')
+            else {
                 if (req.userData.Role == 'Users') {
                     if (checkData.User_Id != req.userData.ID) {
                         return response(403, 'Only writer is allowed to edit')
@@ -251,21 +252,15 @@ export default class ArticleService extends BaseServices {
                 if (checkData.isDeleted == 1) {
                     return response(404, 'Article Was deleted')
                 }
-            } else {
-                return response(404, 'Not found')
             }
             if (data.Duration < checkData.Duration) {
-                if(data.deletedDay == undefined) {
+                if (data.deletedDay == undefined) {
                     throw 'Decreasing duration must be sent deleted days'
                 }
-                if(data.deletedDay.length > checkData.Duration - data.Duration) throw 'Deleted day was overflowed'
-                const test = await DescriptionArticleRespository.Instance().delete({
+                if (data.deletedDay.length > checkData.Duration - data.Duration) throw 'Deleted day was overflowed'
+                await DescriptionArticleRespository.Instance().delete({
                     Article_Id: checkData.ID
-                }).whereIn('ID',data.deletedDay)
-                // const test = await DescriptionArticleRespository.Instance().tableQuery().where({
-                //     Article_Id: checkData.ID
-                // }).whereIn('ID',data.deletedDay).del()
-                console.log('asdasdasd',test);
+                }).whereIn('ID', data.deletedDay)
             }
             data.deletedDay = undefined
             const result = await checkData.$query().patchAndFetch(data)
@@ -343,20 +338,25 @@ export default class ArticleService extends BaseServices {
     async sort(req) {
         try {
             const data = req.body
-            if(data.Duration == undefined && data.Price == undefined && data.NumberOfPeople == undefined) throw 'Do not have data is received'
+            if (data.Duration == undefined && data.Price == undefined && data.NumberOfPeople == undefined) throw 'Do not have data is received'
             let query = this.respository.tableQuery()
-            if(data.Duration != undefined) query.where({Duration: data.Duration})
-            if(data.Price != undefined) query.where({Price: data.Price})
-            if(data.NumberOfPeople != undefined) query.where({NumberOfPeople: data.NumberOfPeople})
+            if (data.Duration != undefined) query.where({
+                Duration: data.Duration
+            })
+            if (data.Price != undefined) query.where({
+                Price: data.Price
+            })
+            if (data.NumberOfPeople != undefined) query.where({
+                NumberOfPeople: data.NumberOfPeople
+            })
             query = query.orderBy('ID', 'desc')
             let result = 0
-            if(data.lastId == 0) {
+            if (data.lastId == 0) {
                 result = await query.limit(data.limit)
-            }
-            else {
+            } else {
                 result = await query.where('ID', '<', 'lastId').limit(data.limit)
             }
-            if(result.length != 0) data.lastId = result[result.length - 1].ID
+            if (result.length != 0) data.lastId = result[result.length - 1].ID
             else data.lastId = undefined
             return {
                 status: 200,
@@ -366,7 +366,7 @@ export default class ArticleService extends BaseServices {
             }
         } catch (error) {
             console.log('SORT_ARTICLE_SERVICE', error.toString());
-            return response(400, error.toString())   
+            return response(400, error.toString())
         }
     }
 }
