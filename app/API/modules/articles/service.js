@@ -254,13 +254,13 @@ export default class ArticleService extends BaseServices {
                 return response(404, 'Not found')
             }
             if (data.Duration < checkData.Duration) {
-                if(data.Day == undefined) {
+                if(data.deletedDay == undefined) {
                     throw 'Decreasing duration must be sent deleted days'
                 }
-                if(data.Day.length > checkData.Duration - data.Duration) throw 'Deleted day was overflowed'
+                if(data.deletedDay.length > checkData.Duration - data.Duration) throw 'Deleted day was overflowed'
                 await DescriptionArticleRespository.Instance().delete({
                     Article_Id: checkData.ID
-                }).whereIn('Day',data.Day)
+                }).whereIn('Day',data.deletedDay)
             }
             const result = await checkData.$query().patchAndFetch(data)
             return response(200, 'Success !!!', result)

@@ -2756,7 +2756,7 @@
                   "Introduce": {
                     "type": "string"
                   },
-                  "Day": {
+                  "deletedDay": {
                     "type": "array",
                     "items": {}
                   }
