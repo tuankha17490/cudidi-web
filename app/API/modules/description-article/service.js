@@ -98,6 +98,7 @@ export default class DescriptionArticleService extends BaseServices {
                     element[i].Day= day
                     element[i].ID= undefined
                     await this.respository.update(element[i], {Day, Article_Id: articleId})
+                    day++
                     Day++
                 }
                 else {
