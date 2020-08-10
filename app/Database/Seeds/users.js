@@ -1,4 +1,4 @@
-import faker, { fake } from 'faker'
+import faker from 'faker'
 import bcript from "bcrypt"
 const createUsers = () => ({
   Email: faker.internet.email(),
@@ -15,7 +15,7 @@ const createUsers = () => ({
 })
 
 const createArticle = () => ({
-  User_Id: 1,
+  User_Id: 11,
   Location: faker.address.city(),
   Image: faker.image.city(),
   Title: faker.lorem.sentence(),

@@ -93,10 +93,11 @@ export default class DescriptionArticleService extends BaseServices {
             let temp = 0
             let Day = 1          
             const element = data.descriptions
+            console.log( check.descriptionArticles);
             for (let y = 0; y < element.length; y++) {
                 if(element[y].ID == undefined) {
                     temp++
-                    if(temp + data.descriptions.length > check.Duration) throw 'Can not create article amount more than duration'
+                    if(temp + check.descriptionArticles.length > check.Duration) throw 'Can not create article amount more than duration'
                 }
             }
             for (let i = 0; i < element.length; i++) {
