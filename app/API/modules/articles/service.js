@@ -237,7 +237,6 @@ export default class ArticleService extends BaseServices {
     async updateBySlug(req) {
         try {
             const data = req.body
-            console.log('data ------->', data);
             const slug = req.params.articleSlug
             const checkData = await this.respository.getBy({
                 Slug: slug

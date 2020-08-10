@@ -102,14 +102,13 @@ export default class DescriptionArticleService extends BaseServices {
             for (let i = 0; i < element.length; i++) {
                 if(element[i].ID != undefined) {
                     element[i].Day= i + 1
-                    element[i].ID= undefined
                     if(element[i].Article_Id != undefined)  element[i].Article_Id= undefined
-                    const description = await this.respository.getBy({Day, Article_Id: articleId})
+                    const description = await this.respository.getBy({ID:element[i].ID, Article_Id: articleId})
+                    element[i].ID= undefined
                     await description.$query().patch(element[i])
-                    Day++
+                    // Day++
                 }
                 else {
-                  
                     element[i].Day = i + 1 
                     element[i].Article_Id = articleId
                     await this.respository.create(element[i])
