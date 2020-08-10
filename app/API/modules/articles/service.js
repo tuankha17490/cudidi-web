@@ -237,6 +237,7 @@ export default class ArticleService extends BaseServices {
     async updateBySlug(req) {
         try {
             const data = req.body
+            console.log('data ------->', data);
             const slug = req.params.articleSlug
             const checkData = await this.respository.getBy({
                 Slug: slug
@@ -258,10 +259,15 @@ export default class ArticleService extends BaseServices {
                     throw 'Decreasing duration must be sent deleted days'
                 }
                 if(data.deletedDay.length > checkData.Duration - data.Duration) throw 'Deleted day was overflowed'
-                await DescriptionArticleRespository.Instance().delete({
+                const test = await DescriptionArticleRespository.Instance().delete({
                     Article_Id: checkData.ID
-                }).whereIn('Day',data.deletedDay)
+                }).whereIn('ID',data.deletedDay)
+                // const test = await DescriptionArticleRespository.Instance().tableQuery().where({
+                //     Article_Id: checkData.ID
+                // }).whereIn('ID',data.deletedDay).del()
+                console.log('asdasdasd',test);
             }
+            data.deletedDay = undefined
             const result = await checkData.$query().patchAndFetch(data)
             return response(200, 'Success !!!', result)
         } catch (error) {

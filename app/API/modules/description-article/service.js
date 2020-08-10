@@ -93,7 +93,6 @@ export default class DescriptionArticleService extends BaseServices {
             let temp = 0
             let Day = 1          
             const element = data.descriptions
-            console.log( check.descriptionArticles);
             for (let y = 0; y < element.length; y++) {
                 if(element[y].ID == undefined) {
                     temp++
