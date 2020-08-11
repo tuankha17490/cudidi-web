@@ -1,6 +1,5 @@
 import passport from "passport"
 import GooglePlusTokenStrategy from "passport-google-plus-token"
-import {Strategy as facebookStrategy} from "passport-facebook"
 import dotenv from "dotenv"
 import process from "process"
 import UserService from "../API/modules/user/service"
@@ -16,10 +15,10 @@ passport.use('googleToken',new GooglePlusTokenStrategy({
 }))
 
 
-passport.use(new facebookStrategy({
-    clientID: process.env.facebookClientID,
-    clientSecret: process.env.facebookClientSecret,
-    callbackURL: process.env.facebookCallBackURL
-}, service.loginByFacebook))
+// passport.use(new facebookStrategy({
+//     clientID: process.env.facebookClientID,
+//     clientSecret: process.env.facebookClientSecret,
+//     callbackURL: process.env.facebookCallBackURL
+// }, service.loginByFacebook))
 
 export default passport
