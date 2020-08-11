@@ -91,7 +91,6 @@ export default class DescriptionArticleService extends BaseServices {
                 throw 'Duration is only ' + data.Duration + ' day'
             }
             let temp = 0
-            let Day = 1          
             const element = data.descriptions
             for (let y = 0; y < element.length; y++) {
                 if(element[y].ID == undefined) {
@@ -104,6 +103,7 @@ export default class DescriptionArticleService extends BaseServices {
                     element[i].Day= i + 1
                     if(element[i].Article_Id != undefined)  element[i].Article_Id= undefined
                     const description = await this.respository.getBy({ID:element[i].ID, Article_Id: articleId})
+                    if(!description) throw 'Not found description with id ' + element[i].ID
                     element[i].ID= undefined
                     await description.$query().patch(element[i])
                     // Day++

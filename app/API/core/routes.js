@@ -2,6 +2,7 @@ import express from "express"
 const router = express.Router();
 import UserController from "../modules/user/controller"
 import UserValidator from "../modules/user/validator"
+import passport from "../../Services/passport"
 // import passport from "../../Services/passport"
 const controller = new UserController()
 const validator = new UserValidator()
@@ -32,9 +33,7 @@ router.post('/register', validator.registerTask, (req, res) => {
 //     scope: ['profile', 'email' ]
 // }))
 
-// router.get('/login/google/callback',passport.authenticate('google', {session: false, successRedirect: '/'}), async (req, res) => {
-//     return res.status(200).json(req.user)
-// })
+router.post('/login/google',passport.authenticate('googleToken', {session: false}))
 
 // router.get('/login/facebook', passport.authenticate('facebook', {
 //     scope: ['profile', 'email' ]

@@ -292,6 +292,7 @@ export default class ArticleService extends BaseServices {
         try {
             const query = req.query.data
             let lastId = req.params.lastId
+            console.log(lastId);
             let data = 0
             if (req.params.lastId == 0) {
                 data = await this.respository.listBy([
@@ -299,14 +300,14 @@ export default class ArticleService extends BaseServices {
                     ], {
                         isDeleted: 0
                     })
-                    .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(req.params.limit)
+                    .where('Title', 'like', `%${query}%`).orderBy('ID', 'desc').limit(req.params.limit)
             } else {
                 data = await this.respository.listBy([
                         ['*']
                     ], {
                         isDeleted: 0
                     }).where('ID', '<', req.params.lastId)
-                    .where('Title', 'like', `%${query}%`).orWhere('Location', 'like', `%${query}%`).orderBy('ID', 'desc').limit(req.params.limit)
+                    .where('Title', 'like', `%${query}%`).orderBy('ID', 'desc').limit(req.params.limit)
             }
             if (data.length != 0) lastId = data[data.length - 1].ID
             else lastId = undefined
