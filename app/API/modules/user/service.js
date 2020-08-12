@@ -228,7 +228,7 @@ export default class UserService extends BaseServices {
         }
     }
 
-    async loginGoogle(param) {
+    async loginSocial(param) {
         try {
             console.log(param);
             let token = 0
@@ -252,7 +252,7 @@ export default class UserService extends BaseServices {
                 } else {
                     param.Role_Id = checkRole.ID
                 }
-                param.BirthDay = Date.now()
+                if(!param.BirthDay) param.BirthDay = Date.now()
                 const result = await this.respository.create(param);
                 token = await jwt.sign({
                     ID: result.ID,
