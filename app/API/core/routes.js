@@ -28,9 +28,9 @@ router.post('/register', validator.registerTask, (req, res) => {
     }
 })
 
-router.post('/google/register', (req, res) => {
+router.post('/google/login', (req, res) => {
     try {
-        controller.createGoogle(req.body).then(result => {
+        controller.loginGoogle(req.body).then(result => {
             return res.status(201).json(result)
         })
     } catch (error) {

@@ -75,7 +75,7 @@ export default class UserService extends BaseServices {
                         Password: queryData.Password,
                         Role: queryData.roles.Name
                     }, process.env.JWT_KEY, {
-                        expiresIn: "2h"
+                        expiresIn: "1d"
                     })
                     return {
                         status: 200,
@@ -228,34 +228,56 @@ export default class UserService extends BaseServices {
         }
     }
 
-    async registerGoogle(param) {
+    async loginGoogle(param) {
         try {
+            console.log(param);
+            let token = 0
             const checkEmail = await this.respository.getBy({
                 Email: param.Email,
-                isDeleted: 0
-            })
-            if (checkEmail) {
-                return response(403, 'Email is registered by another people !!!')
-            }
-            const Slug = getSlug(param.FullName + ' ' + Date.now(), {
-                replacement: '.',
-                lower: true
-            })
-            param.Slug = Slug
-            const checkRole = await RoleRespository.Instance().getBy({
-                Name: 'Users'
-            })
-            if (!checkRole) {
-                const createRole = await RoleRespository.Instance().create({
+            }).withGraphFetched('roles')
+            if (!checkEmail) {
+                const Slug = getSlug(param.FullName + ' ' + Date.now(), {
+                    replacement: '.',
+                    lower: true
+                })
+                param.Slug = Slug
+                const checkRole = await RoleRespository.Instance().getBy({
                     Name: 'Users'
                 })
-                param.Role_Id = createRole.ID
-            } else {
-                param.Role_Id = checkRole.ID
+                if (!checkRole) {
+                    const createRole = await RoleRespository.Instance().create({
+                        Name: 'Users'
+                    })
+                    param.Role_Id = createRole.ID
+                } else {
+                    param.Role_Id = checkRole.ID
+                }
+                param.BirthDay = Date.now()
+                const result = await this.respository.create(param);
+                token = await jwt.sign({
+                    ID: result.ID,
+                    Email: result.Email,
+                    Role: 'Users'
+                }, process.env.JWT_KEY, {
+                    expiresIn: "1d"
+                })
             }
-
-            await this.respository.create(param);
-            return response(201, 'Success !!!');
+            else {
+                if(checkEmail.isDeleted == 1) return response(404, 'Account was deleted')
+                token =  await jwt.sign({
+                    ID: checkEmail.ID,
+                    Email: checkEmail.Email,
+                    Role: checkEmail.roles.Name
+                }, process.env.JWT_KEY, {
+                    expiresIn: "1d"
+                })
+            }
+          
+            return {
+                status: 200,
+                message: 'Login success !!!',
+                token
+            }
         } catch (error) {
             return response(400, error.toString())
         }
@@ -265,7 +287,7 @@ export default class UserService extends BaseServices {
         try {
             const id = req.params.id
             if (id == req.userData.ID) {
-                return response(403, 'Cant delete account of you');
+                return response(403, 'Can not delete account of you');
             }
             const result = await this.respository.deleteById(id);
             return response(200, 'Success !!!', result);

@@ -40,8 +40,8 @@ export default class UserController extends BaseController {
     getListWithSlug(req) {
         return this.service.getListWithSlug(req, 'articles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
     }
-    createGoogle(data) {
-        return this.service.createGoogle(data)
+    loginGoogle(data) {
+        return this.service.loginGoogle(data)
     }
    
 }

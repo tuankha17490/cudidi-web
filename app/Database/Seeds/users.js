@@ -20,8 +20,8 @@ const createArticle = () => ({
   Image: faker.image.city(),
   Title: faker.lorem.sentence(),
   Slug: faker.lorem.slug(),
-  Duration: faker.random.number(),
-  Price: faker.random.number() * 10,
+  Duration: faker.random.number(15),
+  Price: faker.random.number(100) * 10,
   Introduce: faker.lorem.sentence(),
   isDeleted: 0,
   NumberOfPeople: faker.random.number(15)

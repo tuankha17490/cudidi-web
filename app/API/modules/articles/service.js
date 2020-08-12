@@ -346,9 +346,7 @@ export default class ArticleService extends BaseServices {
             if (data.Duration != undefined) query.where({
                 Duration: data.Duration
             })
-            if (data.Price != undefined) query.where({
-                Price: data.Price
-            })
+            if (data.Price != undefined) query.whereBetween('Price',data.Price)
             if (data.NumberOfPeople != undefined) query.where({
                 NumberOfPeople: data.NumberOfPeople
             })
@@ -357,7 +355,7 @@ export default class ArticleService extends BaseServices {
             if (data.lastId == 0) {
                 result = await query.limit(data.limit)
             } else {
-                result = await query.where('ID', '<', 'lastId').limit(data.limit)
+                result = await query.where('ID', '<', data.lastId).limit(data.limit)
             }
             if (result.length != 0) data.lastId = result[result.length - 1].ID
             else data.lastId = undefined

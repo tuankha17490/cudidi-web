@@ -1140,7 +1140,10 @@
                                 "type": "integer"
                             },
                             "Price": {
-                                "type": "integer"
+                                "type": "array",
+                                "items":{
+                                    "type":"number"
+                                }
                             },
                             "NumberOfPeople": {
                                 "type": "integer"
