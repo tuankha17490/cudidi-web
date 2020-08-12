@@ -160,7 +160,7 @@ export default class UserService extends BaseServices {
     async getMe(decode) {
         try {
             const data = await this.respository
-                .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'isDeleted'])
+                .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'isDeleted', 'linkFacebook'])
                 .withGraphFetched('roles')
             if(data.isDeleted == 1) {
                 return response(404, 'Your account was deleted')

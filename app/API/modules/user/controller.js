@@ -20,25 +20,25 @@ export default class UserController extends BaseController {
         return this.service.passwordConfirm(req)
     }
     getList(page, limit) {
-        return this.service.getList(page, limit, 'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
+        return this.service.getList(page, limit, 'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook'])
     }
     getMe(decode) {
         return this.service.getMe(decode)
     }
     getListLazyLoad(lastId, limit) {
-        return this.service.getListLazyLoad(lastId, limit,'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug']);
+        return this.service.getListLazyLoad(lastId, limit,'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug','linkFacebook']);
     }
     updatePassword(req) {
         return this.service.updatePassword(req)
     }
     search(data,page, limit) {
-        return this.service.search(data,page,limit,'roles', ['Username', 'FullName', 'Email', 'PhoneNumber'],['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
+        return this.service.search(data,page,limit,'roles', ['Username', 'FullName', 'Email', 'PhoneNumber'],['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook'])
     }
     updateInformation(req) {
         return this.service.updateInformation(req)
     }
     getListWithSlug(req) {
-        return this.service.getListWithSlug(req, 'articles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug'])
+        return this.service.getListWithSlug(req, 'articles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook'])
     }
     loginSocial(data) {
         return this.service.loginSocial(data)
