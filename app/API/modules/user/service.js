@@ -227,46 +227,37 @@ export default class UserService extends BaseServices {
             return response(400, error.toString())
         }
     }
-    async loginByGoogle(accessToken, refreshToken, profile, done) {
+
+    async registerGoogle(param) {
         try {
-            if (profile) {
-                const checkGoogleID = await UserRespository.Instance().getBy({
-                    GoogleID: profile.id
-                })
-                let result = 0
-                if (!checkGoogleID) {
-                    const data = {}
-                    data.GoogleID = profile.id
-                    data.Email = profile.emails[0].value
-                    data.Avatar = profile.photos[0].value
-                    data.FullName = profile.name.familyName + ' ' + profile.name.givenName
-                    const roleID = await RoleRespository.Instance().getBy({
-                        Name: 'Client'
-                    }, ['ID'])
-                    console.log('role id ------>', roleID);
-                    data.Role_Id = roleID.ID
-                    const Slug = getSlug(data.FullName + ' ' + Date.now(), {
-                        replacement: '.',
-                        lower: true,
-                        locale: 'vi'
-                    })
-                    data.Slug = Slug
-                    data.FullName = convertString(data.FullName)
-                    console.log('full name', data.FullName);
-                    result = await UserRespository.Instance().create(data)
-                }
-                const token = await jwt.sign({
-                    Email: result.Email,
-                    ID: result.ID,
-                }, process.env.JWT_KEY, {
-                    expiresIn: "2h"
-                })
-                return done(null, response(200, 'Login by google success !!!', token))
+            const checkEmail = await this.respository.getBy({
+                Email: param.Email,
+                isDeleted: 0
+            })
+            if (checkEmail) {
+                return response(403, 'Email is registered by another people !!!')
             }
+            const Slug = getSlug(param.FullName + ' ' + Date.now(), {
+                replacement: '.',
+                lower: true
+            })
+            param.Slug = Slug
+            const checkRole = await RoleRespository.Instance().getBy({
+                Name: 'Users'
+            })
+            if (!checkRole) {
+                const createRole = await RoleRespository.Instance().create({
+                    Name: 'Users'
+                })
+                param.Role_Id = createRole.ID
+            } else {
+                param.Role_Id = checkRole.ID
+            }
+
+            await this.respository.create(param);
+            return response(201, 'Success !!!');
         } catch (error) {
-            console.log('error status', error.status);
-            console.log('error --->', error);
-            return done(response(error.errno, error.message))
+            return response(400, error.toString())
         }
     }
 

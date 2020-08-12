@@ -2,7 +2,6 @@ import express from "express"
 const router = express.Router();
 import UserController from "../modules/user/controller"
 import UserValidator from "../modules/user/validator"
-import passport from "../../Services/passport"
 // import passport from "../../Services/passport"
 const controller = new UserController()
 const validator = new UserValidator()
@@ -29,11 +28,23 @@ router.post('/register', validator.registerTask, (req, res) => {
     }
 })
 
+router.post('/google/register', (req, res) => {
+    try {
+        controller.createGoogle(req.body).then(result => {
+            return res.status(201).json(result)
+        })
+    } catch (error) {
+        console.log('CONTROLLER_REGISTER_USER')
+        return res.status(200).json(error)
+    }
+})
+
+
 // router.get('/login/google', passport.authenticate('google', {
 //     scope: ['profile', 'email' ]
 // }))
 
-router.post('/login/google',passport.authenticate('googleToken', {session: false}))
+// router.post('/login/google',passport.authenticate('googleToken', {session: false}))
 
 // router.get('/login/facebook', passport.authenticate('facebook', {
 //     scope: ['profile', 'email' ]
