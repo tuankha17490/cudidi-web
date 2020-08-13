@@ -354,7 +354,7 @@ export default class ArticleService extends BaseServices {
             if (data.NumberOfPeople != undefined) query.where({
                 NumberOfPeople: data.NumberOfPeople
             })
-            query = query.orderBy('ID', 'desc').where('Title', 'like', data.query)
+            query = query.orderBy('ID', 'desc').where('Title', 'like', `%${data.query}%`)
             let result = 0
             if (data.lastId == 0) {
                 result = await query.limit(data.limit)
