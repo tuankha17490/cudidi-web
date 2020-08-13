@@ -286,6 +286,10 @@ export default class ArticleService extends BaseServices {
             let query = {}
             query.latestArticles = latestArticles
             query.popularArticles = popularArticles
+            const popularLocation = await this.respository.tableQuery()
+            .select(['Location','Image']).count('ID as ArticleAmount').groupBy('Location').orderBy('ArticleAmount', 'desc').limit(5)
+            console.log(popularLocation);
+            query.popularLocation = popularLocation
             return response(200, 'Success !!!', query)
         } catch (error) {
             console.log('GET_HOME_PAGE_SERVICE', error.toString());
@@ -347,11 +351,11 @@ export default class ArticleService extends BaseServices {
             const data = req.body
             if (data.Duration == undefined && data.Price == undefined && data.NumberOfPeople == undefined) throw 'Do not have data is received'
             let query = this.respository.tableQuery()
-            if (data.Duration != undefined) query.where({
+            if (data.Duration != undefined && data.Duration != 0) query.where({
                 Duration: data.Duration
             })
-            if (data.Price != undefined) query.whereBetween('Price',data.Price)
-            if (data.NumberOfPeople != undefined) query.where({
+            if (data.Price != undefined && data.Price != [0,0]) query.whereBetween('Price',data.Price)
+            if (data.NumberOfPeople != undefined && data.NumberOfPeople != 0) query.where({
                 NumberOfPeople: data.NumberOfPeople
             })
             query = query.orderBy('ID', 'desc').where('Title', 'like', `%${data.query}%`)
