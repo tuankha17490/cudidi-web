@@ -274,7 +274,7 @@ export default class ArticleService extends BaseServices {
     }
     async getHomePage() {
         try {
-            const query = await this.respository.listBy(['*'])
+            const popularArticles = await this.respository.listBy(['*'])
                 .orderBy([{
                     column: 'RateAmount',
                     order: 'desc'
@@ -282,6 +282,10 @@ export default class ArticleService extends BaseServices {
                     column: 'AvgRate',
                     order: 'desc'
                 }]).where('AvgRate', '>', '3').limit(5)
+            const latestArticles = await this.respository.listBy().orderBy('ID', 'desc').limit(6)
+            let query = {}
+            query.latestArticles = latestArticles
+            query.popularArticles = popularArticles
             return response(200, 'Success !!!', query)
         } catch (error) {
             console.log('GET_HOME_PAGE_SERVICE', error.toString());
@@ -350,7 +354,7 @@ export default class ArticleService extends BaseServices {
             if (data.NumberOfPeople != undefined) query.where({
                 NumberOfPeople: data.NumberOfPeople
             })
-            query = query.orderBy('ID', 'desc')
+            query = query.orderBy('ID', 'desc').where('Title', 'like', data.query)
             let result = 0
             if (data.lastId == 0) {
                 result = await query.limit(data.limit)

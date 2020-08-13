@@ -1130,6 +1130,9 @@
                     "schema": {
                         "type": "object",
                         "properties": {
+                            "query": {
+                                "type": "string"
+                            },
                             "lastId": {
                                 "type": "integer"
                             },
