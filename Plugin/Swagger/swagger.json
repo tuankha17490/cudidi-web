@@ -245,7 +245,7 @@
         "/article/home/search/{lastId}&{limit}": {
             "$ref": "./paths/article.json#/searchHomePage"
         },
-        "/article/sort": {
+        "/article/sort/{lastId}&{limit}": {
             "$ref": "./paths/article.json#/sort"
         },
         "/article/slider": {

@@ -1122,40 +1122,62 @@
         "summary": "Sort article",
         "description": "Sort article follow duration, price and number of people.",
         "operationId": "sortArticle",
-        "requestBody": {
-            "description": "Sort article",
-            "required": true,
-            "content": {
-                "application/x-www-form-urlencoded": {
-                    "schema": {
-                        "type": "object",
-                        "properties": {
-                            "query": {
-                                "type": "string"
-                            },
-                            "lastId": {
-                                "type": "integer"
-                            },
-                            "limit": {
-                                "type": "integer"
-                            },
-                            "Duration": {
-                                "type": "integer"
-                            },
-                            "Price": {
-                                "type": "array",
-                                "items":{
-                                    "type":"number"
-                                }
-                            },
-                            "NumberOfPeople": {
-                                "type": "integer"
-                            }
-                        }
-                    }
+        "parameters": [
+            {
+                "name": "lastId",
+                "in": "path",
+                "description": "lastId of data",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "limit",
+                "in": "path",
+                "description": "limit of data",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "data",
+                "in": "query",
+                "description": "The data that needs to be searched.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "Price",
+                "in": "query",
+                "description": "The data that needs to be searched.",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "Duration",
+                "in": "query",
+                "description": "The data that needs to be searched.",
+                "required": false,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            {
+                "name": "NumberOfPeople",
+                "in": "query",
+                "description": "The data that needs to be searched.",
+                "required": false,
+                "schema": {
+                    "type": "integer"
                 }
             }
-        },
+        ],
         "responses": {
             "400": {
                 "description": "Invalid article supplied",
