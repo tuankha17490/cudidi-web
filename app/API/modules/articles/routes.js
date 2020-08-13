@@ -18,6 +18,15 @@ router.get('/lazy-load-list/:lastId&:limit',(req, res) => {
         return res.status(200).json(error)
     }
 })
+router.get('/sort/:lastId&:limit',(req, res) => {
+    try {
+        controller.sort(req).then(result => {return res.status(200).json(result)})
+    } catch (error) {
+        console.log('CONTROLLER_GET_ARTICLE_HOME');
+        return res.status(200).json(error)
+    }
+})
+
 
 router.get('/home',(req, res) => {
     try {
@@ -40,14 +49,6 @@ router.get('/home/search/:lastId&:limit',(req, res) => {
 router.get('/slider',(req, res) => {
     try {
         controller.slider().then(result => {return res.status(200).json(result)})
-    } catch (error) {
-        console.log('CONTROLLER_GET_ARTICLE_HOME');
-        return res.status(200).json(error)
-    }
-})
-router.post('/sort',(req, res) => {
-    try {
-        controller.sort(req).then(result => {return res.status(200).json(result)})
     } catch (error) {
         console.log('CONTROLLER_GET_ARTICLE_HOME');
         return res.status(200).json(error)

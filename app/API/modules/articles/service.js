@@ -9,6 +9,9 @@ import response from "../../../Util/Response"
 import {
     uploads
 } from "../../../Services/cloundinary"
+import {
+    json
+} from "body-parser";
 dotenv.config({
     silent: process.env.NODE_ENV === 'production'
 });
@@ -259,7 +262,7 @@ export default class ArticleService extends BaseServices {
                 }
                 if (data.deletedDay.length > checkData.Duration - data.Duration) throw 'Deleted day was overflowed'
             }
-            if(data.deletedDay) {
+            if (data.deletedDay) {
                 await DescriptionArticleRespository.Instance().delete({
                     Article_Id: checkData.ID
                 }).whereIn('ID', data.deletedDay)
@@ -287,9 +290,15 @@ export default class ArticleService extends BaseServices {
             query.latestArticles = latestArticles
             query.popularArticles = popularArticles
             const popularLocation = await this.respository.tableQuery()
-            .select(['Location','Image']).count('ID as ArticleAmount').groupBy('Location').orderBy('ArticleAmount', 'desc').limit(5)
-            console.log(popularLocation);
+                .select(['Location']).count('ID as ArticleAmount').groupBy('Location').orderBy('ArticleAmount', 'desc').limit(5)
             query.popularLocation = popularLocation
+            let temp = 0
+            for (let i = 0; i < popularLocation.length; i++) {
+                temp = await this.respository.getBy({
+                    Location: popularLocation[i].Location
+                },['Image'])
+                query.popularLocation[i].Image = temp.Image
+            }
             return response(200, 'Success !!!', query)
         } catch (error) {
             console.log('GET_HOME_PAGE_SERVICE', error.toString());
@@ -348,29 +357,42 @@ export default class ArticleService extends BaseServices {
     }
     async sort(req) {
         try {
-            const data = req.body
+            const params = req.params
+            const data = req.query
             if (data.Duration == undefined && data.Price == undefined && data.NumberOfPeople == undefined) throw 'Do not have data is received'
             let query = this.respository.tableQuery()
-            if (data.Duration != undefined && data.Duration != 0) query.where({
-                Duration: data.Duration
-            })
-            if (data.Price != undefined && data.Price != [0,0]) query.whereBetween('Price',data.Price)
-            if (data.NumberOfPeople != undefined && data.NumberOfPeople != 0) query.where({
-                NumberOfPeople: data.NumberOfPeople
-            })
-            query = query.orderBy('ID', 'desc').where('Title', 'like', `%${data.query}%`)
-            let result = 0
-            if (data.lastId == 0) {
-                result = await query.limit(data.limit)
-            } else {
-                result = await query.where('ID', '<', data.lastId).limit(data.limit)
+            if (data.Duration != undefined) {
+                data.Duration = JSON.parse(data.Duration)
+                console.log('Duration ---->', data.Duration);
+                if (data.Duration != 0) query.where({
+                    Duration: data.Duration
+                })
             }
-            if (result.length != 0) data.lastId = result[result.length - 1].ID
-            else data.lastId = undefined
+            if (data.Price != undefined) {
+                data.Price = JSON.parse(data.Price)
+                console.log('Price ---->', data.Price);
+                if (data.Price != [0, 0]) query.whereBetween('Price', data.Price)
+            }
+            if (data.NumberOfPeople != undefined) {
+                data.NumberOfPeople = JSON.parse(data.NumberOfPeople)
+                console.log('people ---->', data.NumberOfPeople);
+                if (data.NumberOfPeople != 0) query.where({
+                    NumberOfPeople: data.NumberOfPeople
+                })
+            }
+            query = query.orderBy('ID', 'desc').where('Title', 'like', `%${data.data}%`)
+            let result = 0
+            if (params.lastId == 0) {
+                result = await query.limit(params.limit)
+            } else {
+                result = await query.where('ID', '<', params.lastId).limit(params.limit)
+            }
+            if (result.length != 0) params.lastId = result[result.length - 1].ID
+            else params.lastId = undefined
             return {
                 status: 200,
                 message: 'Success !!!',
-                lastId: data.lastId,
+                lastId: params.lastId,
                 data: result
             }
         } catch (error) {
