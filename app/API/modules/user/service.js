@@ -229,7 +229,6 @@ export default class UserService extends BaseServices {
 
     async loginSocial(param) {
         try {
-            console.log(param);
             let token = 0
             const checkEmail = await this.respository.getBy({
                 Email: param.Email,
@@ -251,7 +250,12 @@ export default class UserService extends BaseServices {
                 } else {
                     param.Role_Id = checkRole.ID
                 }
-                if(!param.BirthDay) param.BirthDay = Date.now()
+                if(!param.BirthDay) {
+                    param.BirthDay = '1999-01-08'
+                }
+                const temp = param.Email.split('@')
+                param.Username = temp[0]
+                console.log(param);
                 const result = await this.respository.create(param);
                 token = await jwt.sign({
                     ID: result.ID,
