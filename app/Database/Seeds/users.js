@@ -15,8 +15,8 @@ const createUsers = () => ({
 })
 
 const createArticle = () => ({
-  User_Id: 11,
-  Location: faker.address.city(),
+  User_Id: 1,
+  Location: faker.address.country(),
   Image: faker.image.city(),
   Title: faker.lorem.sentence(),
   Slug: faker.lorem.slug(),
@@ -29,7 +29,7 @@ const createArticle = () => ({
 
 const createArticleOther = () => ({
   User_Id: 21,
-  Location: faker.address.city(),
+  Location: faker.address.country(),
   Image: faker.image.city(),
   Title: faker.lorem.sentence(),
   Slug: faker.lorem.slug(),

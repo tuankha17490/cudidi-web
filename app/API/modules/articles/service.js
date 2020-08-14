@@ -296,7 +296,7 @@ export default class ArticleService extends BaseServices {
             for (let i = 0; i < popularLocation.length; i++) {
                 temp = await this.respository.getBy({
                     Location: popularLocation[i].Location
-                },['Image'])
+                }, ['Image'])
                 query.popularLocation[i].Image = temp.Image
             }
             return response(200, 'Success !!!', query)
@@ -371,7 +371,9 @@ export default class ArticleService extends BaseServices {
             if (data.Price != undefined) {
                 data.Price = JSON.parse(data.Price)
                 console.log('Price ---->', data.Price);
-                if (data.Price != [0, 0]) query.whereBetween('Price', data.Price)
+                if (data.Price[0] != 0 && data.Price[1] != 0) {
+                    query.whereBetween('Price', data.Price)
+                }
             }
             if (data.NumberOfPeople != undefined) {
                 data.NumberOfPeople = JSON.parse(data.NumberOfPeople)
