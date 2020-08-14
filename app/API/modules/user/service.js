@@ -205,23 +205,25 @@ export default class UserService extends BaseServices {
             if (checkUsername && id != checkUsername.ID) {
                 return response(403, 'Username is registered by another people !!!')
             }
-            if (bcrypt.compareSync(data.passwordConfirm, req.userData.Password)) {
-                data.passwordConfirm = undefined
-                const dataFetch = await this.respository.updateAndFetchById(data, id)
-                const result = {
-                    Username: dataFetch.Username,
-                    FullName: dataFetch.FullName,
-                    Email: dataFetch.Email,
-                    ID: dataFetch.ID,
-                    PhoneNumber: dataFetch.PhoneNumber,
-                    BirthDay: dataFetch.BirthDay,
-                    Slug: dataFetch.Slug,
-                    Address: dataFetch.Address
+            if(checkUsername.isSocial == 0) {
+                if (bcrypt.compareSync(data.passwordConfirm, req.userData.Password)) {
+                    data.passwordConfirm = undefined
+                } else {
+                    throw 'Password confirm is wrong'
                 }
-                return response(200, 'User uploaded successfully', result)
-            } else {
-                throw 'Password confirm is wrong'
             }
+            const dataFetch = await this.respository.updateAndFetchById(data, id)
+            const result = {
+                Username: dataFetch.Username,
+                FullName: dataFetch.FullName,
+                Email: dataFetch.Email,
+                ID: dataFetch.ID,
+                PhoneNumber: dataFetch.PhoneNumber,
+                BirthDay: dataFetch.BirthDay,
+                Slug: dataFetch.Slug,
+                Address: dataFetch.Address
+            }
+            return response(200, 'User uploaded successfully', result)
         } catch (error) {
             return response(400, error.toString())
         }
