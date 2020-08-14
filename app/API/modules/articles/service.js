@@ -354,39 +354,51 @@ export default class ArticleService extends BaseServices {
             return response(400, error.toString())
         }
     }
+    addCondition(data,query) {
+        if (data.Duration != undefined) {
+            console.log('Duration ---->', data.Duration);
+            data.Duration = JSON.stringify(data.Duration)
+            data.Duration = JSON.parse(data.Duration)
+            if (data.Duration != 0) query.where({
+                Duration: data.Duration
+            })
+        }
+        if (data.Price != undefined) {
+            console.log('Price ---->', data.Price);
+            data.Price = JSON.stringify(data.Price)
+            data.Price = JSON.parse(data.Price)
+            if (data.Price[0] != 0 && data.Price[1] != 0) {
+                query.whereBetween('Price', data.Price)
+            }
+        }
+        if (data.NumberOfPeople != undefined) {
+            console.log('people ---->', data.NumberOfPeople);
+            data.NumberOfPeople = JSON.stringify(data.NumberOfPeople)
+            data.NumberOfPeople = JSON.parse(data.NumberOfPeople)
+            if (data.NumberOfPeople != 0) query.where({
+                NumberOfPeople: data.NumberOfPeople
+            })
+        }
+        return query
+    }
     async sort(req) {
         try {
             const params = req.params
             const data = req.query
             if (data.Duration == undefined && data.Price == undefined && data.NumberOfPeople == undefined) throw 'Do not have data is received'
             let query = this.respository.tableQuery()
-            if (data.Duration != undefined) {
-                data.Duration = JSON.parse(data.Duration)
-                console.log('Duration ---->', data.Duration);
-                if (data.Duration != 0) query.where({
-                    Duration: data.Duration
-                })
-            }
-            if (data.Price != undefined) {
-                data.Price = JSON.parse(data.Price)
-                console.log('Price ---->', data.Price);
-                if (data.Price[0] != 0 && data.Price[1] != 0) {
-                    query.whereBetween('Price', data.Price)
-                }
-            }
-            if (data.NumberOfPeople != undefined) {
-                data.NumberOfPeople = JSON.parse(data.NumberOfPeople)
-                console.log('people ---->', data.NumberOfPeople);
-                if (data.NumberOfPeople != 0) query.where({
-                    NumberOfPeople: data.NumberOfPeople
-                })
-            }
-            query = query.orderBy('ID', 'desc').where('Title', 'like', `%${data.data}%`)
+            query = this.addCondition(data, query)
+            query = query.orderBy('ID', 'desc')
             let result = 0
             if (params.lastId == 0) {
+                query = query.where('Title', 'like', `%${data.data}%`).orWhere('Location', 'like', `%${data.data}%`)
+                query = this.addCondition(data, query)
                 result = await query.limit(params.limit)
             } else {
-                result = await query.where('ID', '<', params.lastId).limit(params.limit)
+                query = query.where('Title', 'like', `%${data.data}%`).where('ID', '<', params.lastId)
+                .orWhere('Location', 'like', `%${data.data}%`).where('ID', '<', params.lastId)
+                query = this.addCondition(data, query)
+                result = await query.limit(params.limit)
             }
             if (result.length != 0) params.lastId = result[result.length - 1].ID
             else params.lastId = undefined
