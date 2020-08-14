@@ -11,6 +11,7 @@ export function up(knex) {
         t.date('BirthDay').nullable()
         t.string('Slug')
         t.string('linkFacebook').nullable()
+        t.boolean('isSocial').defaultTo(0)
         t.boolean('isDeleted').defaultTo(0)
         t.integer('Role_Id').unsigned()
         t.foreign('Role_Id').references('Roles.ID').onDelete('CASCADE').onUpdate('CASCADE')

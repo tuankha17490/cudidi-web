@@ -255,7 +255,7 @@ export default class UserService extends BaseServices {
                 }
                 const temp = param.Email.split('@')
                 param.Username = temp[0]
-                console.log(param);
+                param.isSocial = 1
                 const result = await this.respository.create(param);
                 token = await jwt.sign({
                     ID: result.ID,

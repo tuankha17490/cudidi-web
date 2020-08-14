@@ -128,7 +128,7 @@ exports.seed = async function (knex) {
   await UsersRole('Description-Articles', ['Read', 'Create', 'Update', 'Delete'])
   await UsersRole('Image-Article', ['Read', 'Create', 'Read', 'Delete'])
 
-  await ModeratorRole('Users', ['Create', 'Read', 'GetList', 'Search', 'Delete', 'Update'])
+  await ModeratorRole('Users', ['Read', 'GetList', 'Search'])
   await ModeratorRole('Article', ['Read', 'GetList', 'Search'])
   await ModeratorRole('Description-Article', ['Read', 'GetList', 'Search'])
 

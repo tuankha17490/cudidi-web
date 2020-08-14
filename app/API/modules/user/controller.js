@@ -20,19 +20,19 @@ export default class UserController extends BaseController {
         return this.service.passwordConfirm(req)
     }
     getList(page, limit) {
-        return this.service.getList(page, limit, 'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook'])
+        return this.service.getList(page, limit, 'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook', 'isSocial'])
     }
     getMe(decode) {
         return this.service.getMe(decode)
     }
     getListLazyLoad(lastId, limit) {
-        return this.service.getListLazyLoad(lastId, limit,'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug','linkFacebook']);
+        return this.service.getListLazyLoad(lastId, limit,'roles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug','linkFacebook', 'isSocial']);
     }
     updatePassword(req) {
         return this.service.updatePassword(req)
     }
     search(data,page, limit) {
-        return this.service.search(data,page,limit,'roles', ['Username', 'FullName', 'Email', 'PhoneNumber'],['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook'])
+        return this.service.search(data,page,limit,'roles', ['Username', 'FullName', 'Email', 'PhoneNumber'],['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook', 'isSocial'])
     }
     updateInformation(req) {
         return this.service.updateInformation(req)
