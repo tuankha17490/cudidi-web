@@ -56,6 +56,11 @@
         "summary": "Get list user",
         "description": "Get information with offset and limit to paginate.",
         "operationId": "Pagination",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "page",
@@ -227,7 +232,7 @@
             "description": "The data that needs to be searched.",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           }
         ],
