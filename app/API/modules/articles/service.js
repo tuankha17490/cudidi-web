@@ -284,8 +284,8 @@ export default class ArticleService extends BaseServices {
                 }, {
                     column: 'AvgRate',
                     order: 'desc'
-                }]).where('AvgRate', '>', '3').limit(5)
-            const latestArticles = await this.respository.listBy().orderBy('ID', 'desc').limit(6)
+                }]).where('AvgRate', '>', '3').where('isDeleted', 0).limit(5)
+            const latestArticles = await this.respository.listBy().orderBy('ID', 'desc').where({isDeleted: 0}).limit(6)
             let query = {}
             query.latestArticles = latestArticles
             query.popularArticles = popularArticles
