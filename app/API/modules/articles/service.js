@@ -290,12 +290,13 @@ export default class ArticleService extends BaseServices {
             query.latestArticles = latestArticles
             query.popularArticles = popularArticles
             const popularLocation = await this.respository.tableQuery()
-                .select(['Location']).count('ID as ArticleAmount').groupBy('Location').orderBy('ArticleAmount', 'desc').limit(3)
+                .select(['Location']).where({isDeleted: 0}).count('ID as ArticleAmount').groupBy('Location').orderBy('ArticleAmount', 'desc').limit(3)
             query.popularLocation = popularLocation
             let temp = 0
             for (let i = 0; i < popularLocation.length; i++) {
                 temp = await this.respository.getBy({
-                    Location: popularLocation[i].Location
+                    Location: popularLocation[i].Location,
+                    isDeleted: 0
                 }, ['Image'])
                 query.popularLocation[i].Image = temp.Image
             }
