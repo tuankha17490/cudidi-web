@@ -139,7 +139,12 @@ export default class ArticleService extends BaseServices {
                 .withGraphFetched(table).modifyGraph(table, builder => {
                     builder.select('ID', 'FullName', 'Avatar')
                 })
-            return response(200, 'Success !!!', data)
+                return {
+                    status: 200,
+                    message: 'Success !!!',
+                    totalRow: count[0].CNT,
+                    data
+                }
         } catch (error) {
             return response(400, error.toString())
         }

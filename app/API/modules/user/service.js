@@ -53,7 +53,8 @@ export default class UserService extends BaseServices {
                 param.Role_Id = checkRole.ID
             }
 
-            await this.respository.create(param);
+            const test = await this.respository.create(param);
+            console.log(test);
             return response(201, 'Success !!!');
         } catch (error) {
             return response(400, error.toString())

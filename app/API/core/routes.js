@@ -20,6 +20,7 @@ router.post('/login', (req, res) => {
 router.post('/register', validator.registerTask, (req, res) => {
     try {
         controller.create(req.body).then(result => {
+            console.log('asdasdasd');
             return res.status(201).json(result)
         })
     } catch (error) {
