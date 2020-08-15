@@ -357,25 +357,17 @@ export default class ArticleService extends BaseServices {
     }
     addCondition(data,query) {
         if (data.Duration != undefined) {
-            console.log('Duration ---->', data.Duration);
-            data.Duration = JSON.stringify(data.Duration)
-            data.Duration = JSON.parse(data.Duration)
             if (data.Duration != 0) query.where({
                 Duration: data.Duration
             })
         }
         if (data.Price != undefined) {
-            console.log('Price ---->', data.Price);
-            data.Price = JSON.stringify(data.Price)
-            data.Price = JSON.parse(data.Price)
+            console.log('Price');
             if (data.Price[0] != 0 && data.Price[1] != 0) {
                 query.whereBetween('Price', data.Price)
             }
         }
         if (data.NumberOfPeople != undefined) {
-            console.log('people ---->', data.NumberOfPeople);
-            data.NumberOfPeople = JSON.stringify(data.NumberOfPeople)
-            data.NumberOfPeople = JSON.parse(data.NumberOfPeople)
             if (data.NumberOfPeople != 0) query.where({
                 NumberOfPeople: data.NumberOfPeople
             })
@@ -387,6 +379,18 @@ export default class ArticleService extends BaseServices {
             const params = req.params
             const data = req.query
             if (data.Duration == undefined && data.Price == undefined && data.NumberOfPeople == undefined) throw 'Do not have data is received'
+            if (data.Duration != undefined) {
+                data.Duration = JSON.parse(data.Duration)
+                console.log('Duration ---->', data.Duration);
+            }
+            if (data.Price != undefined) {
+                data.Price = JSON.parse(data.Price)
+                console.log('Price ---->', data.Price);
+            }
+            if (data.NumberOfPeople != undefined) {
+                data.NumberOfPeople = JSON.parse(data.NumberOfPeople)
+                console.log('people ---->', data.NumberOfPeople);
+            }
             let query = this.respository.tableQuery()
             query = this.addCondition(data, query)
             query = query.orderBy('ID', 'desc')

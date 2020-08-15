@@ -93,7 +93,7 @@ export default class BaseValidator {
                 if (!validator.isMobilePhone(req.body.PhoneNumber, ['vi-VN', 'en-US'])) {
                     return res.status(200).json({
                         status: 400,
-                        error: 'Phone number is invalid'
+                        message: 'Phone number is invalid'
                     })
                 }
             }
@@ -112,7 +112,7 @@ export default class BaseValidator {
                 if (!validator.isDate(req.body.BirthDday)) {
                     return res.status(200).json({
                         status: 400,
-                        error: 'Bitrhday is invalid'
+                        message: 'Bitrhday is invalid'
                     })
                 }
             }
@@ -135,7 +135,7 @@ export default class BaseValidator {
 
                     return res.status(200).json({
                         status: 400,
-                        error: 'Address is invalid'
+                        message: 'Address is invalid'
                     })
 
                 }
@@ -154,7 +154,7 @@ export default class BaseValidator {
             if (req.file == undefined) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Avatar is invalid'
+                    message: 'Avatar is invalid'
                 })
             }
             return true
@@ -171,13 +171,13 @@ export default class BaseValidator {
             if (image == undefined) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Image cannot undefined'
+                    message: 'Image cannot undefined'
                 })
             }
             if (!validator.isURL(image)) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Image is invalid'
+                    message: 'Image is invalid'
                 })
             }
             return true
@@ -194,14 +194,14 @@ export default class BaseValidator {
             if (req.body.Price == undefined) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Price can not empty'
+                    message: 'Price can not empty'
                 })
             }
             if(!(Number(req.body.Price) === req.body.Price)) {
                 if(!validator.isNumeric(req.body.Price)) {
                     return res.status(200).json({
                         status: 400,
-                        error: 'Price must be numberic'
+                        message: 'Price must be numberic'
                     })
                 }
                 req.body.Price = Number(req.body.Price)
@@ -209,7 +209,7 @@ export default class BaseValidator {
             if(req.body.Price <= 0) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Price must be greater than 0'
+                    message: 'Price must be greater than 0'
                 })
             }
             return true
@@ -226,14 +226,14 @@ export default class BaseValidator {
             if (param == undefined) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'can not empty'
+                    message: 'can not empty'
                 })
             }
             if(!(Number(param) === param)) {
                 if(!validator.isNumeric(param)) {
                     return res.status(200).json({
                         status: 400,
-                        error: 'must be numberic'
+                        message: 'must be numberic'
                     })
                 }
                 param = Number(param)
@@ -241,7 +241,7 @@ export default class BaseValidator {
             if(param <= 0) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'must be greater than 0'
+                    message: 'must be greater than 0'
                 })
             }
             return true
@@ -259,14 +259,14 @@ export default class BaseValidator {
             if (req.body.NumberOfPeople == undefined) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Amount people can not empty'
+                    message: 'Amount people can not empty'
                 })
             }
             if(!(Number(req.body.NumberOfPeople) === req.body.NumberOfPeople)) {
                 if(!validator.isNumeric(req.body.NumberOfPeople)) {
                     return res.status(200).json({
                         status: 400,
-                        error: 'Price must be numberic'
+                        message: 'Price must be numberic'
                     })
                 }
                 req.body.NumberOfPeople = Number(req.body.NumberOfPeople)
@@ -291,7 +291,7 @@ export default class BaseValidator {
             if (param == undefined || validator.isEmpty(validator.trim(param)) == true) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Location can not empty'
+                    message: 'Location can not empty'
                 })
             }
             return true
@@ -308,7 +308,7 @@ export default class BaseValidator {
             if (req.body.Title == undefined || validator.isEmpty(validator.trim(req.body.Title)) == true) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Title can not empty'
+                    message: 'Title can not empty'
                 })
             }
             return true
@@ -325,7 +325,7 @@ export default class BaseValidator {
             if (req.body.Content == undefined || validator.isEmpty(validator.trim(req.body.Content)) == true) {
                 return res.status(200).json({
                     status: 400,
-                    error: 'Comment can not empty'
+                    message: 'Comment can not empty'
                 })
             }
             return true
