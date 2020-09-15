@@ -12,8 +12,10 @@ config({
 })
 
 export function uploads(file, folder) {
+    console.log('FILE PATH', file);
     return new Promise(resolve => {
         uploader.upload(file, (result) => {
+            console.log(result);
             resolve({
                 url: result.url,
                 id: result.public_id

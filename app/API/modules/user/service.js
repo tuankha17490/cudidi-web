@@ -131,6 +131,7 @@ export default class UserService extends BaseServices {
                 file
             } = req
             const id = req.userData.ID
+            console.log(file.path);
             const image = await uploads(file.path, req.userData.Username);
             const Avatar = image.url
             await this.respository.updateById({
@@ -160,7 +161,7 @@ export default class UserService extends BaseServices {
     async getMe(decode) {
         try {
             const data = await this.respository
-                .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'isDeleted', 'linkFacebook'])
+                .findAt(decode.ID, ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'isDeleted', 'linkFacebook', 'isSocial'])
                 .withGraphFetched('roles')
             if(data.isDeleted == 1) {
                 return response(404, 'Your account was deleted')

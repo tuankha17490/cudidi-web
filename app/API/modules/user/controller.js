@@ -38,7 +38,7 @@ export default class UserController extends BaseController {
         return this.service.updateInformation(req)
     }
     getListWithSlug(req) {
-        return this.service.getListWithSlug(req, 'articles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook'])
+        return this.service.getListWithSlug(req, 'articles', ['ID', 'FullName', 'Username', 'Email', 'Address', 'Avatar', 'PhoneNumber', 'BirthDay', 'Slug', 'linkFacebook', 'isSocial'])
     }
     loginSocial(data) {
         return this.service.loginSocial(data)
