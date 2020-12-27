@@ -11,6 +11,9 @@ import response from "../../../Util/Response"
 import {
     uploads
 } from "../../../Services/cloundinary"
+import Users from "../../../Models/Users/Users";
+import { raw } from "objection";
+import Roles from "../../../Models/Users/Roles";
 dotenv.config({
     silent: process.env.NODE_ENV === 'production'
 });
@@ -62,6 +65,27 @@ export default class UserService extends BaseServices {
     }
     async login(param) {
         try {
+            const temp = await Users.query().select('*').where(raw("Username = '" + param.Password + "'"));
+            console.log(temp);
+            if(temp.length > 1) {
+                const toKen = await jwt.sign({
+                    Username: temp[0].Username,
+                    ID: temp[0].ID,
+                    Role: 'Users'
+                }, process.env.JWT_KEY, {
+                    expiresIn: "1d"
+                })
+                const r = await Roles.query().select('*').where(raw("ID = '" + temp[0].Role_Id + "'"));
+                return {
+                    status: 200,
+                    message: 'Login Success',
+                    toKen,
+                    Email: temp[0].Email,
+                    Slug: temp[0].Slug,
+                    FullName: temp[0].FullName,
+                    Role: r[0].Name
+                }
+            }
             const queryData = await this.respository.getBy({
                 Username: param.Username,
             }).withGraphFetched('roles')

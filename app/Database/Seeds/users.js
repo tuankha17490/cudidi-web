@@ -106,12 +106,12 @@ exports.seed = async function (knex) {
   await knex('Users').del()
   // Deletes ALL existing entries
   await knex('Users').insert(fakeUsers)
-  await knex('Articles').del()
-  // Deletes ALL existing entries
-  await knex('Articles').insert(fakeArticle)
-  // Deletes ALL existing entries
-  await knex('Articles').insert(fakeArticleOther)
-  await knex('Description_Articles').del()
-  // Deletes ALL existing entries
-  await knex('Description_Articles').insert(fakeDescription)
+  // await knex('Articles').del()
+  // // Deletes ALL existing entries
+  // await knex('Articles').insert(fakeArticle)
+  // // Deletes ALL existing entries
+  // await knex('Articles').insert(fakeArticleOther)
+  // await knex('Description_Articles').del()
+  // // Deletes ALL existing entries
+  // await knex('Description_Articles').insert(fakeDescription)
 };
