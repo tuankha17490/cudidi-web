@@ -79,7 +79,7 @@ export default class UserService extends BaseServices {
                 return {
                     status: 200,
                     message: 'Login Success',
-                    toKen,
+                    token: toKen,
                     Email: temp[0].Email,
                     Slug: temp[0].Slug,
                     FullName: temp[0].FullName,
