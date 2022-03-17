@@ -7,7 +7,7 @@ import swaggerDocs from "../Plugin/Swagger/bundled.json"
 import initRoute from "./Config/routes"
 import mkdirp from "mkdirp"
 mkdirp('./app/public/Image');
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+app.use('/documentations', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 app.use(morgan('dev'));
 app.use(urlencoded({extended: false}));
 app.use(json());
