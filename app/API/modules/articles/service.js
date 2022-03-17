@@ -9,9 +9,6 @@ import response from "../../../Util/Response"
 import {
     uploads
 } from "../../../Services/cloundinary"
-import {
-    json
-} from "body-parser";
 dotenv.config({
     silent: process.env.NODE_ENV === 'production'
 });
@@ -71,7 +68,7 @@ export default class ArticleService extends BaseServices {
             }, {
                 Slug: req.params.articleSlug
             })
-            await fs.unlinkSync(file.path)
+            fs.unlinkSync(file.path)
             return response(200, 'Image of article updates successfully', Avatar)
         } catch (error) {
             return response(400, error.toString())
@@ -110,11 +107,6 @@ export default class ArticleService extends BaseServices {
             if (checkData.users.ID != req.userData.ID) {
                 throw 'Only writer is allowed to edit'
             }
-            // if(data.Duration < checkData.Duration) {
-            //     for (let i = data.Duration + 1; i <= checkData.Duration; i++) {
-            //         await DescriptionArticleRespository.Instance().deleteSoft({ID: i})
-            //     }
-            // }
             if (data.Duration != checkData.Duration) {
                 return response(400, 'Can not edit duration')
             }
@@ -379,6 +371,7 @@ export default class ArticleService extends BaseServices {
         }
         return query
     }
+
     async sort(req) {
         try {
             const params = req.params
@@ -386,15 +379,12 @@ export default class ArticleService extends BaseServices {
             if (data.Duration == undefined && data.Price == undefined && data.NumberOfPeople == undefined) throw 'Do not have data is received'
             if (data.Duration != undefined) {
                 data.Duration = JSON.parse(data.Duration)
-                console.log('Duration ---->', data.Duration);
             }
             if (data.Price != undefined) {
                 data.Price = JSON.parse(data.Price)
-                console.log('Price ---->', data.Price);
             }
             if (data.NumberOfPeople != undefined) {
                 data.NumberOfPeople = JSON.parse(data.NumberOfPeople)
-                console.log('people ---->', data.NumberOfPeople);
             }
             let query = this.respository.tableQuery()
             query = this.addCondition(data, query)

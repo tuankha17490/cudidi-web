@@ -102,6 +102,7 @@ export default class DescriptionArticleService extends BaseServices {
                 if(element[i].ID != undefined) {
                     element[i].Day= i + 1
                     if(element[i].Article_Id != undefined)  element[i].Article_Id= undefined
+                    element[i].created_at = undefined;
                     const description = await this.respository.getBy({ID:element[i].ID, Article_Id: articleId})
                     if(!description) throw 'Not found description with id ' + element[i].ID
                     element[i].ID= undefined
