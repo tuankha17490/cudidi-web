@@ -212,7 +212,7 @@ export default class ArticleService extends BaseServices {
     async getListRelation(req) {
         try {
             const query = await this.respository.getBy({
-                Slug: req.params.articleSlug
+                Slug: req.params.articleSlug,
             })
             if (query) {
                 if (query.isDeleted == 1) {
@@ -221,9 +221,11 @@ export default class ArticleService extends BaseServices {
                 const result = await this.respository.listOffSet(0, 5)
                     .havingNotBetween('ID', [query.ID, query.ID]).havingBetween('NumberOfPeople', [query.NumberOfPeople - 2, query.NumberOfPeople + 4])
                     .where({
-                        Location: query.Location
+                        Location: query.Location,
+                        isDeleted: 0
                     }).orWhere({
-                        User_Id: query.User_Id
+                        User_Id: query.User_Id,
+                        isDeleted: 0
                     })
                 return response(200, 'Success', result)
             }
